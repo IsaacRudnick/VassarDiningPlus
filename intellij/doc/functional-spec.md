@@ -8,3 +8,4 @@ Use cases:
 * Manage reviews
 * Manage favorites
 * Manage personal info (what that will be tbd)
+* Navigate
