@@ -40,36 +40,28 @@ Cafe Bon Appetit goals:
 ## Use case diagram
 ```plantuml
 @startuml
-
 skin rose
-title Navigate
+'human actors
+actor "Reader" as reader
+actor "Reviewer" as reviewer
 
-start
-while (Open?) is (\nyes)
-#technology:Display main menu;
-switch (Option?)
-    case ( View food)
-        while (View food) is ( )
-            #implementation:Execute __Browse menu__;
-            #implementation:Select item;
-            if (Item action?) then (Favorite)
-                #implementation:Execute __Favorite item__;
-            else ( Review)
-                #LightCyan:Execute __Review item__;
-            endif
-        endwhile (Main Menu )
-    case ( Manage profile)
-        switch (Manage what?)
-            case ( Reviews)
-                #LightCyan:Execute __Manage reviews__;
-            case (\n Favorites)
-            
-                #implementation:Execute __Manage favorites__;
-            case ( Personal information)
-                #LightCyan:Execute __Manage personal info__;
-        endswitch
-endswitch
-endwhile (Quit )
-stop
+'system actors
+actor "Bon Appetit menu" <<system>> as menuSystem
+
+package "Vassar Dining App"{
+    usecase "Navigate" as navigate
+    usecase "Browse menu" as browse
+    usecase "Favorite item" as favorite
+    usecase "Review item" as review
+    usecase "Manage profile" as manage
+}
+
+'relationships
+reader --> navigate
+reader --> browse
+reader --> favorite
+reviewer --> review
+reviewer --> manage
+browse --> menuSystem
 @enduml
 ```
