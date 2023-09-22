@@ -37,7 +37,7 @@ Reviewer goals:
 Cafe Bon Appetit goals:
 * View food ratings
 
-## Use case diagrams
+## Use case diagram
 ```plantuml
 @startuml
 
