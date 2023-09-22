@@ -9,7 +9,7 @@ title Favorite item
 start
 #technology:Display item;
 #technology:Display rating input system;
-#implementation:Input rating;
+#LightCyan:Input rating;
 #technology:Add rating to item in database;
 #technology:Display confirmation of rating logged;
 stop
