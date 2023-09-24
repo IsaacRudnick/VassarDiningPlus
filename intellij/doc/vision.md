@@ -60,6 +60,7 @@ package "Vassar Dining App"{
 reader --> navigate
 reader --> browse
 reader --> favorite
+reader --> manage
 reviewer --> review
 reviewer --> manage
 browse --> menuSystem
