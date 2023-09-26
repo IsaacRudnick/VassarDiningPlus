@@ -15,7 +15,7 @@ __Reader/User__: wants to be able to manage their favorites en masse without hav
 ## 4. Postconditions
 
 * User favorites are updated as desired.
-* Changes are synced (e.g. to server is profile syncing is designed)
+* Changes are synced (e.g. to server if profile syncing is designed)
 * User receives confirmation of updates as they are made.
 
 ## 4. Workflow
