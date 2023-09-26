@@ -18,9 +18,7 @@ reviewed item.
 * Reviewer has seen confirmation that review was successfully recorded.
 
 ## 5. Workflow
-Brief: main success scenario only, does not address any errors on the part of
-the system to add the item to the database or the Reviewer wanting to change the
-item they are reviewing or the rating they are giving the item.
+__Fully dressed__: All scenarios and variations in detail.
 ```plantuml
 @startuml
 
@@ -29,11 +27,18 @@ title Favorite item
 
 start
 #technology:Display item;
+if (Confirm review this item?) then (Yes)
+repeat
 #technology:Display rating input system;
 #LightCyan:Input rating;
+repeat while (Valid rating?) is (No)
+-> Yes;
 #technology:Add rating to database;
 #technology:Display confirmation of rating logged;
 #LightCyan:Exit confirmation;
+else (No)
+#technology:Display confirmation that no review was saved;
+endif
 stop
 @enduml
 ```

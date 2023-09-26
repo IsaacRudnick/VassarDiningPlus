@@ -20,8 +20,7 @@ robot access to website if egregious.
 * Any reviews added have been saved.
 
 ## 5. Workflow
-__Casual__: most common scenarios and variations, no error management or profile
-creation beyond locally saved data.
+__Fully dressed__: All scenarios and variations in detail.
 ```plantuml
 @startuml
 
@@ -30,8 +29,11 @@ title Browse menu
 
 start
 while (Enter date or exit) is (\nEnter date)
+repeat
 #technology:Display date input;
 #implementation:Select date of menu to view;
+repeat while (Valid date?) is (No)
+-> Yes;
 #technology:Fetch menu information of selected date;
 #technology:Fetch review information of items on menu;
 #technology:Display menu with item reviews;

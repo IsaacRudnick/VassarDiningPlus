@@ -16,9 +16,7 @@ the favorites list successfully.
 * Reader has seen confirmation that item was successfully added.
 
 ## 5. Workflow
-__Brief__: main success scenario only, does not address any errors on the part of
-the system to add the item to the database or the Reader no longer wanting to add
-the item to their favorites list.
+__Fully dressed__: All scenarios and variations in detail.
 ```plantuml
 @startuml
 
@@ -27,9 +25,18 @@ title Favorite item
 
 start
 #technology:Display item;
+if (Confirm add item to favorites?) then (Yes)
 #implementation:Choose to add item to favorites;
-#technology:Add item to favorites database;
-#technology:Display confirmation of favorite added;
+#technology:Add item to favorites;
+if (Add similar items?) then (Yes)
+#technology:Add similar items to favorites;
+else (No)
+endif
+#technology:Display confirmation of all items added;
+else (No)
+#implementation:Choose not to add item to favorites;
+#technology:Display confirmation that item was not added;
+endif
 #implementation:Exit confirmation;
 stop
 @enduml
