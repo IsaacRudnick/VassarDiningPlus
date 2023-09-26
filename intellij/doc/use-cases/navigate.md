@@ -21,7 +21,7 @@
 
 ## 4. Workflow
 
-__Casual__ overview
+__Fully dressed__ overview
 
 ```plantuml
 @startuml
