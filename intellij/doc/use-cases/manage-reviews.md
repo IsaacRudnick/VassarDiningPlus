@@ -1,7 +1,7 @@
 # Use case: Manage Reviews
 
 ## 1. Primary actor and goals
-__Reader/User__: wants to be able to update their reviews en masse
+__Reviewer__: wants to be able to update their reviews en masse
 
 ## 2. Other stakeholders and their goals
 

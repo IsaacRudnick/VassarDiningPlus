@@ -1,7 +1,7 @@
 # Use case: Manage Personal Info
 
 ## 1. Primary actor and goals
-__Reader/User__: wants to be able to update their reviews/favorites
+__Reader/Reviewer__: wants to be able to update their reviews/favorites
 
 ## 2. Other stakeholders and their goals
 
