@@ -30,12 +30,14 @@ title Browse menu
 start
 while (Enter date or exit) is (\nEnter date)
 repeat
-#technology:Display date input;
-#implementation:Select date of menu to view;
+    #technology:Display date input;
+    #implementation:Select date of menu to view;
 repeat while (Valid date?) is (No)
 -> Yes;
-#technology:Fetch menu information of selected date;
-#technology:Fetch review information of items on menu;
+#technology:Display item filter options;
+#implementation:Select item filter categories;
+#technology:Fetch filtered menu information of selected date;
+#technology:Fetch review information of relevant items;
 #technology:Display menu with item reviews;
 while (View menu) is (Select item)
 #implementation:Select item;

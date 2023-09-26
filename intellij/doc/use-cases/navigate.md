@@ -31,7 +31,8 @@ title Navigate
 
 start
 while (Open?) is (\nyes)
-#technology:Display main menu;
+#technology:Fetch favorites available on today's menu;
+#technology:Display navigation menu and today's favorites;
 switch (Option?)
     case ( View food)
         while (View food) is ( )
