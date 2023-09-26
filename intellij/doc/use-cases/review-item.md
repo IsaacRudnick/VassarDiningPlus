@@ -6,7 +6,7 @@ reflect their perception of/feelings about the dish. Wants their review to be vi
 to others.
 
 ## 2. Other stakeholders and their goals
-* __Cafe Bon Appetit__: Wants reviews accurately recorded to see students' opinions
+* __CBA__: Wants reviews accurately recorded to see students' opinions
 on their meals offered.
 
 ## 3. Preconditions
