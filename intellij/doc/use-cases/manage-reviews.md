@@ -1,5 +1,4 @@
 # Use case: Manage Reviews
-# Use case: Manage Personal Info
 
 ## 1. Primary actor and goals
 __Reader/User__: wants to be able to update their reviews en masse
