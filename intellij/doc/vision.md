@@ -1,8 +1,12 @@
 # Vision document
 
 ## Summary
-Android app that allows users to rate Vassar Dining offerings 
-and informs them when their favorites are available.
+An Android app that allows users to rate Vassar Dining offerings 
+and informs them when their favorites are available. This is an
+App for Vassar students that allows them to see the items available
+to them at Gordon Commons, review those items, see average reviews 
+of items, and add items to a list of favorites. The app will notify
+users when any item in their list of favorites is on the menu.
 
 ## Main features and constraints
 Features:
@@ -17,8 +21,8 @@ Constraints:
 * Menu availability limited by Bon Appetit
 
 ## Actors and goals 
-Actors: reader, reviewer
-External actor: Cafe Bon Appetit
+* Actors: reader, reviewer 
+* External actor: Cafe Bon Appetit
 
 Reader goals:
 * See all food available on given date
@@ -36,6 +40,7 @@ Reviewer goals:
 
 Cafe Bon Appetit goals:
 * View food ratings
+* Disallow excessive server requests so the website doesn't crash
 
 ## Use case diagram
 ```plantuml
