@@ -1,4 +1,4 @@
-# Use case: Manage Favorites
+# Use case: Navigate App
 
 ## 1. Primary actor and goals
 * __Reader/User__: wants to be able to browse CBA menu items and see reviews
