@@ -8,4 +8,3 @@ Use cases:
 * Manage favorites
 * Manage personal info
 * Navigate
-* Create/log into account

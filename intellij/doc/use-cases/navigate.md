@@ -23,6 +23,8 @@
 
 __Fully dressed__ overview
 
+Color code: pink for Reader, blue for Reviewer, green for System.
+
 ```plantuml
 @startuml
 

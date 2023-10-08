@@ -19,6 +19,9 @@ reviewed item.
 
 ## 5. Workflow
 __Fully dressed__: All scenarios and variations in detail.
+
+Color code: blue for Reviewer, green for System.
+
 ```plantuml
 @startuml
 

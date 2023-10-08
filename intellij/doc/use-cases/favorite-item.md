@@ -17,6 +17,9 @@ the favorites list successfully.
 
 ## 5. Workflow
 __Fully dressed__: All scenarios and variations in detail.
+
+Color code: pink for Reader, green for System.
+
 ```plantuml
 @startuml
 

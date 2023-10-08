@@ -14,4 +14,3 @@ CBA website, as that is the highest risk component of any of our use cases.
 ## Low priority
 * Manage reviews (low criticality, medium coverage)
 * Manage personal information (low criticality and coverage)
-* Create/log into account (low criticality, high coverage, low risk)

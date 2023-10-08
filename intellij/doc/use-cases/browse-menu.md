@@ -21,6 +21,9 @@ robot access to website if egregious.
 
 ## 5. Workflow
 __Fully dressed__: All scenarios and variations in detail.
+
+Color code: pink for Reader, green for System.
+
 ```plantuml
 @startuml
 
@@ -28,14 +31,14 @@ skin rose
 title Browse menu
 
 start
-while (Enter date or exit) is (\nEnter date)
+while (Exit?) is (\nNo)
 repeat
     #technology:Display date input;
     #implementation:Select date of menu to view;
 repeat while (Valid date?) is (No)
 -> Yes;
-#technology:Display item filter options;
-#implementation:Select item filter categories;
+#technology:Display item filter options \n(Vegetarian, Vegan, Kosher, \nLow gluten, In balance, Halal);
+#implementation:Select desired item filter categories;
 #technology:Fetch filtered menu information of selected date;
 #technology:Fetch review information of relevant items;
 #technology:Display menu with item reviews;
