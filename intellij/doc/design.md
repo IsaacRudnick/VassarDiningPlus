@@ -32,6 +32,7 @@ class Menu{
 }
 class Dish{
     Name
+    Description
     Average rating
     Dietary restrictions
 }
@@ -44,7 +45,8 @@ Date "1" - "*" Menu : \tContains\t\t
 Menu "1" - "*" Dish : \tContains\t\t
 ```
 
-## Sequence diagram
+## Sequence diagrams
+### Browse menu
 ```plantuml
 skin rose
 
@@ -66,7 +68,33 @@ loop i in 0..menus.size-1
     controller -> menu : getDishes(restrictions : List<String>)
     menu -->> controller : dishes : List<Dish>
 end
-controller -->> ui : Filtered menu
+controller -> ui : display(dishes)
 ui -->> human : Display date's menus
+```
 
+### Favorite item
+```plantuml
+skin rose
+
+hide footbox
+actor "Human user" as human
+participant " : UI" as ui
+participant " : Controller" as controller
+participant " : User" as user
+human -> ui : Select item
+ui -> controller : info(dish)
+controller -> dish : details()
+dish -->> controller : Name, Average Rating, Dietary restrictions, Description
+controller -> ui : displaySingle(dish)
+human -> ui : Favorite item
+ui -> controller : favorite(dish : Dish)
+controller -> user : addFavorite(dish : Dish)
+user -->> controller : success : bool
+alt success
+    controller -> ui : favoriteAdded()
+    ui -->> human : Display confirmation
+else !success
+    controller -> ui : favoriteFailure()
+    ui -->> human : Display error
+end
 ```
