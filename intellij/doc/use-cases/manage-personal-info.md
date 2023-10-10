@@ -23,7 +23,7 @@ __Brief__ overview
 legend right
     |Color| Type |
     |<#technology>| System |
-    |<#implementation>| User |
+    |<#implementation>| Reader |
 endlegend
 skin rose
 title Manage Personal Info

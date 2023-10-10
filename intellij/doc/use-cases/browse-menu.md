@@ -32,7 +32,9 @@ title Browse menu
 legend right
     |Color| Type |
     |<#technology>| System |
-    |<#implementation>| User |
+    |<#implementation>| Reader |
+    |<#LightCyan>| Reviewer |
+    
 endlegend
 
 start
