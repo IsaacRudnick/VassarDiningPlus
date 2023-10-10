@@ -30,14 +30,11 @@ title Manage Personal Info
 
 start
 while (Open?) is (\nYes)
-#technology:Display ratings and favorites buttons;
-If (Choose Option?) then (Manage Reviews)
-    #implementation: Display Reviews Page;
-else (Manage Favorites)
-     #implementation: Display Manage Favorites Page;
-endif
+#technology:Display checkbox of dietary restrictions;
+#implementation: Update dietary restrictions;
+#technology: Update listing of user restrictions to filter on main menu;
 endwhile (No)
-#implementation:Exit item;
+#implementation:Exit to Main Page;
 stop
 @enduml
 ```
