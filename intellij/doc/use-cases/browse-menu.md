@@ -29,6 +29,11 @@ Color code: pink for Reader, green for System.
 
 skin rose
 title Browse menu
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+endlegend
 
 start
 while (Exit?) is (\nNo)

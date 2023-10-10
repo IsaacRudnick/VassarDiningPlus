@@ -30,7 +30,12 @@ Color code: pink for Reader, blue for Reviewer, green for System.
 
 skin rose
 title Navigate
-
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+    | <#LightCyan> | Points to another use case |
+endlegend
 start
 while (Open?) is (\nyes)
 #technology:Fetch favorites available on today's menu;

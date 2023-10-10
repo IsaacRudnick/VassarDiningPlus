@@ -25,7 +25,11 @@ Color code: pink for Reader, green for System.
 
 skin rose
 title Favorite item
-
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+endlegend
 start
 #technology:Display item;
 if (Confirm add item to favorites?) then (Yes)

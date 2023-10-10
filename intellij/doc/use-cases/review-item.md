@@ -27,18 +27,22 @@ Color code: blue for Reviewer, green for System.
 
 skin rose
 title Favorite item
-
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+endlegend
 start
 #technology:Display item;
 if (Confirm review this item?) then (Yes)
 repeat
 #technology:Display rating input system;
-#LightCyan:Input rating;
+#implementation:Input rating;
 repeat while (Valid rating?) is (No)
 -> Yes;
 #technology:Add rating to database;
 #technology:Display confirmation of rating logged;
-#LightCyan:Exit confirmation;
+#implementation:Exit confirmation;
 else (No)
 #technology:Display confirmation that no review was saved;
 endif

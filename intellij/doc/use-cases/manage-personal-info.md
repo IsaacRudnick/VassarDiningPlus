@@ -20,7 +20,11 @@ __Brief__ overview
 
 ```plantuml
 @startuml
-
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+endlegend
 skin rose
 title Manage Personal Info
 

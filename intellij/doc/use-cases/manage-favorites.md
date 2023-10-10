@@ -27,7 +27,11 @@ __Brief__ overview
 
 skin rose
 title Manage Favorites
-
+legend right
+    |Color| Type |
+    |<#technology>| System |
+    |<#implementation>| User |
+endlegend
 start
 while (Open?) is (\nYes)
 #technology:Display all favorites for user;
