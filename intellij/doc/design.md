@@ -31,7 +31,7 @@ class MenuDate{
 class Menu{
     station : String
     --
-    getDishes(restrictions : List<String>) : List<String>
+    getDishes(restrictions : List<String>) : List<Dish>
 }
 class Dish{
     name : String
@@ -86,7 +86,7 @@ controller -> ui : display(dishes)
 ui -->> human : Display date's menus
 ```
 
-### Fetch web menu
+### Scrape website menu
 ```plantuml
 skin rose
 hide footbox
@@ -106,7 +106,7 @@ end
 date -> menu **: menu = create()
 ```
 
-### Favorite item
+### Favorite item (not implementing now, only doing browse menu)
 ```plantuml
 skin rose
 
