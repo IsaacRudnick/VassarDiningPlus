@@ -7,42 +7,56 @@ Classes
 * Day: date, list of Menus
 * Menu: station name (String), list of Dishes
 
-## Domain model
+## Class diagram
 ```plantuml
 @startuml
 
 skin rose
 
-hide circle
-hide empty methods
-
 ' classes
 class User{
-    Favorites
-    Dietary restrictions
+    restrictions: List<String>
+    --
+    getRestrictions() : List<String>
 }
 class Review{
-    Rating
+    Rating : int
 }
-class Date{
-    Calendar date
+class MenuDate{
+    calendarDate : Date
+    --
+    scrapeMenu(day : Date)
+    getMenus() : List<Menu>
 }
 class Menu{
-    Name of station
+    station : String
+    --
+    getDishes(restrictions : List<String>) : List<String>
 }
 class Dish{
-    Name
-    Description
-    Average rating
-    Dietary restrictions
+    name : String
+    description : String
+    avgRating : int
+    restrictions : List<String>
+    --
+    averageRating() : int
+}
+class Controller{
+    getMenu(day : MenuDate) : List<Dish>
+}
+class UI{
+    display(dishes : List<Dish>)
 }
 
 ' associations
-User "1" - "*" Review : \tContains\t\t
-User "1" - "*" Dish : Has-favorited\t\t
-Review "*" -- "1" Dish : \tReferences\t\t
-Date "1" - "*" Menu : \tContains\t\t
-Menu "1" - "*" Dish : \tContains\t\t
+User --left-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
+User -> "*\nfavorites\n{List}" Dish
+Dish --> "\t*\n\tdishReviews\n\t{List}\n" Review
+MenuDate -right-> "*\ndayMenus\n{ordered, List}" Menu : \t\t\t
+Menu -down-> "*\nmenuDishes\n{List}" Dish : \t\t
+Controller .up.> MenuDate
+Controller .> Dish
+UI .left.> Dish
 ```
 
 ## Sequence diagrams
@@ -54,7 +68,7 @@ hide footbox
 actor "Human user" as human
 participant " : UI" as ui
 participant " : Controller" as controller
-participant "curDate : Date" as date
+participant "curDate : MenuDate" as date
 participant "menus[i] : Menu" as menu
 participant " : User" as user
 
@@ -70,6 +84,26 @@ loop i in 0..menus.size-1
 end
 controller -> ui : display(dishes)
 ui -->> human : Display date's menus
+```
+
+### Fetch web menu
+```plantuml
+skin rose
+hide footbox
+participant " : Controller" as controller
+participant "curDate : MenuDate" as date
+participant " : Menu" as menu
+participant " : Dish" as dish
+participant " : Website" as web
+
+controller -> date : scrapeMenu(day : Date)
+date -> web : fetch()
+web --> date : html : String
+loop String != ""
+date -> dish **: dish = create(name, description, avgRating, restrictions)
+end
+
+date -> menu **: menu = create()
 ```
 
 ### Favorite item
