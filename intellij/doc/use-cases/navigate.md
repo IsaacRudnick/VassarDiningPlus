@@ -33,8 +33,9 @@ title Navigate
 legend right
     |Color| Type |
     |<#technology>| System |
-    |<#implementation>| User |
-    | <#LightCyan> | Points to another use case |
+    |<#implementation>| Reader |
+    |<#LightCyan>| Reviewer |
+    
 endlegend
 start
 while (Open?) is (\nyes)

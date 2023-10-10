@@ -30,7 +30,7 @@ title Favorite item
 legend right
     |Color| Type |
     |<#technology>| System |
-    |<#implementation>| User |
+    |<#implementation>| Reader |
 endlegend
 start
 #technology:Display item;

@@ -30,7 +30,7 @@ title Manage Favorites
 legend right
     |Color| Type |
     |<#technology>| System |
-    |<#implementation>| User |
+    |<#implementation>| Reader |
 endlegend
 start
 while (Open?) is (\nYes)
