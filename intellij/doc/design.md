@@ -22,11 +22,11 @@ class User{
 class Review{
     Rating : int
 }
-class MenuDate{
-    calendarDate : Date
+class MenuLibrary{
+    menuMap: Map<Date,Set<Menu>>
     --
-    scrapeMenu(day : Date)
-    getMenus() : List<Menu>
+    scrapeMenu(day : date) : void
+    getMenus(date : Date) : Set<Menu>
 }
 class Menu{
     station : String
@@ -41,7 +41,14 @@ class Dish{
     --
     averageRating() : int
 }
+class DishLibrary{
+    allDishes : Set<Dish>
+    __
+    dishExists?(dish : Dish) : boolean
+}
 class Controller{
+    todayDate : date
+    --
     getMenu(day : MenuDate) : List<Dish>
 }
 class UI{
@@ -49,14 +56,16 @@ class UI{
 }
 
 ' associations
-User --left-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
-User -> "*\nfavorites\n{List}" Dish
+User --right-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
+User -up-> "\n*\nfavorites\n{List}" Dish
 Dish --> "\t*\n\tdishReviews\n\t{List}\n" Review
-MenuDate -right-> "*\ndayMenus\n{ordered, List}" Menu : \t\t\t
+MenuLibrary -right-> "*\ndayMenus\n{ordered, List}" Menu : \t\t\t
 Menu -down-> "*\nmenuDishes\n{List}" Dish : \t\t
-Controller .up.> MenuDate
+Controller -> "1\ncurUser" User
+Controller .up.> MenuLibrary
 Controller .> Dish
 UI .left.> Dish
+DishLibrary --> Dish
 ```
 
 ## Sequence diagrams
