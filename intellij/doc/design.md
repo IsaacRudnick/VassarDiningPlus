@@ -77,14 +77,14 @@ hide footbox
 actor "Human user" as human
 participant " : UI" as ui
 participant " : Controller" as controller
-participant "curDate : MenuDate" as date
+participant " : MenuLibrary" as menulib
 participant "menus[i] : Menu" as menu
 participant " : User" as user
 
 human -> ui : Enter date of desired menu
 ui -> controller : getMenu(date)
-controller -> date: getMenus()
-date -->> controller : menus : List<Menu>
+controller -> menulib: getMenus()
+menulib -->> controller : menus : Set<Menu>
 controller -> user : getRestrictions()
 user -->> controller : restrictions : List<String>
 loop i in 0..menus.size-1
@@ -100,19 +100,18 @@ ui -->> human : Display date's menus
 skin rose
 hide footbox
 participant " : Controller" as controller
-participant "curDate : MenuDate" as date
+participant " : MenuLibrary" as menulib
 participant " : Menu" as menu
 participant " : Dish" as dish
 participant " : Website" as web
 
-controller -> date : scrapeMenu(day : Date)
-date -> web : fetch()
-web --> date : html : String
+controller -> menulib : scrapeMenu(day : Date)
+menulib -> web : http request
+web --> menulib : html : String
 loop String != ""
-date -> dish **: dish = create(name, description, avgRating, restrictions)
+menulib -> dish **: new Dish( = create(name, description, avgRating, restrictions)
 end
-
-date -> menu **: menu = create()
+menulib -> menu **: menu = new Menu()
 ```
 
 ### Favorite item (not implementing now, only doing browse menu)
