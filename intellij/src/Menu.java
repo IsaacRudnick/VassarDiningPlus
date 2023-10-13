@@ -6,10 +6,18 @@ public class Menu{
     public List<Dish> getDishes(List<String> restrictions){
         List<Dish> goodDishes = new LinkedList();
         for(dish : menuDishes) {
-            for(res : restrictions) {
-                curDish = menuDishes[i];
-                curRestriction = restrictions[j];
+            if(dish.validDish?(restrictions)){
+                goodDishes.add(dish);
             }
         }
+        return goodDishes;
+    }
+
+    private boolean validDish?(List<String> restrictions){
+        for(rest : restrictions){
+            if(!this.restrictions.contains(rest))
+                return false;
+        }
+        return true;
     }
 }

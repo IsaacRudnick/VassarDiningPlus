@@ -14,6 +14,7 @@ public class Dish{
         this.dishReviews = new LinkedList();
     }
 
+    // Not implemented for now since we are not doing ratings right now
     public int averageRating(){
         return 5;
     }
