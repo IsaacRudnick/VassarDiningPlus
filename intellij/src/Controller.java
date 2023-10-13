@@ -1,6 +1,6 @@
 public class Controller {
 
-    public List<Menu> getMenu(MenuDate day){
+    public List<Menu> getMenu(MenuLibrary day){
         List<Menu> menus = day.getMenus();
         List<String> restrictions = user.getRestrictions();
         List<Dish> dishes = new LinkedList();

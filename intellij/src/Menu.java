@@ -3,6 +3,11 @@ public class Menu{
     String station;
     List<Dish> menuDishes;
 
+    public Menu(String station, List<Dish> dishes){
+        this.station = station;
+        menuDishes = dishes;
+    }
+
     public List<Dish> getDishes(List<String> restrictions){
         List<Dish> goodDishes = new LinkedList();
         for(dish : menuDishes) {
