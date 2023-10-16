@@ -1,10 +1,10 @@
 import java.util.List;
 
 public class Dish {
-    private final String id;
-    private final String name;
-    private final String description;
-    private final List<String> restrictions;
+    private String id;
+    private String name;
+    private String description;
+    private List<String> restrictions;
 
     public Dish(String id, String name, String description, List<String> restrictions) {
         this.id = id;
@@ -25,6 +25,10 @@ public class Dish {
         }
         output += "\t-Restrictions: " + restrictions + "\n";
         return output;
+    }
+
+    public boolean hasRestriction(String restriction) {
+        return restrictions.contains(restriction);
     }
 
     public String getId() {

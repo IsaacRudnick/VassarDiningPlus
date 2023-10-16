@@ -1,12 +1,17 @@
 import java.util.*;
 
 public class Menu {
-    private final String name;
-    private final Map<String, Dish> dishes;
+    private String name;
+    private Map<String, Dish> dishes;
 
     public Menu(String name) {
         this.name = name;
         this.dishes = new HashMap<String, Dish>();
+    }
+
+    public Menu(String name, Map<String, Dish> dishes) {
+        this.name = name;
+        this.dishes = dishes;
     }
 
     public String toString() {
@@ -32,4 +37,6 @@ public class Menu {
     public Map<String, Dish> getDishes() {
         return dishes;
     }
+
+
 }
