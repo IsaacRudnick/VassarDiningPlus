@@ -14,6 +14,15 @@ public class DayLibrary {
         this.days = new HashMap<String, Day>();
     }
 
+    /*
+     * Gets a day from the library. If the day doesn't exist, it is created.
+     * This allows caching of days.
+     * 
+     * @param date The date of the day to get (format "YYYY-MM-DD")
+     * @param user The user to get the day for (used for restrictions)
+     * 
+     * @return The day object
+     */
     public Day getDay(String date, User user) throws Exception {
         // If the day doesn't exist, create it and add it to the map
         if (!days.containsKey(date)) {

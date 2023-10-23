@@ -8,6 +8,8 @@ import java.io.*;
 public class Day {
     // Map of menu names (e.g. "@Oasis") to their menus
     private Map<String, Menu> Menus;
+
+    // Currently not in use but will be used in the future for caching
     private User user;
     private String date;
 
@@ -15,11 +17,14 @@ public class Day {
      * Creates a new Day object
      * 
      * @param date The date of the day to create (format "YYYY-MM-DD")
+     * @param user The user to create the day for (used for restrictions)
      * @throws Exception
      */
     public Day(String date, User user) throws Exception {
+        // Currently not in use but will be used in the future for caching
         this.date = date;
         this.user = user;
+
         // Create the menus hashmap
         Menus = new HashMap<String, Menu>();
         // Scrape the menu and add all the dishes to the Menus map
@@ -33,6 +38,8 @@ public class Day {
     /**
      * @return A string representation of the day, including all menus and dishes
      */
+
+    @Override
     public String toString() {
         String output = "";
         for (String menuName : Menus.keySet()) {
@@ -42,7 +49,7 @@ public class Day {
     }
 
     /**
-     * Adds a dish to the Menus map
+     * Adds a dish to the Menus map. For class-internal use while scraping the menu.
      * 
      * @param menuName the name of the menu to add the dish to
      * @param dish     the dish to add
@@ -58,6 +65,8 @@ public class Day {
      * Makes a web request to the CBA website and processes the HTML
      * into a JSON object. Returns the JSON object. This is a helper function for
      * createMenus(), which is a helper function for the Day constructor.
+     * 
+     * @return The JSON object of the menu
      */
     private JSONObject GetMenuJSON() throws Exception {
         // Make web request to CBAURL

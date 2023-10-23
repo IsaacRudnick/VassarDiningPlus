@@ -1,5 +1,7 @@
 import java.util.List;
 
+// This class represents a user of the app
+// It is used to filter dishes by restrictions
 public class User {
     // These are things that items must meet to be shown to the user
     private List<String> restrictions;

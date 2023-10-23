@@ -17,9 +17,14 @@ public class Dish {
         return -1; // Not yet implemented
     }
 
+    /**
+     * @return A string representation of the dish
+     */
+    @Override
     public String toString() {
         String output = "";
         output += name + "\n";
+        // Only add the description if it exists (not empty)
         if (description.length() > 0) {
             output += "\t-Description: " + description + "\n";
         }
@@ -27,10 +32,18 @@ public class Dish {
         return output;
     }
 
+    /*
+     * Checks if the dish has a given restriction
+     * 
+     * @param restriction The restriction to check for (e.g. "Vegan")
+     * 
+     * @return Whether or not the dish has the given restriction
+     */
     public boolean hasRestriction(String restriction) {
         return restrictions.contains(restriction);
     }
 
+    // Below are getter methods for the private variables that may be useful
     public String getId() {
         return id;
     }

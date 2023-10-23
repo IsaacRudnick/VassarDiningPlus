@@ -9,11 +9,10 @@ public class Menu {
         this.dishes = new HashMap<String, Dish>();
     }
 
-    public Menu(String name, Map<String, Dish> dishes) {
-        this.name = name;
-        this.dishes = dishes;
-    }
-
+    /*
+     * @return A string representation of the menu
+     */
+    @Override
     public String toString() {
         String output = "";
         output += "Menu: " + name + "\n\t";
@@ -26,17 +25,21 @@ public class Menu {
         return output;
     }
 
-    public String getName() {
-        return name;
-    }
-
+    /*
+     * Adds a dish to the menu with the key as the dish's ID
+     * 
+     * @param dish The dish to add
+     */
     public void addDish(Dish dish) {
         dishes.put(dish.getId(), dish);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Map<String, Dish> getDishes() {
         return dishes;
     }
-
 
 }

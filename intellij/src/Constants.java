@@ -1,3 +1,4 @@
+// This is an unchanging class with no constructor used for storing constants.
 public final class Constants {
 
   private Constants() {
