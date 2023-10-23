@@ -18,4 +18,8 @@ public class User {
         }
         return true;
     }
+
+    public List<String> getRestrictions() {
+        return restrictions;
+    }
 }
