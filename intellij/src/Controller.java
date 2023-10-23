@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
+    public User getUser() {
+        return user;
+    }
+
     private User user;
     private DayLibrary days;
 

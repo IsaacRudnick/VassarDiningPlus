@@ -4,6 +4,7 @@ public class Dish {
     private String id;
     private String name;
     private String description;
+    private float avgRating;
     private List<String> restrictions;
 
     public Dish(String id, String name, String description, List<String> restrictions) {
@@ -14,7 +15,7 @@ public class Dish {
     }
 
     public float getRating() {
-        return -1; // Not yet implemented
+        return avgRating; // Not yet implemented
     }
 
     /**
