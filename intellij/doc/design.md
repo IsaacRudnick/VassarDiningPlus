@@ -9,6 +9,7 @@ Classes with attributes
 
 ## Class diagram
 ```plantuml
+
 @startuml
 
 skin rose
@@ -105,37 +106,59 @@ DishLibrary -up-> Dish
 Day -> "1\nuser" User
 DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
 Controller .up.> Restrictions
+
+@enduml
 ```
 
 ## Sequence diagrams
 ### Browse menu
 ```plantuml
+
+@startuml
 skin rose
 
 hide footbox
 actor "Human user" as human
 participant " : UI" as ui
-participant " : Controller" as controller
-participant " : MenuLibrary" as menulib
-participant "menus[i] : Menu" as menu
-participant " : User" as user
+participant "curController : Controller" as controller
+participant "days : DayLibrary" as days
+participant "dishes[i] : Dish" as dish
+participant "curUser : User" as user
+participant "curRestrictions : Restrictions" as restriction
+participant "curDay : Day" as day
 
+human -> ui : Start application
+ui -> controller **: curController : Controller = new Controller()
+controller -> days **: days : DayLibrary = new DayLibrary()
+ui -> controller : curRestrictions : Restrictions = getRestrictions()
+controller -> restriction **: curRestrictions : Restrictions = new Restrictions()
+ui -> human : Show available restrictions and request input
+human -> ui : Enter desired restrictions
+ui -> controller : createUser(restrictions : List<String>)
+controller -> user **: curUser : User = new User(restrictions : List<String>)
+ui -> human : Request date input
 human -> ui : Enter date of desired menu
-ui -> controller : getMenu(date)
-controller -> menulib: getMenus()
-menulib -->> controller : menus : Set<Menu>
-controller -> user : getRestrictions()
-user -->> controller : restrictions : List<String>
-loop i in 0..menus.size-1
-    controller -> menu : getDishes(restrictions : List<String>)
-    menu -->> controller : dishes : List<Dish>
+ui -> controller : todayMenus : Day = getDay(date : String)
+controller -> days : todayMenus: Day = getDay(date : String, user : User)
+days -> day **: curDay = new Day(date : String, user : User)
+day -> day : createMenus(date : String, user : User)
+day -> day : dishes : JSONObject = GetMenuJSON()
+loop i in 0..dishes.size-1
+    day -> dish **: dish : Dish = new Dish(id : String, name : String, description : String, restrictions : String<List>)
+    day -> user : canEat(dish) : boolean
+    alt user.canEat(dish)
+        day -> day : addDish(menuName : String, dish : Dish)
+        
+    end
 end
 controller -> ui : display(dishes)
 ui -->> human : Display date's menus
+@enduml
 ```
 
 ### Scrape website menu
 ```plantuml
+@startuml
 skin rose
 hide footbox
 participant " : Controller" as controller
@@ -151,10 +174,12 @@ loop String != ""
 menulib -> dish **: new Dish( = create(name, description, avgRating, restrictions)
 end
 menulib -> menu **: menu = new Menu()
+@enduml
 ```
 
 ### Favorite item (not implementing now, only doing browse menu)
 ```plantuml
+@startuml
 skin rose
 
 hide footbox
@@ -178,4 +203,5 @@ else !success
     controller -> ui : favoriteFailure()
     ui -->> human : Display error
 end
+@enduml
 ```
