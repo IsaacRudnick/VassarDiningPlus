@@ -9,7 +9,6 @@ Classes with attributes
 
 ## Class diagram
 ```plantuml
-
 @startuml
 
 skin rose
@@ -21,17 +20,14 @@ class User{
     + getRestrictions() : List<String>
     + canEat(dish : Dish) : boolean
 }
-class Review{
-    - Rating : int {range=[0,5]}
-}
 class DayLibrary{
     --
     + getDay(date : String, user : User) : Day
 }
 class Day{
     - date : String
+    - user : User
     --
-    scrapeMenu(day : date) : void
     + getMenus(date : Date) : Map<String, Menu>
     + toString() : String
     - addDish(menuName : String, dish : Dish) : void
@@ -43,7 +39,7 @@ class Menu{
     - name : String
     --
     + getDishes() : Map<String, Dish>
-    + addDish(dish : dish) : void
+    + addDish(dish : Dish) : void
     + getName() : String
     + toString() : String
     
@@ -52,60 +48,46 @@ class Dish{
     - id : String
     - name : String
     - description : String
-    - avgRating : float
     - restrictions : List<String>
     --
-    + hasRestriction(String restriction) : boolean
+    + hasRestriction(restriction : String) : boolean
     + getId() : String
     + getName() : String
     + getDescription : String
     + getRestrictions : List<String>
     + toString() : String
-    + getRating() : float
-    - averageRating() : float
-}
-class DishLibrary{
-    - allDishes : Set<Dish>
-    __
-    + dishExists?(dish : Dish) : boolean
 }
 class Controller{
-    - todayDate : date
     --
     {static} + areValidRestrictions(restrictionIDs : List<String>) : boolean
     {static} - restrictionsFromIDs(restrictionIDs : List<String>) : List<String>
     + createUser(restrictionIDs : List<String>) : void
     + getUserRestrictions() : List<String>
-    + getDay(date : String) : Day
-    {static} + getRestrictions() : Restrictions
-    + getUser() : User
-    getMenu(day : MenuDate) : List<Dish>
+    + getDayAsString(date : String) : String
+    {static} + getPossibleRestrictions() : Restrictions
 }
 class Restrictions{
-    {static} - Restrictions : Map<String,String>
+    {static} - restrictions : Map<String,String>
     --
     + getRestrictionName(id : String) : String
-    + isValid(id : String) : boolean
+    {static} + isValid(id : String) : boolean
     + toString(): String
 }
-class UI{
-    display(dishes : List<Dish>)
+class View{
+    {static} + main(args : String[]) : void
 }
 
 ' associations
-User -down-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
 User -> "\n*\nfavorites\n{List}" Dish
-Dish -down-> "*\ndishReviews\n{List}\n" Review
-Day -> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
-Menu -> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+Day -down-> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
+Menu -down-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
 Controller -down-> "1\nuser" User
 Controller -left-> "1\ndays" DayLibrary
-Controller .> Dish
-UI .down.> Dish
-DishLibrary -up-> Dish
-Day -> "1\nuser" User
+View .> Controller
+Day -down-> "1\nuser" User
 DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
 Controller .up.> Restrictions
+Controller .> Day
 
 @enduml
 ```
@@ -121,38 +103,44 @@ hide footbox
 actor "Human user" as human
 participant " : UI" as ui
 participant "curController : Controller" as controller
-participant "days : DayLibrary" as days
-participant "dishes[i] : Dish" as dish
 participant "curUser : User" as user
 participant "curRestrictions : Restrictions" as restriction
-participant "curDay : Day" as day
+participant "days : DayLibrary" as days
 
 human -> ui : Start application
-ui -> controller **: curController : Controller = new Controller()
-controller -> days **: days : DayLibrary = new DayLibrary()
-ui -> controller : curRestrictions : Restrictions = getRestrictions()
-controller -> restriction **: curRestrictions : Restrictions = new Restrictions()
-ui -> human : Show available restrictions and request input
-human -> ui : Enter desired restrictions
-ui -> controller : createUser(restrictions : List<String>)
-controller -> user **: curUser : User = new User(restrictions : List<String>)
-ui -> human : Request date input
-human -> ui : Enter date of desired menu
-ui -> controller : todayMenus : Day = getDay(date : String)
-controller -> days : todayMenus: Day = getDay(date : String, user : User)
-days -> day **: curDay = new Day(date : String, user : User)
-day -> day : createMenus(date : String, user : User)
-day -> day : dishes : JSONObject = GetMenuJSON()
-loop i in 0..dishes.size-1
-    day -> dish **: dish : Dish = new Dish(id : String, name : String, description : String, restrictions : String<List>)
-    day -> user : canEat(dish) : boolean
-    alt user.canEat(dish)
-        day -> day : addDish(menuName : String, dish : Dish)
-        
+ui -> controller **: new Controller()
+controller -> days **: new DayLibrary()
+ui -> controller : getPossibleRestrictions()
+controller -> restriction **: new Restrictions()
+controller -->> ui : restrictions : String
+ui -->> human : Display available restrictions
+loop do-while !validRestrictions
+    ui -> human : Request input
+    human -> ui : Enter desired restrictions
+    ui -->> ui : restrictionIDs : List<String>
+    ui -> controller : areValidRestrictions(restrictionIDs : List<String>)
+    controller -> restriction : isValid(restriction : String)
+    restriction -->> controller : validRestriction : boolean
+    alt !validRestriction
+        ui -> human : Display invalid restrictions warning
     end
 end
-controller -> ui : display(dishes)
-ui -->> human : Display date's menus
+ui -> controller : createUser(restrictions : List<String>)
+controller -> user **: new User(restrictions : List<String>)
+loop input != "quit"
+    ui -> human : Request date input
+    human -> ui : Enter date of desired menu
+    ui -> controller : getDayAsString(date : String)
+    controller -> days : getDay(date : String, user : User)
+    alt !dateExists
+        ref over days
+        CreateDay
+        end ref
+    end
+    days -->> controller : curDay : Day
+    controller -->> ui : dayString : String
+    ui -->> human : Display date's menus
+end
 @enduml
 ```
 
@@ -161,47 +149,28 @@ ui -->> human : Display date's menus
 @startuml
 skin rose
 hide footbox
-participant " : Controller" as controller
-participant " : MenuLibrary" as menulib
+mainframe sd CreateDay
+
+participant "days : DayLibrary" as days
+participant "curDay : Day" as day
 participant " : Menu" as menu
-participant " : Dish" as dish
-participant " : Website" as web
+participant "dishes[i] : Dish" as dish
+participant "curUser : User" as user
 
-controller -> menulib : scrapeMenu(day : Date)
-menulib -> web : http request
-web --> menulib : html : String
-loop String != ""
-menulib -> dish **: new Dish( = create(name, description, avgRating, restrictions)
-end
-menulib -> menu **: menu = new Menu()
-@enduml
-```
-
-### Favorite item (not implementing now, only doing browse menu)
-```plantuml
-@startuml
-skin rose
-
-hide footbox
-actor "Human user" as human
-participant " : UI" as ui
-participant " : Controller" as controller
-participant " : User" as user
-human -> ui : Select item
-ui -> controller : info(dish)
-controller -> dish : details()
-dish -->> controller : Name, Average Rating, Dietary restrictions, Description
-controller -> ui : displaySingle(dish)
-human -> ui : Favorite item
-ui -> controller : favorite(dish : Dish)
-controller -> user : addFavorite(dish : Dish)
-user -->> controller : success : bool
-alt success
-    controller -> ui : favoriteAdded()
-    ui -->> human : Display confirmation
-else !success
-    controller -> ui : favoriteFailure()
-    ui -->> human : Display error
-end
+days -> day **: new Day(date : String, user : User)
+    day -> day : createMenus(date : String, user : User)
+    day -> day : dishes : JSONObject = GetMenuJSON()
+    loop i in 0..dishes.size-1
+        day -> dish **: new Dish(id : String, name : String, description : String, restrictions : String<List>)
+        day -> user : canEat(dish)
+        user -->> day : canEat : boolean
+        alt canEat
+            day -> day : addDish(menuName : String, dish : Dish)
+            alt !menuExists
+                day -> menu **: new Menu(menuName : String)
+            end
+            day -> menu : addDish(dish Dish)
+        end
+    end
 @enduml
 ```
