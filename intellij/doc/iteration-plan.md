@@ -1,14 +1,14 @@
 # Plan for Iteration #3
 
-## High Priority:
+## High priority:
 
 - Manage Favorites + Notifications about favorites
 - <sub>(Obviously, move to Android App from Text-Based Interface)</sub>
 
-## Minor Improvements of Note
+## Minor requirements changes
 
 - Add DishLibrary to avoid duplicate creation of dishes across several days
-- Add ability to change restrictions w/o clearing all application data
+- Add ability to change restrictions w/o restarting application
 - Considering removing ratings functionality but keeping favorites functionality. This is under consideration depending on project timeline
 
 # Plan for Iteration #2
@@ -30,3 +30,6 @@ CBA website, as that is the highest risk component of any of our use cases.
 
 - Manage reviews (low criticality, medium coverage)
 - Manage personal information (low criticality and coverage)
+
+
+Crossed out items have been completed
