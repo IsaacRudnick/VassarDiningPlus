@@ -5,23 +5,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Restrictions {
-    static final Map<String, String> Restrictions;
+    static final Map<String, String> restrictions;
     static {
-        Restrictions = new HashMap<String, String>();
-        Restrictions.put("1", "Vegetarian");
-        Restrictions.put("3", "Seafood Watch");
-        Restrictions.put("4", "Vegan");
-        Restrictions.put("6", "Farm to Fork");
-        Restrictions.put("7", "In Balance");
-        Restrictions.put("8", "Organic");
-        Restrictions.put("9", "Made without Gluten-Containing Ingredients");
-        Restrictions.put("10", "Halal");
-        Restrictions.put("11", "Kosher");
-        Restrictions.put("18", "Humane");
+        restrictions = new HashMap<String, String>();
+        restrictions.put("1", "Vegetarian");
+        restrictions.put("3", "Seafood Watch");
+        restrictions.put("4", "Vegan");
+        restrictions.put("6", "Farm to Fork");
+        restrictions.put("7", "In Balance");
+        restrictions.put("8", "Organic");
+        restrictions.put("9", "Made without Gluten-Containing Ingredients");
+        restrictions.put("10", "Halal");
+        restrictions.put("11", "Kosher");
+        restrictions.put("18", "Humane");
     }
 
     public static String getRestrictionName(String id) {
-        return Restrictions.get(id);
+        return restrictions.get(id);
     }
 
     /*
@@ -30,8 +30,8 @@ public class Restrictions {
     @Override
     public String toString() {
         String output = "";
-        for (String id : Restrictions.keySet()) {
-            output += id + ": " + Restrictions.get(id) + "\n";
+        for (String id : restrictions.keySet()) {
+            output += id + ": " + restrictions.get(id) + "\n";
         }
         return output;
     }
@@ -39,7 +39,7 @@ public class Restrictions {
     // Check if a given string is a valid restriction ID
     // E.g. "1" is valid, "12" is not, since it is not in the map's keys
     public static boolean isValid(String id) {
-        return Restrictions.containsKey(id);
+        return restrictions.containsKey(id);
     }
 
 }
