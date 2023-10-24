@@ -8,7 +8,7 @@ import java.util.Map;
  * Are pre-filtered by user restrictions. The data isn't stored in its entirety.
  */
 public class DayLibrary {
-    Map<String, Day> days;
+    private Map<String, Day> days;
 
     public DayLibrary() {
         this.days = new HashMap<String, Day>();
