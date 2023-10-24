@@ -14,20 +14,23 @@ public class TextView {
         Scanner scanner = new Scanner(System.in);
         // Get restrictions
         System.out.println("These are the allowed restrictions:");
-        System.out.println(Controller.getRestrictions());
+        System.out.println(Controller.getPossibleRestrictions());
         System.out.println("Enter your restrictions separated by commas (e.g. \"1, 9\") or press enter to skip:");
 
-        // Keep asking for restrictions until the user enters valid restrictions
         List<String> restrictionIDs = new ArrayList<String>();
+        // Keep asking for restrictions until the user enters valid restrictions
         do {
             // Assume the user will enter valid restrictions
             String str = scanner.nextLine();
             // If the user presses enter without entering any restrictions,
             // break out of the loop
             if (str.equals("")) {
+                restrictionIDs = new ArrayList<String>();
                 break;
             }
             // Split the string into a list of numbers (still strings) separated by commas
+            // This also ends up effectively resetting restrictionIDs every loop
+            // Which means previous incorrect inputs are not saved / used
             restrictionIDs = Arrays.asList(str.split("\\s*,\\s*"));
         } while (!Controller.areValidRestrictions(restrictionIDs));
 
@@ -49,14 +52,7 @@ public class TextView {
             }
             System.out.println("Fetching meals for " + input + "...");
             // Get the day (assortment of menus) for the given date
-            Day todayMenus = controller.getDay(input);
-            // If no dishes were found for the given date, print an error message
-            if (todayMenus.toString().equals("")) {
-                System.out.println("No meals found for " + input + " with your restrictions.");
-                continue;
-            }
-            // No need to put this in an else statement because it is empty
-            System.out.println(todayMenus);
+            System.out.println(controller.getDayAsString(input));
         }
         scanner.close();
     }

@@ -11,7 +11,7 @@ public class Controller {
         this.days = new DayLibrary();
     }
 
-    public static Restrictions getRestrictions() {
+    public static Restrictions getPossibleRestrictions() {
         return new Restrictions();
     }
 
@@ -67,8 +67,12 @@ public class Controller {
         return this.user.getRestrictions();
     }
 
-    // Using provided date and stored user, get the day for that date
-    public Day getDay(String date) throws Exception {
-        return this.days.getDay(date, this.user);
+    public String getDayAsString(String date) throws Exception {
+        Day day = this.days.getDay(date, this.user);
+        String dayString = day.toString();
+        if (dayString.toString().equals("")) {
+            return "No meals found for " + date + " with your restrictions.";
+        }
+        return dayString.toString();
     }
 }
