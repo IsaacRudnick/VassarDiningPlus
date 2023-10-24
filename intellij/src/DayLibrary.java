@@ -20,7 +20,7 @@ public class DayLibrary {
      * 
      * @param date The date of the day to get (format "YYYY-MM-DD")
      * The date is interpreted by the CBA servers.
-     * Invalid dates and foramts not checked for
+     * Invalid dates and formats not checked for
      * 
      * @param user The user to get the day for (used for restrictions)
      * 

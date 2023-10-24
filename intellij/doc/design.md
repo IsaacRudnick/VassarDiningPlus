@@ -15,57 +15,96 @@ skin rose
 
 ' classes
 class User{
-    restrictions: List<String>
+    - restrictions: List<String>
     --
-    getRestrictions() : List<String>
+    + getRestrictions() : List<String>
+    + canEat(dish : Dish) : boolean
 }
 class Review{
-    Rating : int
+    - Rating : int {range=[0,5]}
 }
-class MenuLibrary{
-    menuMap: Map<Date,Set<Menu>>
+class DayLibrary{
+    --
+    + getDay(date : String, user : User) : Day
+}
+class Day{
+    - date : String
     --
     scrapeMenu(day : date) : void
-    getMenus(date : Date) : Set<Menu>
+    + getMenus(date : Date) : Map<String, Menu>
+    + toString() : String
+    - addDish(menuName : String, dish : Dish) : void
+    - GetMenuJSON() : JSONObject
+    {static} - toTitleCase(input : String) : String
+    - createMenus(date : String, user : User) : void
 }
 class Menu{
-    station : String
+    - name : String
     --
-    getDishes(restrictions : List<String>) : List<Dish>
+    + getDishes() : Map<String, Dish>
+    + addDish(dish : dish) : void
+    + getName() : String
+    + toString() : String
+    
 }
 class Dish{
-    name : String
-    description : String
-    avgRating : int
-    restrictions : List<String>
+    - id : String
+    - name : String
+    - description : String
+    - avgRating : float
+    - restrictions : List<String>
     --
-    averageRating() : int
+    + hasRestriction(String restriction) : boolean
+    + getId() : String
+    + getName() : String
+    + getDescription : String
+    + getRestrictions : List<String>
+    + toString() : String
+    + getRating() : float
+    - averageRating() : float
 }
 class DishLibrary{
-    allDishes : Set<Dish>
+    - allDishes : Set<Dish>
     __
-    dishExists?(dish : Dish) : boolean
+    + dishExists?(dish : Dish) : boolean
 }
 class Controller{
-    todayDate : date
+    - todayDate : date
     --
+    {static} + areValidRestrictions(restrictionIDs : List<String>) : boolean
+    {static} - restrictionsFromIDs(restrictionIDs : List<String>) : List<String>
+    + createUser(restrictionIDs : List<String>) : void
+    + getUserRestrictions() : List<String>
+    + getDay(date : String) : Day
+    {static} + getRestrictions() : Restrictions
+    + getUser() : User
     getMenu(day : MenuDate) : List<Dish>
+}
+class Restrictions{
+    {static} - Restrictions : Map<String,String>
+    --
+    + getRestrictionName(id : String) : String
+    + isValid(id : String) : boolean
+    + toString(): String
 }
 class UI{
     display(dishes : List<Dish>)
 }
 
 ' associations
-User --right-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
-User -up-> "\n*\nfavorites\n{List}" Dish
-Dish --> "\t*\n\tdishReviews\n\t{List}\n" Review
-MenuLibrary -right-> "*\ndayMenus\n{ordered, List}" Menu : \t\t\t
-Menu -down-> "*\nmenuDishes\n{List}" Dish : \t\t
-Controller -> "1\ncurUser" User
-Controller .up.> MenuLibrary
+User -down-> "\t*\n \tuserReviews\n\t{List}" Review : \t\t\t
+User -> "\n*\nfavorites\n{List}" Dish
+Dish -down-> "*\ndishReviews\n{List}\n" Review
+Day -> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
+Menu -> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+Controller -down-> "1\nuser" User
+Controller -left-> "1\ndays" DayLibrary
 Controller .> Dish
-UI .left.> Dish
-DishLibrary --> Dish
+UI .down.> Dish
+DishLibrary -up-> Dish
+Day -> "1\nuser" User
+DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
+Controller .up.> Restrictions
 ```
 
 ## Sequence diagrams
