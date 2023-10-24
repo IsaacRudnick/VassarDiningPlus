@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Restrictions {
-    static final Map<String, String> restrictions;
+    private static final Map<String, String> restrictions;
     static {
         restrictions = new HashMap<String, String>();
         restrictions.put("1", "Vegetarian");
