@@ -16,7 +16,7 @@ These are the allowed restrictions:
 
 Enter your restrictions separated by commas (e.g. "1, 9") or press enter to skip:
 INPUT -> 1, 3, *!AAA
-Invalid restriction: *!AAA
+Invalid restrictions. Please try again.
 INPUT -> 3
 restrictions: [Seafood Watch]
 

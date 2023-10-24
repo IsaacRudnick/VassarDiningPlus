@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
-    public User getUser() {
-        return user;
-    }
-
     private User user;
     private DayLibrary days;
 
@@ -30,8 +26,6 @@ public class Controller {
         // Loop through each restriction ID and check if it is valid
         for (String restriction : restrictionIDs) {
             if (!Restrictions.isValid(restriction)) {
-                System.out.println("Invalid restriction: " + restriction);
-                // If any restriction is invalid, return false
                 return false;
             }
         }

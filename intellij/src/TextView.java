@@ -20,6 +20,10 @@ public class TextView {
         List<String> restrictionIDs = new ArrayList<String>();
         // Keep asking for restrictions until the user enters valid restrictions
         do {
+            // On the first loop, the restrictionIDs will be empty
+            if (restrictionIDs.size() > 0) {
+                System.out.println("Invalid restrictions. Please try again.");
+            }
             // Assume the user will enter valid restrictions
             String str = scanner.nextLine();
             // If the user presses enter without entering any restrictions,
