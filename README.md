@@ -1,5 +1,12 @@
 # Phase 2 Submission
 
+## Functionality
+
+This iteration allows for:
+
+- Scraping from the CBA Menu for any day
+- Filtering based on dietary restrictions
+
 ## How to Run
 
 - The main method is in `src/TextView.java`
