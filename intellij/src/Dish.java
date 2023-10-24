@@ -4,7 +4,6 @@ public class Dish {
     private String id;
     private String name;
     private String description;
-    private float avgRating;
     private List<String> restrictions;
 
     public Dish(String id, String name, String description, List<String> restrictions) {
@@ -12,10 +11,6 @@ public class Dish {
         this.name = name;
         this.description = description;
         this.restrictions = restrictions;
-    }
-
-    public float getRating() {
-        return avgRating; // Not yet implemented
     }
 
     /**

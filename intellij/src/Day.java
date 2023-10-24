@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Day {
     // Map of menu names (e.g. "@Oasis") to their menus
-    private Map<String, Menu> Menus;
+    private Map<String, Menu> menus;
 
     // Currently not in use but will be used in the future for caching
     private User user;
@@ -26,13 +26,13 @@ public class Day {
         this.user = user;
 
         // Create the menus hashmap
-        Menus = new HashMap<String, Menu>();
+        menus = new HashMap<String, Menu>();
         // Scrape the menu and add all the dishes to the Menus map
         createMenus(date, user);
     }
 
     public Map<String, Menu> getMenus() {
-        return Menus;
+        return menus;
     }
 
     /**
@@ -42,8 +42,8 @@ public class Day {
     @Override
     public String toString() {
         String output = "";
-        for (String menuName : Menus.keySet()) {
-            output += Menus.get(menuName).toString();
+        for (String menuName : menus.keySet()) {
+            output += menus.get(menuName).toString();
         }
         return output;
     }
@@ -55,10 +55,10 @@ public class Day {
      * @param dish     the dish to add
      */
     private void addDish(String menuName, Dish dish) {
-        if (!Menus.containsKey(menuName)) {
-            Menus.put(menuName, new Menu(menuName));
+        if (!menus.containsKey(menuName)) {
+            menus.put(menuName, new Menu(menuName));
         }
-        Menus.get(menuName).addDish(dish);
+        this.menus.get(menuName).addDish(dish);
     }
 
     /*
