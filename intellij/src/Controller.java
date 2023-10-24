@@ -71,6 +71,6 @@ public class Controller {
         if (dayString.toString().equals("")) {
             return "No meals found for " + date + " with your restrictions.";
         }
-        return dayString.toString();
+        return dayString;
     }
 }
