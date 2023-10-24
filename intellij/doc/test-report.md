@@ -43,7 +43,7 @@ INPUT ->  quit
 
 SECOND INTERACTION:
 
-###### Note there are too many restrictions
+<sub>Note there are too many restrictions. This is because there is little accomodation in the menu for people who have many restrictions</sub>
 
 ```console
 Welcome to the CBA Menu App!
