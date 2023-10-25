@@ -8,6 +8,9 @@ Classes with attributes
 * Menu: station name (String), list of Dishes
 
 ## Class diagram
+Note that the DishLibrary class is not currently implemented, but we want to include it in the 
+structure of our classes because we know we want to implement it in the next iteration. Reviews 
+have also not been implemented but are included in the diagram for future iterations.
 ```plantuml
 @startuml
 
@@ -57,6 +60,13 @@ class Dish{
     + getRestrictions : List<String>
     + toString() : String
 }
+class DishLibrary{
+    __
+    + dishExists?(dish : Dish) : boolean
+}
+class Review{
+    - Rating : int {range=[0,5]}
+}
 class Controller{
     --
     {static} + areValidRestrictions(restrictionIDs : List<String>) : boolean
@@ -78,16 +88,20 @@ class View{
 }
 
 ' associations
-User -right-> "\n*\nfavorites\n{List}" Dish
-Day -right-> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
-Menu -up-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+User -right-> "*\nuserReviews\n{List}" Review : \t\t
+Dish -up-> "*\ndishReviews\n{List}" Review
+User -right-> "*\nfavorites\n{List}" Dish : \t\t
+Day -down-> "*\nMenus\n{Map<String,Menu>}" Menu
+Menu -right-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
 Controller -down-> "1\nuser" User
 Controller -left-> "1\ndays" DayLibrary : \t
 View .down.> Controller
-Day -> "1\nuser" User
+Day -> "1\nuser" User : \t
 DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
+DishLibrary -up-> "*\nallDishes\n{Set<Dish>}" Dish
 Controller .> Restrictions
-Controller .> Day
+Controller .down.> Day
+Dish .up.> Restrictions
 
 @enduml
 ```
@@ -139,7 +153,11 @@ loop input != "quit"
     end
     days -->> controller : curDay : Day
     controller -->> ui : dayString : String
-    ui -->> human : Display date's menus
+    alt menuEmpty
+        ui --> human: Display empty menu warning
+    else !menuEmpty
+        ui -->> human : Display date's menus
+    end
 end
 @enduml
 ```
