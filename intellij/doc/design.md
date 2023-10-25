@@ -78,15 +78,15 @@ class View{
 }
 
 ' associations
-User -> "\n*\nfavorites\n{List}" Dish
-Day -down-> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
-Menu -down-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+User -right-> "\n*\nfavorites\n{List}" Dish
+Day -right-> "*\nMenus\n{Map<String,Menu>}" Menu : \t\t\t
+Menu -up-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
 Controller -down-> "1\nuser" User
-Controller -left-> "1\ndays" DayLibrary
-View .> Controller
-Day -down-> "1\nuser" User
+Controller -left-> "1\ndays" DayLibrary : \t
+View .down.> Controller
+Day -> "1\nuser" User
 DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
-Controller .up.> Restrictions
+Controller .> Restrictions
 Controller .> Day
 
 @enduml
