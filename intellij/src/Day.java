@@ -70,7 +70,7 @@ public class Day {
      */
     private JSONObject GetMenuJSON() throws Exception {
         // Make web request to CBAURL
-        URL url = new URI(Constants.CBAURL).toURL();
+        URL url = new URI(Constants.CBAURL + this.date).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         int status = con.getResponseCode();
