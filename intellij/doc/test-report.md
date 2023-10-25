@@ -545,11 +545,11 @@ Enter a date in the format YYYY-MM-DD or type "quit" to exit:
 INPUT -> quit
 ```
 ### 2021-11-18 images
-![](2021-11-10_ex.png)![](2021-11-10_ex2.png)
+![](test-report-images/2021-11-10_ex.png)![](test-report-images/2021-11-10_ex2.png)
 ### 2023-12-07 images
-![](2023-12-07_ex.png)![](2023-12-07_ex2.png)
+![](test-report-images/2023-12-07_ex.png)![](test-report-images/2023-12-07_ex2.png)
 ### 2023-10-25 images
-![](2023-10-25_ex.png)![](2023-10-25_ex2.png)
+![](test-report-images/2023-10-25_ex.png)![](test-report-images/2023-10-25_ex2.png)
 
 ## Test 2
 This test checks that restrictions are being taken in and applied accurately. It 
@@ -596,7 +596,7 @@ Enter a date in the format YYYY-MM-DD or type "quit" to exit:
 INPUT -> quit
 ```
 ### Image
-![](Seafood_ex.png)
+![](test-report-images/Seafood_ex.png)
 
 ## Test 3
 This test checked handling of multiple restrictions. The first interaction contained
@@ -635,7 +635,7 @@ Enter a date in the format YYYY-MM-DD or type "quit" to exit:
 INPUT -> quit
 ```
 ### No results images
-![](None_ex.png)![](None_ex2.png)![](None_ex3.png)![](None_ex4.png)
+![](test-report-images/None_ex.png)![](test-report-images/None_ex2.png)![](test-report-images/None_ex3.png)![](test-report-images/None_ex4.png)
 
 ```console
 Welcome to the CBA Menu App!
@@ -667,4 +667,4 @@ INPUT -> quit
 ```
 
 ### Combined restrictions image
-![](Vegetarian-Kosher_ex.png)
+![](test-report-images/Vegetarian-Kosher_ex.png)
