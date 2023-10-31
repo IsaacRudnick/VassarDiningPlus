@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">app</string>
+    <string name="invalid_date">Date entered is invalid! Use format YYYY-MM-DD</string>
 </resources>
