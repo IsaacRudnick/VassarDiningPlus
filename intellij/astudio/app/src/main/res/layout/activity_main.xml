@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".controller.MainActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,4 +31,12 @@
             android:backgroundTint="#951829"
             android:text="Search" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="377dp"
+        android:layout_height="308dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="22dp"
+        tools:layout_editor_absoluteY="409dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
