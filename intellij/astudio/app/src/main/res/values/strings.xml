@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">app</string>
     <string name="invalid_date">Date entered is invalid! Use format YYYY-MM-DD</string>
-    <string name="date_field">Enter date</string>
+    <string name="date_field">"YYYY-MM-DD"</string>
     <string name="search_label">Search</string>
+    <string name="menu_button">View menu</string>
+    <string name="profile_button">Manage profile</string>
 </resources>
