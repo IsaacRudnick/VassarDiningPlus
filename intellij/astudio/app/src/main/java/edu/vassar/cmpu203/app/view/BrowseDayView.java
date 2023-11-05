@@ -79,7 +79,7 @@ public class BrowseDayView implements IBrowseDayView{
      */
     @Override
     public void updateMenuDisplay(Day day) {
-        this.binding.textView.setText(day.toString());
+        this.binding.menuDisplay.setText(day.toString());
     }
 
 }
