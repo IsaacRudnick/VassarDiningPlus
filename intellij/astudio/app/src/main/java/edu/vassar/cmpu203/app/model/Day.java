@@ -7,6 +7,9 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 
+import android.os.StrictMode;
+import android.util.Log;
+
 public class Day {
     // Map of menu names (e.g. "@Oasis") to their menus
     private Map<String, Menu> menus;
@@ -31,6 +34,7 @@ public class Day {
         menus = new HashMap<String, Menu>();
         // Scrape the menu and add all the dishes to the Menus map
         createMenus(date, user);
+
     }
 
     public Map<String, Menu> getMenus() {
@@ -71,13 +75,16 @@ public class Day {
      * @return The JSON object of the menu
      */
     private JSONObject GetMenuJSON() throws Exception {
+        // Force android to allow HTTP Request on main thread
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         // Make web request to CBAURL
         URL url = new URI(Constants.CBAURL + this.date).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         int status = con.getResponseCode();
         if (status != 200) {
-            System.out.println("Error: " + status);
+            Log.e("StatusError", Integer.toString(status));
             return null;
         }
         BufferedReader in = new BufferedReader(
