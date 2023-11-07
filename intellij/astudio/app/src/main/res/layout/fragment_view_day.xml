@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewMenuFragment">
+    tools:context=".ViewDayFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -31,6 +31,7 @@
                 android:ems="10"
                 android:hint="@string/date_field"
                 android:inputType="date"
+                android:text="2023-10-10"
                 android:textAlignment="viewStart"
                 android:textColor="@color/DarkGray" />
 
@@ -69,7 +70,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/menuDisplay"
+                    android:id="@+id/menusDisplay"
                     android:layout_width="364dp"
                     android:layout_height="300dp"
                     android:layout_marginTop="16dp"
