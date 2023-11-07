@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbarStyle="outsideInset"
+    android:scrollbars="vertical"
     tools:context=".ViewDayFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -26,8 +28,8 @@
 
             <EditText
                 android:id="@+id/dateInput"
-                android:layout_width="275dp"
-                android:layout_height="58dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="@string/date_field"
                 android:inputType="date"
@@ -39,8 +41,9 @@
                 android:id="@+id/dateInputButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:backgroundTint="@color/VassarBurgundy"
+                android:contentDescription="@string/search_label"
                 android:text="@string/search_label"
                 android:textColor="@color/Cream"
                 app:icon="@android:drawable/ic_menu_search"
@@ -50,34 +53,31 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/menuTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/menuTitle"
-                    android:layout_width="78dp"
-                    android:layout_height="35dp"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="100dp">
 
                 <TextView
                     android:id="@+id/menusDisplay"
-                    android:layout_width="364dp"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menuTitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
 
         </LinearLayout>
 

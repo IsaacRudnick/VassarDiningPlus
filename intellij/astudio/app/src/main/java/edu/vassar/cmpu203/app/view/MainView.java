@@ -26,7 +26,7 @@ public class MainView implements IMainView{
 
     @Override
     public void displayFragment(Fragment fragment, boolean addToStack, String name) {
-        FragmentTransaction ft = fmanager.beginTransaction()
+        FragmentTransaction ft = this.fmanager.beginTransaction()
                 .replace(this.binding.fragmentContainerView.getId(), fragment);
 
         if (addToStack) {

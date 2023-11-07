@@ -18,6 +18,10 @@ public class Day {
     private User user;
     private String date;
 
+    public String getDate(){
+        return this.date;
+    }
+
     /**
      * Creates a new Day object
      * 
