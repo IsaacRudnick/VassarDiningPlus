@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:scrollbarStyle="outsideInset"
     android:scrollbars="vertical"
-    tools:context=".ViewDayFragment">
+    tools:context=".view.ViewDayFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/dateSearchLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -50,7 +50,70 @@
                 app:iconTint="@color/Cream" />
         </LinearLayout>
 
+        <TableLayout
+            android:id="@+id/restrictionsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateSearchLayout">
+
+            <TableRow
+                android:id="@+id/restrictionsRow1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/vegetarianButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vegetarian" />
+
+                <CheckBox
+                    android:id="@+id/veganButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vegan" />
+
+                <CheckBox
+                    android:id="@+id/halalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Halal" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/restrictionsRow2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/inBalanceButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Balance" />
+
+                <CheckBox
+                    android:id="@+id/kosherButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kosher" />
+
+                <CheckBox
+                    android:id="@+id/lowGlutenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Low gluten" />
+
+            </TableRow>
+
+        </TableLayout>
+
         <LinearLayout
+            android:id="@+id/menuLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -59,7 +122,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/restrictionsLayout">
 
             <TextView
                 android:id="@+id/menuTitle"
@@ -71,6 +134,8 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginBottom="100dp">
 
                 <TextView

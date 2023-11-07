@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">app</string>
+    <string name="app_name">Better Vassar Dining</string>
     <string name="invalid_date">Date entered is invalid! Use format YYYY-MM-DD</string>
     <string name="date_field">"YYYY-MM-DD"</string>
     <string name="search_label">Search</string>
     <string name="menu_button">View menu</string>
     <string name="profile_button">Manage profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_header">\nVassar College Dining\n</string>
 </resources>
