@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 import edu.vassar.cmpu203.app.model.Day;
@@ -15,7 +17,7 @@ import edu.vassar.cmpu203.app.view.IMainView;
 import edu.vassar.cmpu203.app.view.MainView;
 import edu.vassar.cmpu203.app.view.ViewDayFragment;
 
-public class ControllerActivitity extends AppCompatActivity implements IBrowseDayView.Listener {
+public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener {
     private DayLibrary days;
     private IMainView mainview;
     private User emptyUser;
@@ -37,12 +39,25 @@ public class ControllerActivitity extends AppCompatActivity implements IBrowseDa
         // This log outputs an A, meaning we get here. Go through iterative process to
         // figure out where the issue is.
         // Handle input processing here
-        try {
-            Day day = this.days.getDay(date, emptyUser);
-            browseDayView.updateDayDisplay(day);
-        } catch (Exception e) {
-            Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);
+        if(validDate(date)) {
+            try {
+                Day day = this.days.getDay(date, emptyUser);
+                browseDayView.updateDayDisplay(day);
+            } catch (Exception e) {
+                Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);
+            }
         }
+        else{
+            Snackbar.make(this.mainview.getRootView(), "Invalid date! Use the format YYYY-MM-DD", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public static boolean validDate(String date){
+        String[] splitDate = date.split("-",4);
+        if((splitDate.length > 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
+            return false;
+        }
+        return true;
     }
 
 
