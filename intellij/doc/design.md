@@ -135,15 +135,20 @@ controller -> user : setRestrictions(restrictionIDs : List<String>)
 ui -> human : Request date input
 human -> ui : Enter date of desired menu
 ui -> controller : dayRequested(date : String)
-controller -> days : getDay(date : String, user : User)
-alt !dateExists
-    ref over days
-    CreateDay
-    end ref
+controller -> controller : validDate?(date : String)
+alt validDate
+    controller -> days : getDay(date : String, user : User)
+    alt !dateExists
+        ref over days
+        CreateDay
+        end ref
+    end
+    days -->> controller : curDay : Day
+    controller -> ui : displayDay(curDay : Day)
+    ui -->> human : Display date's menus
+else !validDate
+    controller -> ui : invalidDate()
 end
-days -->> controller : curDay : Day
-controller -> ui : displayDay(curDay : Day)
-ui -->> human : Display date's menus
 @enduml
 ```
 
