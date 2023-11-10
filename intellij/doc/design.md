@@ -112,8 +112,9 @@ Dish .up.> Restrictions
 
 @startuml
 skin rose
-
 hide footbox
+mainframe sd BrowseMenu
+
 actor "Human user" as human
 participant " : UI" as ui
 participant "curController : Controller" as controller
@@ -121,44 +122,28 @@ participant "curUser : User" as user
 participant "curRestrictions : Restrictions" as restriction
 participant "days : DayLibrary" as days
 
-human -> ui : Start application
-ui -> controller **: new Controller()
-controller -> days **: new DayLibrary()
-ui -> controller : getPossibleRestrictions()
+'maybe in navigate when app first opened
+controller -> controller : getPossibleRestrictions()
 controller -> restriction **: new Restrictions()
-controller -->> ui : restrictions : String
+controller -->> ui : restrictions : Restrictions
+
 ui -->> human : Display available restrictions
-loop do-while !validRestrictions
-    ui -> human : Request input
-    human -> ui : Enter desired restrictions
-    ui -->> ui : restrictionIDs : List<String>
-    ui -> controller : areValidRestrictions(restrictionIDs : List<String>)
-    controller -> restriction : isValid(restriction : String)
-    restriction -->> controller : validRestriction : boolean
-    alt !validRestriction
-        ui -> human : Display invalid restrictions warning
-    end
+ui -> human : Request input
+human -> ui : Enter desired restrictions
+ui -->> controller : restrictionIDs : List<String>
+controller -> user : setRestrictions(restrictionIDs : List<String>)
+ui -> human : Request date input
+human -> ui : Enter date of desired menu
+ui -> controller : dayRequested(date : String)
+controller -> days : getDay(date : String, user : User)
+alt !dateExists
+    ref over days
+    CreateDay
+    end ref
 end
-ui -> controller : createUser(restrictions : List<String>)
-controller -> user **: new User(restrictions : List<String>)
-loop input != "quit"
-    ui -> human : Request date input
-    human -> ui : Enter date of desired menu
-    ui -> controller : getDayAsString(date : String)
-    controller -> days : getDay(date : String, user : User)
-    alt !dateExists
-        ref over days
-        CreateDay
-        end ref
-    end
-    days -->> controller : curDay : Day
-    controller -->> ui : dayString : String
-    alt menuEmpty
-        ui --> human: Display empty menu warning
-    else !menuEmpty
-        ui -->> human : Display date's menus
-    end
-end
+days -->> controller : curDay : Day
+controller -> ui : displayDay(curDay : Day)
+ui -->> human : Display date's menus
 @enduml
 ```
 
@@ -191,4 +176,35 @@ days -> day **: new Day(date : String, user : User)
         end
     end
 @enduml
+```
+
+### Navigate app
+```plantuml
+@startuml
+skin rose
+hide footbox
+
+actor "Human user" as human
+participant "curController : Controller" as controller
+participant " : UI" as ui
+participant "curUser : User" as user
+
+human -> controller : open app
+controller -> days **: new DayLibrary()
+controller -> user **: new User(restrictions : List<String>)
+controller -> ui **: new UI
+controller -> ui : displayBrowseMenu
+ui --> human : display browse menu screen
+alt ManageProfileClicked
+    ui -> controller : onClick(ManageProfile)
+    ref over human,controller,ui,user
+    ManageProfile
+    end ref
+else !ManageProfileClicked
+    ref over human,controller,ui,user
+    BrowseMenu
+    end ref
+end
+
+
 ```
