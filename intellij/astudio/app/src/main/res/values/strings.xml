@@ -5,5 +5,5 @@
     <string name="search_label">Search</string>
     <string name="menu_button">View menu</string>
     <string name="profile_button">Manage profile</string>
-    <string name="app_header">\nVassar College Dining\n</string>
+    <string name="app_header">Vassar College\nDining</string>
 </resources>
