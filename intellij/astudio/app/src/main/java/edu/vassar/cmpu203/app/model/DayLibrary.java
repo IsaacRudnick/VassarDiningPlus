@@ -11,9 +11,33 @@ import java.util.Map;
  */
 public class DayLibrary {
     private Map<String, Day> days;
+    private User user;
 
     public DayLibrary() {
+        this.user = new User();
         this.days = new HashMap<String, Day>();
+    }
+
+
+    /**
+     * Update user. Delete cached days if new user is different (diff restrictions)
+     * Returns true if new user had different restrictions from old user
+     * (therefore clearing cached days)
+     * @param newUser - the new user to set.
+     * @return - boolean of whether cache was cleared
+     */
+    public boolean setUser(User newUser){
+
+
+        // Check if the old and new users are the same. If they aren't, reset the cached days
+        if (this.user.equals(newUser)) {
+            return false;
+        }
+        else {
+            this.user = newUser;
+            this.days = new HashMap<String, Day>();
+            return true;
+        }
     }
 
     /*
@@ -28,10 +52,10 @@ public class DayLibrary {
      * 
      * @return The day object
      */
-    public Day getDay(String date, User user) throws Exception {
+    public Day getDay(String date) throws Exception {
         // If the day doesn't exist, create it and add it to the map
         if (!days.containsKey(date)) {
-            days.put(date, new Day(date, user));
+            days.put(date, new Day(date, this.user));
         }
         return days.get(date);
     }

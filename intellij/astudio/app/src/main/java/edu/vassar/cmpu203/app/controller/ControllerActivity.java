@@ -10,8 +10,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
@@ -24,14 +23,12 @@ import edu.vassar.cmpu203.app.view.ViewDayFragment;
 public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener {
     private DayLibrary days;
     private IMainView mainview;
-    private User emptyUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.days = new DayLibrary();
-        this.emptyUser = new User(new ArrayList<String>());
         this.mainview = new MainView(this);
         setContentView(this.mainview.getRootView());
         this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
@@ -39,10 +36,13 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
+        List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();
+        this.days.setUser(new User(checkedRestrictions));
+
         // Handle input processing here
         if(validDate(date)) {
             try {
-                Day day = this.days.getDay(date, emptyUser);
+                Day day = this.days.getDay(date);
                 browseDayView.updateDayDisplay(day);
             } catch (Exception e) {
                 Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);

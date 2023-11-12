@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import edu.vassar.cmpu203.app.model.Day;
-import edu.vassar.cmpu203.app.view.IBrowseDayView.Listener;
+import java.util.ArrayList;
+import java.util.List;
 
-import edu.vassar.cmpu203.app.R;
+import edu.vassar.cmpu203.app.model.Day;
+
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
 
 /**
@@ -22,7 +23,7 @@ import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
 public class ViewDayFragment extends Fragment implements IBrowseDayView {
 
     private FragmentViewDayBinding binding;
-    private Listener listener;
+    private final Listener listener;
     public ViewDayFragment(Listener listener){ this.listener = listener; }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +44,32 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public void updateDayDisplay(Day day){
         binding.menuTitle.setText(day.getDate());
         binding.menusDisplay.setText(day.toString());
+    }
+
+    public List<String> getCheckedRestrictions() {
+        boolean vegetarianChecked = this.binding.vegetarianButton.isChecked();
+        boolean veganChecked = this.binding.veganButton.isChecked();
+        boolean halalChecked = this.binding.halalButton.isChecked();
+        boolean inBalanceChecked = this.binding.inBalanceButton.isChecked();
+        boolean kosherChecked = this.binding.kosherButton.isChecked();
+
+        List<String> restrictions = new ArrayList<String>();
+        if (vegetarianChecked) {
+            restrictions.add("Vegetarian");
+        }
+        if (veganChecked) {
+            restrictions.add("Vegan");
+        }
+        if (halalChecked) {
+            restrictions.add("Halal");
+        }
+        if (inBalanceChecked) {
+            restrictions.add("In Balance");
+        }
+        if (kosherChecked) {
+            restrictions.add("Kosher");
+        }
+        return restrictions;
     }
 
 }

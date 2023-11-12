@@ -1,11 +1,13 @@
 package edu.vassar.cmpu203.app.view;
 
-import android.view.View;
+import java.util.List;
 
 import edu.vassar.cmpu203.app.model.Day;
 
 public interface IBrowseDayView {
-    public void updateDayDisplay(Day day);
+    void updateDayDisplay(Day day);
+
+    List<String> getCheckedRestrictions();
 
     interface Listener {
         void onDayRequested(String date, IBrowseDayView browseDayView);
