@@ -29,7 +29,7 @@ public class Day {
      * @param user The user to create the day for (used for restrictions)
      * @throws Exception
      */
-    public Day(String date, User user) throws Exception {
+    public Day(String date, User user) {
         // Currently not in use but will be used in the future for caching
         this.date = date;
         this.user = user;
@@ -37,7 +37,12 @@ public class Day {
         // Create the menus hashmap
         menus = new HashMap<String, Menu>();
         // Scrape the menu and add all the dishes to the Menus map
-        createMenus(date, user);
+        try {
+            createMenus(date, user);
+        }
+        catch (Exception e) {
+            Log.e("Error", "Error creating menus (Day -> constructor)", e);
+        }
 
     }
 

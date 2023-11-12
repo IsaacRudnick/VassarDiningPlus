@@ -28,7 +28,6 @@ public class DayLibrary {
      */
     public boolean setUser(User newUser){
 
-
         // Check if the old and new users are the same. If they aren't, reset the cached days
         if (this.user.equals(newUser)) {
             return false;
