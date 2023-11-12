@@ -69,6 +69,13 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate parsed = LocalDate.parse(date, formatter);
             Log.d("Debug", parsed.toString());
+
+            // Now check that the day and month are the same. In some instances (e.g. 2023-09-31 -> 2023-09-30 upon parsing) dates that are sometimes valid but not for that month are let through
+            String day = Integer.toString(parsed.getDayOfMonth());
+            String[] splitDate = date.split("-");
+            if (!day.equals(splitDate[2])) {
+                return false;
+            }
         } catch (DateTimeParseException e) {
             Log.d("Debug", "Error parsing date", e);
             return false;
