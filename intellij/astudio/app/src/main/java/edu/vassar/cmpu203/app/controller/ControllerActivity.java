@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
@@ -37,6 +39,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
+        // Handle input processing here
         if(validDate(date)) {
             try {
                 Day day = this.days.getDay(date, emptyUser);
@@ -50,8 +53,8 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         }
     }
 
-    public static boolean validDate(String date){
-        if(date.length() != 10){
+    public static boolean validDate(String date) {
+        if (date.length() != 10) {
             return false;
         }
 
@@ -63,17 +66,23 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
         // Try to parse given date. If there's an error (e.g. alpha chars in string), return false
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            // Var is unused
-            java.util.Date parsedDate = format.parse(date);
-        } catch (ParseException e) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate parsed = LocalDate.parse(date, formatter);
+            Log.d("Debug", parsed.toString());
+
+            // Now check that the day and month are the same. In some instances (e.g. 2023-09-31 -> 2023-09-30 upon parsing) dates that are sometimes valid but not for that month are let through
+            String day = Integer.toString(parsed.getDayOfMonth());
+            String[] splitDate = date.split("-");
+            if (!day.equals(splitDate[2])) {
+                return false;
+            }
+        } catch (DateTimeParseException e) {
+            Log.d("Debug", "Error parsing date", e);
             return false;
         }
-
 
         // If all tests pass, return true (valid DATE)
         return true;
     }
-
 
 }
