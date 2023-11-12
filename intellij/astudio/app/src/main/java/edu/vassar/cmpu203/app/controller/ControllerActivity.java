@@ -53,10 +53,8 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     }
 
     public static boolean validDate(String date){
-        if(date.length() != 10)
-            return false;
-        String[] splitDate = date.split("-");
-        if((splitDate.length != 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
+        String[] splitDate = date.split("-",4);
+        if((splitDate.length > 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
             return false;
         }
         return true;
