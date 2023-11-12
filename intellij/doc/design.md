@@ -122,18 +122,10 @@ participant "curUser : User" as user
 participant "curRestrictions : Restrictions" as restriction
 participant "days : DayLibrary" as days
 
-'maybe in navigate when app first opened
-controller -> controller : getPossibleRestrictions()
-controller -> restriction **: new Restrictions()
-controller -->> ui : restrictions : Restrictions
-
-ui -->> human : Display available restrictions
-ui -> human : Request input
-human -> ui : Enter desired restrictions
+ui -->> human : Display date and restriction input
+human -> ui : Enter desired date and restrictions
 ui -->> controller : restrictionIDs : List<String>
-controller -> user : setRestrictions(restrictionIDs : List<String>)
-ui -> human : Request date input
-human -> ui : Enter date of desired menu
+controller -> user **: new User(restrictionIDs : List<String>)
 ui -> controller : dayRequested(date : String)
 controller -> controller : validDate?(date : String)
 alt validDate
@@ -198,6 +190,8 @@ human -> controller : open app
 controller -> days **: new DayLibrary()
 controller -> user **: new User(restrictions : List<String>)
 controller -> ui **: new UI
+controller -> controller : getPossibleRestrictions()
+controller -> restriction **: new Restrictions()
 controller -> ui : displayBrowseMenu
 ui --> human : display browse menu screen
 alt ManageProfileClicked
