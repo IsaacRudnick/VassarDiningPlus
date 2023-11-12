@@ -15,8 +15,7 @@ N/A
 
 ## 4. Workflow
 
-__Brief__ overview
-
+__Fully dressed__
 
 ```plantuml
 @startuml
@@ -29,12 +28,13 @@ skin rose
 title Manage Personal Info
 
 start
-while (Open?) is (\nYes)
+while (Exit?) is (\nNo)
 #technology:Display checkbox of dietary restrictions;
-#implementation: Update dietary restrictions;
+#implementation: Select desired dietary restrictions;
 #technology: Update listing of user restrictions to filter on main menu;
-endwhile (No)
-#implementation:Exit to Main Page;
+#technology:Display confirmation of updated restrictions;
+endwhile (Yes)
+#technology:Exit to __Navigate__;
 stop
 @enduml
 ```

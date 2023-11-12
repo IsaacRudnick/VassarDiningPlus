@@ -19,8 +19,7 @@ __Reviewer__: wants to be able to update their reviews en masse
 
 ## 4. Workflow
 
-__Brief__ overview
-
+__Fully dressed__
 ```plantuml
 @startuml
 
@@ -33,16 +32,22 @@ legend right
     
 endlegend
 start
-while (Open?) is (\nYes)
+while (Exit?) is (\nNo)
 #technology:Display all Reviews for user;
+#LightCyan:Select action;
 If (Delete Review?) then (\nYes)
-    #LightCyan: Execute __delete review__;
+    #LightCyan:Select review to delete;
+    #technology:Erase selected review;
 elseif (Add Review?) then (\nYes)
-     #LightCyan: Execute __add review__;
+    #LightCyan:Enter dish to rate;
+    #LightCyan: Enter rating;
+    #technology:Add review of dish with given rating;
 elseif (Change Review?) then (\nYes)
-     #LightCyan: Execute __change review__;
+     #LightCyan:Select review to change;
+     #LightCyan:Enter new rating;
+     #technology:Update review with new rating;
 endif
-endwhile (No)
+endwhile (Yes)
 #technology:Exit to __Manage Profile__;
 stop
 @enduml

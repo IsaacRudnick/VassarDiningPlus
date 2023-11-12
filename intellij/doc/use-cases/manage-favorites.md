@@ -20,8 +20,7 @@ __Reader/User__: wants to be able to manage their favorites en masse without hav
 
 ## 4. Workflow
 
-__Brief__ overview
-
+__Fully dressed__
 ```plantuml
 @startuml
 
@@ -35,13 +34,17 @@ endlegend
 start
 while (Open?) is (\nYes)
 #technology:Display all favorites for user;
+#implementation:Select item;
 If (Delete favorite) then (yes)
-    #implementation: Execute __delete favorite__;
+    #implementation: Select delete favorite;
+    #technology:Remove item from favorites list;
 else (Add favorite)
-     #implementation: Execute __add favorite__;
+     #implementation: Select add favorite;
+     #technology:Add item to favorites list;
 endif
+#technology:Display confirmation of process;
 endwhile (No)
-#implementation:Exit to __Manage Profile__;
+#technology:Exit to __Manage Profile__;
 stop
 @enduml
 ```
