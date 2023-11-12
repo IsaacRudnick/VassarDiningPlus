@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
@@ -35,10 +37,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
-        //TODO currently the app "runs" but searching does nothing
-        // This log outputs an A, meaning we get here. Go through iterative process to
-        // figure out where the issue is.
-        // Handle input processing here
         if(validDate(date)) {
             try {
                 Day day = this.days.getDay(date, emptyUser);
@@ -53,12 +51,27 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     }
 
     public static boolean validDate(String date){
-        if(date.length() != 10)
-            return false;
-        String[] splitDate = date.split("-");
-        if((splitDate.length != 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
+        if(date.length() != 10){
             return false;
         }
+
+        // Commented out for now because all parsing is handled by SimpleDateFormat
+//        String[] splitDate = date.split("-");
+//        if((splitDate.length != 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
+//            return false;
+//        }
+
+        // Try to parse given date. If there's an error (e.g. alpha chars in string), return false
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            // Var is unused
+            java.util.Date parsedDate = format.parse(date);
+        } catch (ParseException e) {
+            return false;
+        }
+
+
+        // If all tests pass, return true (valid DATE)
         return true;
     }
 
