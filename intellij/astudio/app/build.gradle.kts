@@ -3,6 +3,11 @@ plugins {
 }
 
 android {
+    // Force gradle to use JUnit 5 (per Rui's email)
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
     namespace = "edu.vassar.cmpu203.app"
     compileSdk = 34
 
