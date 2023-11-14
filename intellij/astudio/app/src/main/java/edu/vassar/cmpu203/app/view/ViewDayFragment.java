@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Generate current date as YYYY-MM-DD
+        LocalDate dateObj = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String today = dateObj.format(formatter);
+        this.binding.dateInput.setText(today);
         // set up add item handler
         this.binding.dateInputButton.setOnClickListener(new View.OnClickListener() {
             @Override
