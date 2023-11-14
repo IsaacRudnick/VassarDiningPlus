@@ -41,7 +41,7 @@ public class Day {
             createMenus(date, user);
         }
         catch (Exception e) {
-            Log.e("Error", "Error creating menus (Day -> constructor)", e);
+//            Log.e("Error", "Error creating menus (Day -> constructor)", e);
         }
 
     }
@@ -85,8 +85,12 @@ public class Day {
      */
     private JSONObject GetMenuJSON() throws Exception {
         // Force android to allow HTTP Request on main thread
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        } catch (Exception e) {
+//            Log.e("Error", "Error setting StrictMode policy", e);
+        }
         // Make web request to CBAURL
         URL url = new URI(Constants.CBAURL + this.date).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
