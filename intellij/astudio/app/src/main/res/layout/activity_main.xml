@@ -51,7 +51,7 @@
                 app:iconTint="@color/Cream" />
 
             <Button
-                android:id="@+id/dateInputButton"
+                android:id="@+id/browseMenuButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
