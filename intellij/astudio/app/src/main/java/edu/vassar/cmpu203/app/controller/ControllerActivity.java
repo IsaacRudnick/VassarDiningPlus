@@ -44,6 +44,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             try {
                 Day day = this.days.getDay(date);
                 browseDayView.updateDayDisplay(day);
+            //    Log.e("Vassar",String.valueOf(day.toString().contains("Vegan White Bean And Chickpea Soup")));
             } catch (Exception e) {
                 Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);
             }
