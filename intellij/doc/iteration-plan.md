@@ -1,3 +1,15 @@
+# Plan for Iteration #4:
+## High Priority: 
+- Favorites functionality to alert user when favorite is available
+
+## Medium Priority: 
+- Dish Library to cache dishes that we've seen 
+- Persistence for Restrictions, DayLibrary, DishLibrary
+
+## Low Priority: 
+- Preemptively fetch notable dates (e.g. today and tomorrow) and/or
+  dates near requested one
+
 # Plan for Iteration #3
 
 ## High priority:
@@ -7,14 +19,15 @@ These are the elements that we will work on first for our next iteration.
 
 ### Minor updates
 This must be done, but we do not expect it to be major work and it is not a use case
-- Add DishLibrary to avoid duplicate creation of dishes across several days
+- ~~Add DishLibrary to avoid duplicate creation of dishes across several days~~
 
 ## Medium priority
 * Add ability to change restrictions w/o restarting application (manage personal information)
-* Preemptively fetch notable dates (e.g. today and tomorrow) and/or 
-dates near requested one
+* ~~Preemptively fetch notable dates (e.g. today and tomorrow) and/or
+  dates near requested one~~
 
 ## Potential requirements changes
+> UPDATE: REMOVED
 - Manage reviews: Considering removing ratings functionality but keeping 
 favorites functionality. This is under consideration depending on project 
 timeline
