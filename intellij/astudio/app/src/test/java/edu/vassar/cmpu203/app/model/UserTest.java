@@ -40,4 +40,14 @@ class UserTest {
         assertFalse(pickyUser.equals(anyFoodUser));
         assertTrue(anyFoodUser.equals(new User()));
     }
+
+    @Test
+    void testEquals() {
+        User user1 = new User();
+        assertTrue(user1.equals(new User()));
+
+        List<String> restrictions = new ArrayList<>(Arrays.asList("Vegetarian", "Vegan"));
+        User user2 = new User(restrictions);
+        assertFalse(user1.equals(user2));
+    }
 }
