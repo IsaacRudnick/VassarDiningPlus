@@ -30,7 +30,7 @@ public class ViewDayTest {
      * menu previously searched for
      */
     @org.junit.Test
-    public void searchDates(){
+    public void searchDatesTest(){
         //Check default input
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
         dateInput.check(ViewAssertions.matches(ViewMatchers.withText(LocalDate.now().toString())));
@@ -43,7 +43,7 @@ public class ViewDayTest {
         //Click search button
         ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(30000); //Wait to fetch from website
+        SystemClock.sleep(15000); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
@@ -63,7 +63,7 @@ public class ViewDayTest {
 
         //Click search button
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(30000); //Wait to fetch from website
+        SystemClock.sleep(15000); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese")));
@@ -88,6 +88,61 @@ public class ViewDayTest {
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Pesto Shrimp Pizza")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas")));
+
+    }
+
+    @org.junit.Test
+    public void restrictionsTest(){
+        ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
+
+        //Enter desired date
+        dateInput.perform(ViewActions.clearText());
+        dateInput.perform(ViewActions.typeText("2021-12-12"));
+        Espresso.closeSoftKeyboard();
+
+        //Select restrictions
+        ViewInteraction vegeButton = Espresso.onView(ViewMatchers.withId(R.id.vegetarianButton));
+        ViewInteraction veganButton = Espresso.onView(ViewMatchers.withId(R.id.veganButton));
+        ViewInteraction halalButton = Espresso.onView(ViewMatchers.withId(R.id.halalButton));
+        ViewInteraction kosherButton = Espresso.onView(ViewMatchers.withId(R.id.kosherButton));
+        ViewInteraction glutenButton = Espresso.onView(ViewMatchers.withId(R.id.lowGlutenButton));
+        ViewInteraction balanceButton = Espresso.onView(ViewMatchers.withId(R.id.inBalanceButton));
+        veganButton.perform(ViewActions.click());
+        glutenButton.perform(ViewActions.click());
+
+        //Click search button
+        ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
+        dateButton.perform(ViewActions.click());
+        SystemClock.sleep(15000); //Wait to fetch from website
+
+        //Check that certain items are in the menu
+        ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
+        menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2021-12-12"),ViewMatchers.withId(R.id.menuTitle))));
+        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.menusDisplay));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Cream Of Rice")));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes")));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Beyond Burger")));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Mixed Berries")));
+
+        //Check that items that do not fit the restrictions are not displayed
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cajun Shrimp Pizza"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Monte Cristo"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Oatmeal With Cranberries"))));
+
+        //Set new restrictions (gluten and halal)
+        veganButton.perform(ViewActions.click());
+        halalButton.perform(ViewActions.click());
+        //Click search button
+        dateButton.perform(ViewActions.click());
+        SystemClock.sleep(15000); //Wait to fetch from website
+        //Check updated menu items
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash")));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
+
+
 
     }
 
