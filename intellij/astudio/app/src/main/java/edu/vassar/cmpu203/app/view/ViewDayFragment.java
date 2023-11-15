@@ -59,6 +59,7 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         boolean halalChecked = this.binding.halalButton.isChecked();
         boolean inBalanceChecked = this.binding.inBalanceButton.isChecked();
         boolean kosherChecked = this.binding.kosherButton.isChecked();
+        boolean lowGlutenChecked = this.binding.lowGlutenButton.isChecked();
 
         List<String> restrictions = new ArrayList<String>();
         if (vegetarianChecked) {
@@ -75,6 +76,9 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         }
         if (kosherChecked) {
             restrictions.add("Kosher");
+        }
+        if (lowGlutenChecked) {
+            restrictions.add("Made without Gluten-Containing Ingredients");
         }
         return restrictions;
     }
