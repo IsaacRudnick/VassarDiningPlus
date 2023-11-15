@@ -73,6 +73,11 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
             // Now check that the day and month are the same. In some instances (e.g. 2023-09-31 -> 2023-09-30 upon parsing) dates that are sometimes valid but not for that month are let through
             String day = Integer.toString(parsed.getDayOfMonth());
+            // Add leading zero to day if necessary. This is to avoid instances where the day of the month is < 10
+            // such as 2023-12-09, where date = "9" but splitDate[2] equals "09"
+            if (day.length() == 1) {
+                day = "0" + day;
+            }
             String[] splitDate = date.split("-");
             if (!day.equals(splitDate[2])) {
                 return false;
