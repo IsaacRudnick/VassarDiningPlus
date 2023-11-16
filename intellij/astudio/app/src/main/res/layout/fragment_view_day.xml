@@ -31,7 +31,6 @@
                 android:ems="10"
                 android:hint="@string/date_field"
                 android:inputType="date"
-                android:text="2023-10-10"
                 android:textAlignment="viewStart"
                 android:textColor="@color/DarkGray" />
 
@@ -68,19 +67,19 @@
                     android:id="@+id/vegetarianButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vegetarian" />
+                    android:text="@string/vegetarian" />
 
                 <CheckBox
                     android:id="@+id/veganButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vegan" />
+                    android:text="@string/vegan" />
 
                 <CheckBox
                     android:id="@+id/halalButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Halal" />
+                    android:text="@string/halal" />
             </TableRow>
 
             <TableRow
@@ -92,19 +91,19 @@
                     android:id="@+id/inBalanceButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="In Balance" />
+                    android:text="@string/in_balance" />
 
                 <CheckBox
                     android:id="@+id/kosherButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kosher" />
+                    android:text="@string/kosher" />
 
                 <CheckBox
                     android:id="@+id/lowGlutenButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Low gluten" />
+                    android:text="@string/low_gluten" />
 
             </TableRow>
 
