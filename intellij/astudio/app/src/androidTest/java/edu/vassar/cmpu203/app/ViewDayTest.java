@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
 
 public class ViewDayTest {
+    //wait time to fetch menu
+    int waitTime = 15000;
     @org.junit.Rule
     public ActivityScenarioRule<ControllerActivity> activityRule = new ActivityScenarioRule<>(ControllerActivity.class);
 
@@ -43,7 +45,7 @@ public class ViewDayTest {
         //Click search button
         ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
@@ -63,7 +65,7 @@ public class ViewDayTest {
 
         //Click search button
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese")));
@@ -93,7 +95,6 @@ public class ViewDayTest {
 
     @org.junit.Test
     public void restrictionsTest(){
-        int waitTime = 5000;
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
 
         //Enter desired date
