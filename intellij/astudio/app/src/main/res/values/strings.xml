@@ -12,6 +12,12 @@
     <string name="kosher">Kosher</string>
     <string name="in_balance">In Balance</string>
     <string name="low_gluten">No Gluten</string>
+    <string name="profile_restrictions_title">Your restrictions</string>
+    <string name="profile_favorites_title">Your favorites</string>
+    <string name="add_button">Add</string>
+    <string name="remove_button">Remove</string>
+
+
 
 
 </resources>
