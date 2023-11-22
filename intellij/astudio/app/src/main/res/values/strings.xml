@@ -6,4 +6,18 @@
     <string name="menu_button">View menu</string>
     <string name="profile_button">Manage profile</string>
     <string name="app_header">Vassar College\nDining</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="halal">Halal</string>
+    <string name="kosher">Kosher</string>
+    <string name="in_balance">In Balance</string>
+    <string name="low_gluten">No Gluten</string>
+    <string name="profile_restrictions_title">Your restrictions</string>
+    <string name="profile_favorites_title">Your favorites</string>
+    <string name="add_button">Add</string>
+    <string name="remove_button">Remove</string>
+
+
+
+
 </resources>

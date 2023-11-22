@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
 
 public class ViewDayTest {
+    //wait time to fetch menu
+    int waitTime = 15000;
     @org.junit.Rule
     public ActivityScenarioRule<ControllerActivity> activityRule = new ActivityScenarioRule<>(ControllerActivity.class);
 
@@ -43,7 +45,7 @@ public class ViewDayTest {
         //Click search button
         ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
@@ -63,7 +65,7 @@ public class ViewDayTest {
 
         //Click search button
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese")));
@@ -100,7 +102,7 @@ public class ViewDayTest {
         dateInput.perform(ViewActions.typeText("2021-12-12"));
         Espresso.closeSoftKeyboard();
 
-        //Select restrictions
+        //Select restrictions (gluten and vegan)
         ViewInteraction vegeButton = Espresso.onView(ViewMatchers.withId(R.id.vegetarianButton));
         ViewInteraction veganButton = Espresso.onView(ViewMatchers.withId(R.id.veganButton));
         ViewInteraction halalButton = Espresso.onView(ViewMatchers.withId(R.id.halalButton));
@@ -113,7 +115,7 @@ public class ViewDayTest {
         //Click search button
         ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain items are in the menu
         ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
@@ -136,12 +138,42 @@ public class ViewDayTest {
         halalButton.perform(ViewActions.click());
         //Click search button
         dateButton.perform(ViewActions.click());
-        SystemClock.sleep(15000); //Wait to fetch from website
+        SystemClock.sleep(waitTime); //Wait to fetch from website
         //Check updated menu items
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash")));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
 
+        //Set new restrictions (in balance)
+        glutenButton.perform(ViewActions.click());
+        halalButton.perform(ViewActions.click());
+        balanceButton.perform(ViewActions.click());
+        //Click search button
+        dateButton.perform(ViewActions.click());
+        SystemClock.sleep(waitTime); //Wait to fetch from website
+        //Check updated menu items
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Oatmeal")));
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash"))));
+
+
+        //Enter new date
+        dateInput.perform(ViewActions.clearText());
+        dateInput.perform(ViewActions.typeText("2022-10-03"));
+        Espresso.closeSoftKeyboard();
+        //Set new restrictions (kosher and vegetarian)
+        balanceButton.perform(ViewActions.click());
+        vegeButton.perform(ViewActions.click());
+        kosherButton.perform(ViewActions.click());
+        //Click search button
+        dateButton.perform(ViewActions.click());
+        SystemClock.sleep(waitTime); //Wait to fetch from website
+        //Check updated menu items
+        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Sweet Potato Ravioli With Sage Infused Olive Oil")));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
 
 
     }

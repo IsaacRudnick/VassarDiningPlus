@@ -8,9 +8,9 @@ Classes with attributes
 * Menu: station name (String), list of Dishes
 
 ## Class diagram
-Note that the DishLibrary class is not currently implemented, but we want to include it in the 
-structure of our classes because we know we want to implement it in the next iteration. Reviews 
-have also not been implemented but are included in the diagram for future iterations.
+DishLibrary class has not been implemented, it is planned to be implemented in the next
+iteration when favorites are implemented. Reviews likely will not be implemented in the 
+future but are included in the diagram for reference.
 ```plantuml
 @startuml
 

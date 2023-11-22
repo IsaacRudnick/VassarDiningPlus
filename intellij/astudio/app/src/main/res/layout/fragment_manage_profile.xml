@@ -4,59 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarStyle="outsideInset"
-    android:scrollbars="vertical"
-    tools:context=".view.ViewDayFragment">
+    tools:context=".ManageProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/dateSearchLayout"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/profileRestrictions"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:text="@string/profile_restrictions_title"
+            android:textColor="@color/VassarDarkBurgundy"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/dateInput"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="@string/date_field"
-                android:inputType="date"
-                android:textAlignment="viewStart"
-                android:textColor="@color/DarkGray" />
-
-            <Button
-                android:id="@+id/dateInputButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:backgroundTint="@color/VassarBurgundy"
-                android:contentDescription="@string/search_label"
-                android:text="@string/search_label"
-                android:textColor="@color/Cream"
-                app:icon="@android:drawable/ic_menu_search"
-                app:iconTint="@color/Cream" />
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TableLayout
             android:id="@+id/restrictionsLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateSearchLayout">
+            app:layout_constraintTop_toBottomOf="@+id/profileRestrictions">
 
             <TableRow
                 android:id="@+id/restrictionsRow1"
@@ -110,39 +87,51 @@
 
         </TableLayout>
 
-        <LinearLayout
-            android:id="@+id/menuLayout"
+        <TextView
+            android:id="@+id/profileFavorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="vertical"
+            android:text="@string/profile_restrictions_title"
+            android:textColor="@color/VassarBurgundy"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restrictionsLayout">
+            app:layout_constraintTop_toBottomOf="@+id/restrictionsLayout" />
 
-            <TextView
-                android:id="@+id/menuTitle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal|center_vertical"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/profileFavoritesList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favorites"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileFavorites" />
 
-            <ScrollView
-                android:id="@+id/menuScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="200dp">
+        <LinearLayout
+            android:id="@+id/favoritesButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileFavoritesList">
 
-                <TextView
-                    android:id="@+id/menusDisplay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </ScrollView>
+            <Button
+                android:id="@+id/favoritesRemoveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/remove_button" />
 
+            <Button
+                android:id="@+id/favoritesAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_button" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
