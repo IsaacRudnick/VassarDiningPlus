@@ -68,6 +68,9 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
             this.setCheckedRestrictions(savedUser);
         }
 
+        // Let the controller know that the view has been created
+        this.listener.onDayRequested(today, this);
+
     }
     public void updateDayDisplay(Day day){
         binding.menuTitle.setText(day.getDate());
