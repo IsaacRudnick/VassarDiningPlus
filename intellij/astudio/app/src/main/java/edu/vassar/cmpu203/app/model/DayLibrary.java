@@ -13,6 +13,8 @@ public class DayLibrary {
     private Map<String, Day> days;
     private User user;
 
+    private static int MAX_DAYS = 20;
+
     public DayLibrary() {
         this.user = new User();
         this.days = new HashMap<String, Day>();
@@ -20,7 +22,8 @@ public class DayLibrary {
 
 
     /**
-     * Update user. Delete cached days if new user is different (diff restrictions)
+     * Update user from restrictions of new user.
+     * Delete cached days if new user is different (diff restrictions)
      * Returns true if new user had different restrictions from old user
      * (therefore clearing cached days)
      * @param newUser - the new user to set.
@@ -33,7 +36,7 @@ public class DayLibrary {
             return false;
         }
         else {
-            this.user = newUser;
+            this.user.setRestrictions(newUser.getRestrictions());
             this.days = new HashMap<String, Day>();
             return true;
         }
@@ -52,6 +55,11 @@ public class DayLibrary {
      * @return The day object
      */
     public Day getDay(String date) throws Exception {
+        // If the day library is too big, clear it
+        if (days.size() > MAX_DAYS) {
+            days = new HashMap<String, Day>();
+        }
+
         // If the day doesn't exist, create it and add it to the map
         if (!days.containsKey(date)) {
             days.put(date, new Day(date, this.user));
