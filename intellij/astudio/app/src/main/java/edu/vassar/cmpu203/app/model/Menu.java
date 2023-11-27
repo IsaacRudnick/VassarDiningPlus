@@ -6,6 +6,8 @@ public class Menu {
     private String name;
     private Map<String, Dish> dishes;
 
+    static Map<String, Dish> dishMap = new HashMap<String, Dish>();
+
     public Menu(String name) {
         this.name = name;
         this.dishes = new HashMap<String, Dish>();
