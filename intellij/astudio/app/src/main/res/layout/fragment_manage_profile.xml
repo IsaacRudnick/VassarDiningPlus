@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManageProfileFragment">
+    tools:context=".view.ManageProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/profile_restrictions_title"
+            android:text="@string/profile_favorites_title"
             android:textColor="@color/VassarBurgundy"
             android:textSize="20sp"
             android:textStyle="bold"

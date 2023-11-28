@@ -13,10 +13,24 @@ import edu.vassar.cmpu203.app.databinding.ActivityMainBinding;
 public class MainView implements IMainView{
     FragmentManager fmanager;
     ActivityMainBinding binding;
+    Listener listener;
 
-    public MainView(FragmentActivity activity) {
+    public MainView(FragmentActivity activity, Listener listener) {
         this.fmanager = activity.getSupportFragmentManager();
         this.binding = ActivityMainBinding.inflate(activity.getLayoutInflater());
+        this.listener = listener;
+        this.binding.browseMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainView.this.listener.onBrowseClick();
+            }
+        });
+        this.binding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainView.this.listener.onProfileClick();
+            }
+        });
     }
 
     @Override
