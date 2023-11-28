@@ -32,6 +32,8 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
      current screen */
     private String curScreen;
 
+    private User saveduser;
+
     private IPersistenceFacade persistenceFacade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,10 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
         this.persistenceFacade = new LocalStorageFacade(this.getFilesDir());
         User saveduser = this.persistenceFacade.loadUser();
+        if(saveduser == null){
+            saveduser = new User();
+        }
+        this.saveduser = saveduser;
 
 
         this.days = new DayLibrary();
