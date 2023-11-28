@@ -74,8 +74,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     }
 
-
-
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
         List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();

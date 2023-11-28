@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import edu.vassar.cmpu203.app.R;
@@ -40,8 +42,26 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentManageProfileBinding.inflate(inflater);
-        this.setUserRestrictions();
         return this.binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+
+        // TODO set up remove favorite handler so when remove button is clicked, the controller is notified
+        /* this.binding.favoritesRemoveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ManageProfileFragment.this.listener.onRemoveFavorite(dish, savedUser); // let controller know!
+            }
+        });*/
+
+        // Load the saved user and check the restrictions that were previously checked
+        if (savedUser != null) {
+            this.setUserRestrictions();
+        }
+
     }
 
     /**
