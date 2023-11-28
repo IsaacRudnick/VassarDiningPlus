@@ -1,17 +1,32 @@
 package edu.vassar.cmpu203.app.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // This class represents a user of the app
 // It is used to filter dishes by restrictions
-public class User {
+public class User implements Serializable {
     // These are things that items must meet to be shown to the user
     private final List<String> restrictions;
+    private final Set<String> favorites = new HashSet<>();
 
     public User(List<String> restrictions) {
         this.restrictions = restrictions;
+    }
+
+    public void addFavorite(Dish dish) {
+        favorites.add(dish.getId());
+    }
+
+    public void removeFavorite(Dish dish) {
+        favorites.remove(dish.getId());
+    }
+
+    public boolean isFavorite(Dish dish) {
+        return favorites.contains(dish.getId());
     }
 
     public User() {
@@ -35,5 +50,10 @@ public class User {
         List<String> currRestrictions = this.getRestrictions();
         List<String> newRestrictions = user.getRestrictions();
         return new HashSet<>(currRestrictions).equals(new HashSet<>(newRestrictions));
+    }
+
+    public void setRestrictions(List<String> restrictions) {
+        this.restrictions.clear();
+        this.restrictions.addAll(restrictions);
     }
 }

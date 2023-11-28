@@ -16,6 +16,7 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
+import edu.vassar.cmpu203.app.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +27,19 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
 
     private FragmentViewDayBinding binding;
     private final Listener listener;
-    public ViewDayFragment(Listener listener){ this.listener = listener; }
+
+    private final User savedUser;
+
+    /**
+     * Constructor for ViewDayFragment class that takes in a listener and a saved user
+     *
+     * @param listener - the listener to set (used to communicate with the controller)
+     * @param savedUser - the user to load (used to set the restrictions on the view)
+     */
+    public ViewDayFragment(Listener listener, User savedUser){
+        this.listener = listener;
+        this.savedUser = savedUser;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentViewDayBinding.inflate(inflater);
@@ -38,8 +51,10 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         LocalDate dateObj = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = dateObj.format(formatter);
+        // Set the date input to today's date
         this.binding.dateInput.setText(today);
-        // set up add item handler
+
+        // set up add item handler so when the search button is clicked, the controller is notified
         this.binding.dateInputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +62,15 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
                 ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
             }
         });
+
+        // Load the saved user and check the restrictions that were previously checked
+        if (savedUser != null) {
+            this.setCheckedRestrictions(savedUser);
+        }
+
+        // Let the controller know that the view has been created
+        this.listener.onDayRequested(today, this);
+
     }
     public void updateDayDisplay(Day day){
         binding.menuTitle.setText(day.getDate());
@@ -81,6 +105,37 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
             restrictions.add("Made without Gluten-Containing Ingredients");
         }
         return restrictions;
+    }
+
+    /**
+     * Sets the checked restrictions on the view
+     *
+     * @param user - the user to get the restrictions from
+     */
+    private void setCheckedRestrictions(User user) {
+        List<String> restrictions = user.getRestrictions();
+        for (String restriction : restrictions) {
+            switch (restriction) {
+                case "Vegetarian":
+                    this.binding.vegetarianButton.setChecked(true);
+                    break;
+                case "Vegan":
+                    this.binding.veganButton.setChecked(true);
+                    break;
+                case "Halal":
+                    this.binding.halalButton.setChecked(true);
+                    break;
+                case "In Balance":
+                    this.binding.inBalanceButton.setChecked(true);
+                    break;
+                case "Kosher":
+                    this.binding.kosherButton.setChecked(true);
+                    break;
+                case "Made without Gluten-Containing Ingredients":
+                    this.binding.lowGlutenButton.setChecked(true);
+                    break;
+            }
+        }
     }
 
 }

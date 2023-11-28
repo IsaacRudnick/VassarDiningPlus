@@ -3,10 +3,14 @@ package edu.vassar.cmpu203.app.model;
 import java.util.List;
 
 public class Dish {
+    // Whether or not to show the description and restrictions when representing the dish to a string
+    private boolean SHOW_DESCRIPTION = false;
+    private boolean SHOW_RESTRICTIONS = false;
     private String id;
     private String name;
     private String description;
     private List<String> restrictions;
+
 
     public Dish(String id, String name, String description, List<String> restrictions) {
         this.id = id;
@@ -23,10 +27,12 @@ public class Dish {
         String output = "";
         output += name + "\n";
         // Only add the description if it exists (not empty)
-        if (description.length() > 0) {
+        if (description.length() > 0 && SHOW_DESCRIPTION) {
             output += "\t-Description: " + description + "\n";
         }
-        output += "\t-Restrictions: " + restrictions + "\n";
+        if (SHOW_RESTRICTIONS) {
+            output += "\t-Restrictions: " + restrictions + "\n";
+        }
         return output;
     }
 

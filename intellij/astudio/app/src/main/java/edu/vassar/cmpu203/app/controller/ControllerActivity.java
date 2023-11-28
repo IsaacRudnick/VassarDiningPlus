@@ -15,6 +15,8 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
 import edu.vassar.cmpu203.app.model.User;
+import edu.vassar.cmpu203.app.persistence.IPersistenceFacade;
+import edu.vassar.cmpu203.app.persistence.LocalStorageFacade;
 import edu.vassar.cmpu203.app.view.IBrowseDayView;
 import edu.vassar.cmpu203.app.view.IMainView;
 import edu.vassar.cmpu203.app.view.MainView;
@@ -26,9 +28,14 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     private IMainView mainview;
     private String curScreen;
 
+    private IPersistenceFacade persistenceFacade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.persistenceFacade = new LocalStorageFacade(this.getFilesDir());
+        User saveduser = this.persistenceFacade.loadUser();
+
 
         this.days = new DayLibrary();
         this.mainview = new MainView(this, this);
@@ -53,10 +60,17 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         }
     }
 
+        // Set up the view day fragment
+        // Pass in the saved user so that the restrictions are set as they were before the app was closed
+        ViewDayFragment viewDayFragment = new ViewDayFragment(this, saveduser);
+        this.mainview.displayFragment(viewDayFragment, false, "viewDay");
+    }
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
         List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();
         this.days.setUser(new User(checkedRestrictions));
+        this.persistenceFacade.saveUser(new User(checkedRestrictions));
+
 
         // Handle input processing here
         if(validDate(date)) {
