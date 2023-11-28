@@ -1,4 +1,4 @@
-package edu.vassar.cmpu203.app;
+package edu.vassar.cmpu203.app.view;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import edu.vassar.cmpu203.app.R;
 
 /**
  * A simple {@link Fragment} subclass.

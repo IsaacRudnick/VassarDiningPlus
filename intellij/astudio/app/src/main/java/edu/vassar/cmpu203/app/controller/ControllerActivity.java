@@ -18,20 +18,39 @@ import edu.vassar.cmpu203.app.model.User;
 import edu.vassar.cmpu203.app.view.IBrowseDayView;
 import edu.vassar.cmpu203.app.view.IMainView;
 import edu.vassar.cmpu203.app.view.MainView;
+import edu.vassar.cmpu203.app.view.ManageProfileFragment;
 import edu.vassar.cmpu203.app.view.ViewDayFragment;
 
-public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener {
+public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener {
     private DayLibrary days;
     private IMainView mainview;
+    private String curScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.days = new DayLibrary();
-        this.mainview = new MainView(this);
+        this.mainview = new MainView(this, this);
         setContentView(this.mainview.getRootView());
         this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
+        this.curScreen = "browse";
+    }
+
+    @Override
+    public void onBrowseClick() {
+        if(this.curScreen != "browse") {
+            this.mainview.displayFragment(new ViewDayFragment(this), true, "manageProfile");
+            this.curScreen = "browse";
+        }
+    }
+
+    @Override
+    public void onProfileClick() {
+        if(this.curScreen != "profile") {
+            this.mainview.displayFragment(new ManageProfileFragment(), true, "manageProfile");
+            this.curScreen = "profile";
+        }
     }
 
     @Override
