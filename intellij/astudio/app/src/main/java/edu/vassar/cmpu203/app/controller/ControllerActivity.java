@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
 import edu.vassar.cmpu203.app.model.User;
@@ -43,6 +45,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         // Pass in the saved user so that the restrictions are set as they were before the app was closed
         ViewDayFragment viewDayFragment = new ViewDayFragment(this, saveduser);
         this.mainview.displayFragment(viewDayFragment, false, "viewDay");
+
     }
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){

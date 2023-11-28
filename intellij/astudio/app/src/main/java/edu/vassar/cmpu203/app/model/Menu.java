@@ -1,8 +1,10 @@
 package edu.vassar.cmpu203.app.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.*;
 
-public class Menu {
+public class Menu implements Iterable<Dish>{
     private String name;
     private Map<String, Dish> dishes;
 
@@ -46,4 +48,32 @@ public class Menu {
         return dishes;
     }
 
+    @NonNull
+    @Override
+    public Iterator<Dish> iterator() {
+        return new MenuIterator<>(this);
+    }
+    public class MenuIterator<Dish> implements Iterator<Dish> {
+        private Menu menu;
+        private List<Dish> dishes;
+        private int index;
+
+        public MenuIterator(Menu menu) {
+            this.menu = menu;
+            this.dishes = (List<Dish>) new ArrayList<>(menu.getDishes().values());
+            this.index = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < menu.getDishes().size();
+        }
+
+        @Override
+        public Dish next() {
+            return dishes.get(index++);
+        }
+    }
+
 }
+

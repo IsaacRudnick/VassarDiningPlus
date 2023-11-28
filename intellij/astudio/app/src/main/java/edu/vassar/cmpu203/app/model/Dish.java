@@ -48,6 +48,10 @@ public class Dish {
     }
 
     // Below are getter methods for the private variables that may be useful
+
+    /**
+     * @return The id of the dish
+     */
     public String getId() {
         return id;
     }

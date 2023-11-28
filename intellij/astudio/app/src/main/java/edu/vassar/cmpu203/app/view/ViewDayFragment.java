@@ -3,6 +3,8 @@ package edu.vassar.cmpu203.app.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,8 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.binding = FragmentViewDayBinding.inflate(inflater);
+        this.binding = FragmentViewDayBinding.inflate(inflater, container, false);
+
         return this.binding.getRoot();
     }
     @Override
@@ -73,8 +76,9 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
 
     }
     public void updateDayDisplay(Day day){
-        binding.menuTitle.setText(day.getDate());
-        binding.menusDisplay.setText(day.toString());
+        RecyclerView recyclerView = this.binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setAdapter(new MyAdapter(this.getContext(), day, this.savedUser));
     }
 
     public List<String> getCheckedRestrictions() {

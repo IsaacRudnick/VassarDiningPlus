@@ -63,6 +63,7 @@ public class Day {
         return output;
     }
 
+
     /**
      * Adds a dish to the Menus map. For class-internal use while scraping the menu.
      * 
