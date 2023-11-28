@@ -14,18 +14,22 @@ import java.util.List;
 
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
+import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.User;
 import edu.vassar.cmpu203.app.persistence.IPersistenceFacade;
 import edu.vassar.cmpu203.app.persistence.LocalStorageFacade;
 import edu.vassar.cmpu203.app.view.IBrowseDayView;
 import edu.vassar.cmpu203.app.view.IMainView;
+import edu.vassar.cmpu203.app.view.IManageProfile;
 import edu.vassar.cmpu203.app.view.MainView;
 import edu.vassar.cmpu203.app.view.ManageProfileFragment;
 import edu.vassar.cmpu203.app.view.ViewDayFragment;
 
-public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener {
+public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener, IManageProfile.Listener {
     private DayLibrary days;
     private IMainView mainview;
+    /* keep track of the screen we are on so we don't reload if user clicks button to navigate to
+     current screen */
     private String curScreen;
 
     private IPersistenceFacade persistenceFacade;
@@ -40,14 +44,17 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         this.days = new DayLibrary();
         this.mainview = new MainView(this, this);
         setContentView(this.mainview.getRootView());
-        this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
+        this.mainview.displayFragment(new ViewDayFragment(this, saveduser), false, "viewDay");
         this.curScreen = "browse";
     }
 
     @Override
     public void onBrowseClick() {
         if(this.curScreen != "browse") {
-            this.mainview.displayFragment(new ViewDayFragment(this), true, "manageProfile");
+            // Set up the view day fragment
+            // Pass in the saved user so that the restrictions are set as they were before the app was closed
+            ViewDayFragment viewDayFragment = new ViewDayFragment(this, this.persistenceFacade.loadUser());
+            this.mainview.displayFragment(viewDayFragment, false, "viewDay");
             this.curScreen = "browse";
         }
     }
@@ -55,16 +62,20 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     @Override
     public void onProfileClick() {
         if(this.curScreen != "profile") {
-            this.mainview.displayFragment(new ManageProfileFragment(), true, "manageProfile");
+            ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.persistenceFacade.loadUser());
+            this.mainview.displayFragment(manageProfileFragment, true, "manageProfile");
             this.curScreen = "profile";
         }
     }
 
-        // Set up the view day fragment
-        // Pass in the saved user so that the restrictions are set as they were before the app was closed
-        ViewDayFragment viewDayFragment = new ViewDayFragment(this, saveduser);
-        this.mainview.displayFragment(viewDayFragment, false, "viewDay");
+    /* TODO implement removal of favorite from user */
+    @Override
+    public void onRemoveFavorite(Dish favorite, User user) {
+
     }
+
+
+
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
         List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();

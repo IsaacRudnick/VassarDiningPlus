@@ -8,59 +8,71 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import edu.vassar.cmpu203.app.R;
+import edu.vassar.cmpu203.app.databinding.FragmentManageProfileBinding;
+import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
+import edu.vassar.cmpu203.app.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ManageProfileFragment#newInstance} factory method to
+ * Use the {@link ManageProfileFragment())} factory method to
  * create an instance of this fragment.
  */
-public class ManageProfileFragment extends Fragment {
+public class ManageProfileFragment extends Fragment implements IManageProfile{
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentManageProfileBinding binding;
+    private final Listener listener;
+    private final User savedUser;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    /**
+     * Constructor for ManageProfileFragment class that takes in a listener and a saved user
+     *
+     * @param listener - the listener to set (used to communicate with the controller)
+     * @param savedUser - the user to load (used to set the restrictions on the view)
+     */
+    public ManageProfileFragment(Listener listener, User savedUser) {
+        this.listener = listener;
+        this.savedUser = savedUser;
+    }
 
-    public ManageProfileFragment() {
-        // Required empty public constructor
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.binding = FragmentManageProfileBinding.inflate(inflater);
+        this.setUserRestrictions();
+        return this.binding.getRoot();
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Sets the checked restrictions on the view
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ManageProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ManageProfileFragment newInstance(String param1, String param2) {
-        ManageProfileFragment fragment = new ManageProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void setUserRestrictions() {
+        List<String> restrictions = this.savedUser.getRestrictions();
+        for (String restriction : restrictions) {
+            switch (restriction) {
+                case "Vegetarian":
+                    this.binding.vegetarianButton.setChecked(true);
+                    break;
+                case "Vegan":
+                    this.binding.veganButton.setChecked(true);
+                    break;
+                case "Halal":
+                    this.binding.halalButton.setChecked(true);
+                    break;
+                case "In Balance":
+                    this.binding.inBalanceButton.setChecked(true);
+                    break;
+                case "Kosher":
+                    this.binding.kosherButton.setChecked(true);
+                    break;
+                case "Made without Gluten-Containing Ingredients":
+                    this.binding.lowGlutenButton.setChecked(true);
+                    break;
+            }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manage_profile, container, false);
-    }
 }
