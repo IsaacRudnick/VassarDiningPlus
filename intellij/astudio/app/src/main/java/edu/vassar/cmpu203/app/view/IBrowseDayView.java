@@ -11,5 +11,6 @@ public interface IBrowseDayView {
 
     interface Listener {
         void onDayRequested(String date, IBrowseDayView browseDayView);
+        void onUserUpdate(List<String> restrictions);
     }
 }

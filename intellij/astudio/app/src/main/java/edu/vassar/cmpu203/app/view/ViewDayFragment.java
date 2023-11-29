@@ -18,7 +18,6 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
-import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.User;
 
 /**
@@ -47,6 +46,7 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentViewDayBinding.inflate(inflater, container, false);
 
+
         return this.binding.getRoot();
     }
     @Override
@@ -67,6 +67,21 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
             }
         });
 
+        View.OnClickListener userUpdateListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<String> restrictions = getCheckedRestrictions();
+                ViewDayFragment.this.listener.onUserUpdate(restrictions);
+            }
+        };
+        this.binding.vegetarianButton.setOnClickListener(userUpdateListener);
+        this.binding.veganButton.setOnClickListener(userUpdateListener);
+        this.binding.halalButton.setOnClickListener(userUpdateListener);
+        this.binding.inBalanceButton.setOnClickListener(userUpdateListener);
+        this.binding.kosherButton.setOnClickListener(userUpdateListener);
+        this.binding.lowGlutenButton.setOnClickListener(userUpdateListener);
+
+
         // Load the saved user and check the restrictions that were previously checked
         if (savedUser != null) {
             this.setCheckedRestrictions(savedUser);
@@ -79,7 +94,7 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public void updateDayDisplay(Day day, DishViewHolder.Listener listener) {
         RecyclerView recyclerView = this.binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new MyAdapter(this.getContext(), day, this.savedUser, listener));
+        recyclerView.setAdapter(new DayAdapter(this.getContext(), day, this.savedUser, listener));
     }
 
     public List<String> getCheckedRestrictions() {

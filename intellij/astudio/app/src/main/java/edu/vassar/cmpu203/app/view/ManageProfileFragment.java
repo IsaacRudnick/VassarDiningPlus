@@ -3,6 +3,8 @@ package edu.vassar.cmpu203.app.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import java.util.List;
 import edu.vassar.cmpu203.app.R;
 import edu.vassar.cmpu203.app.databinding.FragmentManageProfileBinding;
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
+import edu.vassar.cmpu203.app.model.Day;
+import edu.vassar.cmpu203.app.model.Menu;
 import edu.vassar.cmpu203.app.model.User;
 
 /**
@@ -28,6 +32,8 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     private final Listener listener;
     private final User savedUser;
 
+    private final Menu favoritesAsMenu;
+
     /**
      * Constructor for ManageProfileFragment class that takes in a listener and a saved user
      *
@@ -37,6 +43,7 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     public ManageProfileFragment(Listener listener, User savedUser) {
         this.listener = listener;
         this.savedUser = savedUser;
+        this.favoritesAsMenu = savedUser.getFavoritesAsMenu();
     }
 
     @Override
@@ -49,19 +56,21 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
-        // TODO set up remove favorite handler so when remove button is clicked, the controller is notified
-        /* this.binding.favoritesRemoveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ManageProfileFragment.this.listener.onRemoveFavorite(dish, savedUser); // let controller know!
-            }
-        });*/
-
         // Load the saved user and check the restrictions that were previously checked
         if (savedUser != null) {
             this.setUserRestrictions();
         }
 
+        // Let the controller know that the view has been created
+        this.listener.onFavoritesRequested(this);
+
+    }
+
+    public void updateFavoritesDisplay() {
+        RecyclerView favoritesRecyclerView = this.binding.favoritesRecyclerView;
+        favoritesRecyclerView.setAdapter(new FavoritesAdapter(this.getContext(), this.favoritesAsMenu, this.savedUser, this.listener));
+        // Set the favorites recycler view
+        this.binding.favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     /**

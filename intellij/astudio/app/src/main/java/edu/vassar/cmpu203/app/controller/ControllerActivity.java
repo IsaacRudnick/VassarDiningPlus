@@ -73,17 +73,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             this.mainview.displayFragment(manageProfileFragment, true, "manageProfile");
             this.curScreen = "profile";
         }
-        // Set up the view day fragment
-        // Pass in the saved user so that the restrictions are set as they were before the app was closed
-        ViewDayFragment viewDayFragment = new ViewDayFragment(this, saveduser);
-        this.mainview.displayFragment(viewDayFragment, false, "viewDay");
-
-    }
-
-    /* TODO implement removal of favorite from user */
-    @Override
-    public void onRemoveFavorite(Dish favorite, User user) {
-
     }
 
     @Override
@@ -112,12 +101,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         if (date.length() != 10) {
             return false;
         }
-
-        // Commented out for now because all parsing is handled by SimpleDateFormat
-//        String[] splitDate = date.split("-");
-//        if((splitDate.length != 3) || (splitDate[0].length() != 4) || (splitDate[1].length() != 2) || (splitDate[2].length() != 2)){
-//            return false;
-//        }
 
         // Try to parse given date. If there's an error (e.g. alpha chars in string), return false
         try {
@@ -152,6 +135,27 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         } else {
             this.saveduser.addFavorite(dish);
         }
+        this.persistenceFacade.saveUser(this.saveduser);
+    }
+
+    @Override
+    public void onRemoveFavorite(Dish dish) {
+
+    }
+
+    @Override
+    public void onAddFavorite(Dish dish) {
+
+    }
+
+    @Override
+    public void onRestrictionCheck(String restriction) {
+
+    }
+
+    @Override
+    public void onUserUpdate(List<String> restrictions) {
+        this.saveduser.setRestrictions(restrictions);
         this.persistenceFacade.saveUser(this.saveduser);
     }
 }

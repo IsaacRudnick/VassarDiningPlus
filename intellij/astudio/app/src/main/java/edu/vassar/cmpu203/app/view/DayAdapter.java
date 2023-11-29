@@ -9,10 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import edu.vassar.cmpu203.app.R;
 import edu.vassar.cmpu203.app.model.Day;
@@ -20,7 +17,7 @@ import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.Menu;
 import edu.vassar.cmpu203.app.model.User;
 
-public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int DISH_VIEW_TYPE = 0;
     private static final int MENU_VIEW_TYPE = 1;
@@ -31,7 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Object> menusAndDishes;
     User user;
 
-    public MyAdapter(Context context, Day day, User user, DishViewHolder.Listener listener) {
+    public DayAdapter(Context context, Day day, User user, DishViewHolder.Listener listener) {
         this.context = context;
         this.listener = listener;
         this.menusAndDishes = new ArrayList<>();
