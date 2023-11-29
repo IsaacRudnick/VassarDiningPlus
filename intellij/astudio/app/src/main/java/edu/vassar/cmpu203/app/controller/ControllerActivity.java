@@ -31,7 +31,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     private IMainView mainview;
     /* keep track of the screen we are on so we don't reload if user clicks button to navigate to
      current screen */
-    private String curScreen;
+    private String currScreen;
 
     private User saveduser;
 
@@ -52,26 +52,26 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         this.mainview = new MainView(this, this);
         setContentView(this.mainview.getRootView());
         this.mainview.displayFragment(new ViewDayFragment(this, saveduser), false, "viewDay");
-        this.curScreen = "browse";
+        this.currScreen = "browse";
     }
 
     @Override
     public void onBrowseClick() {
-        if(this.curScreen != "browse") {
+        if(this.currScreen != "browse") {
             // Set up the view day fragment
             // Pass in the saved user so that the restrictions are set as they were before the app was closed
-            ViewDayFragment viewDayFragment = new ViewDayFragment(this, this.persistenceFacade.loadUser());
+            ViewDayFragment viewDayFragment = new ViewDayFragment(this, this.saveduser);
             this.mainview.displayFragment(viewDayFragment, false, "viewDay");
-            this.curScreen = "browse";
+            this.currScreen = "browse";
         }
     }
 
     @Override
     public void onProfileClick() {
-        if(this.curScreen != "profile") {
-            ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.persistenceFacade.loadUser());
+        if(this.currScreen != "profile") {
+            ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.saveduser);
             this.mainview.displayFragment(manageProfileFragment, true, "manageProfile");
-            this.curScreen = "profile";
+            this.currScreen = "profile";
         }
     }
 
@@ -139,16 +139,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     }
 
     @Override
-    public void onRemoveFavorite(Dish dish) {
-
-    }
-
-    @Override
-    public void onAddFavorite(Dish dish) {
-
-    }
-
-    @Override
     public void onRestrictionCheck(String restriction) {
 
     }
@@ -157,5 +147,10 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     public void onUserUpdate(List<String> restrictions) {
         this.saveduser.setRestrictions(restrictions);
         this.persistenceFacade.saveUser(this.saveduser);
+    }
+
+    @Override
+    public void onFavoritesRequested(IManageProfile manageProfile) {
+        manageProfile.updateFavoritesDisplay();
     }
 }

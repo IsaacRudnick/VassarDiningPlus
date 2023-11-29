@@ -22,11 +22,21 @@ public class User implements Serializable {
     }
 
     public void removeFavorite(Dish dish) {
-        favorites.remove(dish);
+        for (Dish favoritedDish : favorites) {
+            if (favoritedDish.getName().equals(dish.getName())) {
+                favorites.remove(favoritedDish);
+                return;
+            }
+        }
     }
 
     public boolean isFavorite(Dish dish) {
-        return favorites.contains(dish);
+        for (Dish favoritedDish : favorites) {
+            if (favoritedDish.getName().equals(dish.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public User() {

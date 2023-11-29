@@ -48,7 +48,8 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.binding = FragmentManageProfileBinding.inflate(inflater);
+        this.binding = FragmentManageProfileBinding.inflate(inflater, container, false);
+
         return this.binding.getRoot();
     }
 
@@ -63,9 +64,9 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
 
         // Let the controller know that the view has been created
         this.listener.onFavoritesRequested(this);
-
     }
 
+    @Override
     public void updateFavoritesDisplay() {
         RecyclerView favoritesRecyclerView = this.binding.favoritesRecyclerView;
         favoritesRecyclerView.setAdapter(new FavoritesAdapter(this.getContext(), this.favoritesAsMenu, this.savedUser, this.listener));

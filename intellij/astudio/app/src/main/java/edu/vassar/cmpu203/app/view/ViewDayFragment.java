@@ -46,7 +46,6 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentViewDayBinding.inflate(inflater, container, false);
 
-
         return this.binding.getRoot();
     }
     @Override
@@ -59,12 +58,9 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         this.binding.dateInput.setText(today);
 
         // set up add item handler so when the search button is clicked, the controller is notified
-        this.binding.dateInputButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String date = binding.dateInput.getText().toString();
-                ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
-            }
+        this.binding.dateInputButton.setOnClickListener(view1 -> {
+            String date = binding.dateInput.getText().toString();
+            ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
         });
 
         View.OnClickListener userUpdateListener = new View.OnClickListener() {

@@ -7,16 +7,18 @@ import edu.vassar.cmpu203.app.model.User;
 
 public interface IManageProfile {
 
+    void updateFavoritesDisplay();
+
     void setUserRestrictions();
 
     interface Listener{
-        void onRemoveFavorite(Dish dish);
-        void onAddFavorite(Dish dish);
 
         void onRestrictionCheck(String restriction);
 
         void onUserUpdate(List<String> restrictions);
 
         void onDishToggle(Dish dish);
+
+        void onFavoritesRequested(IManageProfile manageProfile);
     }
 }

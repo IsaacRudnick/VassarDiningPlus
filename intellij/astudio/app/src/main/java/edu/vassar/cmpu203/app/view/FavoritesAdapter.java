@@ -52,10 +52,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        DishViewHolder dishViewHolder = (DishViewHolder) holder;
+        FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
         Dish dish = dishes.get(position);
-        dishViewHolder.bind(dish, this.user.isFavorite(dish));
+        favoritesViewHolder.bind(dish, this.user.isFavorite(dish));
     }
 
 

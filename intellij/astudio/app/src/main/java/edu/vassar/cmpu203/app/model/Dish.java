@@ -1,8 +1,9 @@
 package edu.vassar.cmpu203.app.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Dish {
+public class Dish implements Serializable {
     // Whether or not to show the description and restrictions when representing the dish to a string
     private boolean SHOW_DESCRIPTION = false;
     private boolean SHOW_RESTRICTIONS = false;
