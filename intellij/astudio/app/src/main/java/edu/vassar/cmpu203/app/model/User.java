@@ -11,22 +11,22 @@ import java.util.Set;
 public class User implements Serializable {
     // These are things that items must meet to be shown to the user
     private final List<String> restrictions;
-    private final Set<String> favorites = new HashSet<>();
+    private final Set<Dish> favorites = new HashSet<>();
 
     public User(List<String> restrictions) {
         this.restrictions = restrictions;
     }
 
     public void addFavorite(Dish dish) {
-        favorites.add(dish.getName());
+        favorites.add(dish);
     }
 
     public void removeFavorite(Dish dish) {
-        favorites.remove(dish.getName());
+        favorites.remove(dish);
     }
 
     public boolean isFavorite(Dish dish) {
-        return favorites.contains(dish.getName());
+        return favorites.contains(dish);
     }
 
     public User() {
@@ -55,5 +55,13 @@ public class User implements Serializable {
     public void setRestrictions(List<String> restrictions) {
         this.restrictions.clear();
         this.restrictions.addAll(restrictions);
+    }
+
+    public Menu getFavoritesAsMenu() {
+        Menu favoritesMenu = new Menu("Favorites");
+        for (Dish dish : favorites) {
+            favoritesMenu.addDish(dish);
+        }
+        return favoritesMenu;
     }
 }
