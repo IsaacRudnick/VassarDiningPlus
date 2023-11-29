@@ -12,7 +12,7 @@ class UserTest {
     /**
      * Tests differences between users to ensure that the User Class properly reports
      * whether or not a user can eat a dish.
-     *
+     * <p>
      * Also check whether the .equals() method works properly.
      */
     @Test
@@ -23,12 +23,12 @@ class UserTest {
         User pickyUser = new User(restrictions);
 
         // Safe dish can be eaten by both users
-        Dish safeDish = new Dish("1", "Test Dish", "N/A", restrictions);
+        Dish safeDish = new Dish("Test Dish", "N/A", restrictions);
         assertTrue(anyFoodUser.canEat(safeDish));
         assertTrue(pickyUser.canEat(safeDish));
 
         // Unsafe dish can only be eaten by the anyFoodUser
-        Dish unsafeDish = new Dish("2", "Poison Sandwich", "N/A", new ArrayList<>());
+        Dish unsafeDish = new Dish("Poison Sandwich", "N/A", new ArrayList<>());
         assertTrue(anyFoodUser.canEat(unsafeDish));
         assertFalse(pickyUser.canEat(unsafeDish));
 

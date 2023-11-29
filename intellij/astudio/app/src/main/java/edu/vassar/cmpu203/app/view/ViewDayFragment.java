@@ -2,6 +2,7 @@ package edu.vassar.cmpu203.app.view;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,13 +44,13 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         this.savedUser = savedUser;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentViewDayBinding.inflate(inflater, container, false);
 
         return this.binding.getRoot();
     }
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Generate current date as YYYY-MM-DD
         LocalDate dateObj = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -63,12 +64,9 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
             ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
         });
 
-        View.OnClickListener userUpdateListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<String> restrictions = getCheckedRestrictions();
-                ViewDayFragment.this.listener.onUserUpdate(restrictions);
-            }
+        View.OnClickListener userUpdateListener = view12 -> {
+            List<String> restrictions = getCheckedRestrictions();
+            ViewDayFragment.this.listener.onUserUpdate(restrictions);
         };
         this.binding.vegetarianButton.setOnClickListener(userUpdateListener);
         this.binding.veganButton.setOnClickListener(userUpdateListener);
@@ -90,7 +88,7 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public void updateDayDisplay(Day day, DishViewHolder.Listener listener) {
         RecyclerView recyclerView = this.binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new DayAdapter(this.getContext(), day, this.savedUser, listener));
+        recyclerView.setAdapter(new DayAdapter(day, this.savedUser, listener));
     }
 
     public List<String> getCheckedRestrictions() {
@@ -101,7 +99,7 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         boolean kosherChecked = this.binding.kosherButton.isChecked();
         boolean lowGlutenChecked = this.binding.lowGlutenButton.isChecked();
 
-        List<String> restrictions = new ArrayList<String>();
+        List<String> restrictions = new ArrayList<>();
         if (vegetarianChecked) {
             restrictions.add("Vegetarian");
         }

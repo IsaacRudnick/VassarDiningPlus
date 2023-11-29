@@ -1,6 +1,5 @@
 package edu.vassar.cmpu203.app.view;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,29 +21,25 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int DISH_VIEW_TYPE = 0;
     private static final int MENU_VIEW_TYPE = 1;
 
-    private DishViewHolder.Listener listener;
+    private final DishViewHolder.Listener listener;
 
-    Context context;
-    List<Object> menusAndDishes;
-    User user;
+    final List<Object> menusAndDishes;
+    final User user;
 
-    public DayAdapter(Context context, Day day, User user, DishViewHolder.Listener listener) {
-        this.context = context;
+    public DayAdapter(Day day, User user, DishViewHolder.Listener listener) {
         this.listener = listener;
         this.menusAndDishes = new ArrayList<>();
 
         // Create list of menus
-        List<Menu> menus = new ArrayList(day.getMenus().values());
+        List<Menu> menus = new ArrayList<>(day.getMenus().values());
 
         for (Menu menu : menus) {
             // Add menu to list
             this.menusAndDishes.add(menu);
 
-            List<Dish> dishes = new ArrayList(menu.getDishes().values());
-            for (Dish dish : dishes) {
-                // Add dish to list
-                this.menusAndDishes.add(dish);
-            }
+            List<Dish> dishes = new ArrayList<>(menu.getDishes().values());
+            // Add dish to list
+            this.menusAndDishes.addAll(dishes);
         }
 
         // Set user
@@ -78,7 +73,7 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view = inflater.inflate(R.layout.dish_view, parent, false);
             return new DishViewHolder(view, this.listener);
         }
-        // We should never get here
+        // We should never get here since we only have menus and dishes
         return null;
     }
 

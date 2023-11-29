@@ -57,7 +57,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     @Override
     public void onBrowseClick() {
-        if(this.currScreen != "browse") {
+        if(!(this.currScreen.equals("browse"))) {
             // Set up the view day fragment
             // Pass in the saved user so that the restrictions are set as they were before the app was closed
             ViewDayFragment viewDayFragment = new ViewDayFragment(this, this.saveduser);
@@ -68,7 +68,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
 
     @Override
     public void onProfileClick() {
-        if(this.currScreen != "profile") {
+        if(!this.currScreen.equals("profile")) {
             ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.saveduser);
             this.mainview.displayFragment(manageProfileFragment, true, "manageProfile");
             this.currScreen = "profile";
@@ -136,11 +136,6 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             this.saveduser.addFavorite(dish);
         }
         this.persistenceFacade.saveUser(this.saveduser);
-    }
-
-    @Override
-    public void onRestrictionCheck(String restriction) {
-
     }
 
     @Override

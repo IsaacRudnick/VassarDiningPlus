@@ -1,6 +1,5 @@
 package edu.vassar.cmpu203.app.view;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,28 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.vassar.cmpu203.app.R;
-import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.Menu;
 import edu.vassar.cmpu203.app.model.User;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int DISH_VIEW_TYPE = 0;
-    private static final int MENU_VIEW_TYPE = 1;
+    private final IManageProfile.Listener listener;
 
-    private IManageProfile.Listener listener;
+    final List<Dish> dishes;
+    final User user;
 
-    Context context;
-    List<Dish> dishes;
-    User user;
-
-    public FavoritesAdapter(Context context, Menu menu, User user, IManageProfile.Listener listener) {
-        this.context = context;
+    public FavoritesAdapter(Menu menu, User user, IManageProfile.Listener listener) {
         this.listener = listener;
 
         // Create list of dishes
-        dishes = new ArrayList(menu.getDishes().values());
+        dishes = new ArrayList<>(menu.getDishes().values());
 
         // Set user
         this.user = user;

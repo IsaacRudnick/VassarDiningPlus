@@ -5,30 +5,29 @@ import androidx.annotation.NonNull;
 import java.util.*;
 
 public class Menu implements Iterable<Dish>{
-    private String name;
-    private Map<String, Dish> dishes;
-
-    static Map<String, Dish> dishMap = new HashMap<String, Dish>();
+    private final String name;
+    private final Map<String, Dish> dishes;
 
     public Menu(String name) {
         this.name = name;
-        this.dishes = new HashMap<String, Dish>();
+        this.dishes = new HashMap<>();
     }
 
     /*
      * @return A string representation of the menu
      */
+    @NonNull
     @Override
     public String toString() {
-        String output = "";
-        output += "Menu: " + name + "\n\t";
+        StringBuilder output = new StringBuilder();
+        output.append("Menu: ").append(name).append("\n\t");
         for (String key : dishes.keySet()) {
             Dish dish = dishes.get(key);
             // Indent the entire dish by one tab (line by line)
-            output += dish.toString().replaceAll("\n", "\n\t");
+            output.append(dish.toString().replaceAll("\n", "\n\t"));
         }
-        output += "\n";
-        return output;
+        output.append("\n");
+        return output.toString();
     }
 
     /*
@@ -53,14 +52,14 @@ public class Menu implements Iterable<Dish>{
     public Iterator<Dish> iterator() {
         return new MenuIterator<>(this);
     }
-    public class MenuIterator<Dish> implements Iterator<Dish> {
-        private Menu menu;
-        private List<Dish> dishes;
+    public static class MenuIterator<Dish> implements Iterator<Dish> {
+        private final Menu menu;
+        private final List<Dish> dishes;
         private int index;
 
         public MenuIterator(Menu menu) {
             this.menu = menu;
-            this.dishes = (List<Dish>) new ArrayList<>(menu.getDishes().values());
+            this.dishes = new ArrayList(menu.getDishes().values());
             this.index = 0;
         }
 

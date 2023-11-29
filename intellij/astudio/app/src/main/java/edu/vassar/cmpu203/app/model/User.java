@@ -40,7 +40,7 @@ public class User implements Serializable {
     }
 
     public User() {
-        this.restrictions = new ArrayList<String>();
+        this.restrictions = new ArrayList<>();
     }
 
     public boolean canEat(Dish dish) {

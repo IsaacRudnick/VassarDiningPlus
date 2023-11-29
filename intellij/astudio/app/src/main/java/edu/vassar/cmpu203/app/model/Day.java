@@ -10,35 +10,30 @@ import java.io.*;
 import android.os.StrictMode;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 public class Day {
     // Map of menu names (e.g. "@Oasis") to their menus
-    private Map<String, Menu> menus;
+    private final Map<String, Menu> menus;
 
-    // Currently not in use but will be used in the future for caching
-    private User user;
-    private String date;
-
-    public String getDate(){
-        return this.date;
-    }
+    private final String date;
 
     /**
      * Creates a new Day object
      * 
      * @param date The date of the day to create (format "YYYY-MM-DD")
      * @param user The user to create the day for (used for restrictions)
-     * @throws Exception
      */
     public Day(String date, User user) {
         // Currently not in use but will be used in the future for caching
         this.date = date;
-        this.user = user;
+        // Currently not in use but will be used in the future for caching
 
         // Create the menus hashmap
-        menus = new HashMap<String, Menu>();
+        menus = new HashMap<>();
         // Scrape the menu and add all the dishes to the Menus map
         try {
-            createMenus(date, user);
+            createMenus(user);
         }
         catch (Exception e) {
 //            Log.e("Error", "Error creating menus (Day -> constructor)", e);
@@ -54,13 +49,14 @@ public class Day {
      * @return A string representation of the day, including all menus and dishes
      */
 
+    @NonNull
     @Override
     public String toString() {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         for (String menuName : menus.keySet()) {
-            output += menus.get(menuName).toString();
+            output.append(menus.get(menuName).toString());
         }
-        return output;
+        return output.toString();
     }
 
 
@@ -104,7 +100,7 @@ public class Day {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             // System.out.println(inputLine);
             content.append(inputLine);
@@ -123,8 +119,7 @@ public class Day {
 
         // Turn JSON String into JSONObject
         JSONParser parser = new JSONParser();
-        JSONObject scrapedDishes = (JSONObject) parser.parse(jsonText);
-        return scrapedDishes;
+        return (JSONObject) parser.parse(jsonText);
 
     }
 
@@ -159,7 +154,7 @@ public class Day {
      * Takes no arguments and returns nothing. This is a helper function for the Day
      * constructor.
      */
-    private void createMenus(String date, User user) throws Exception {
+    private void createMenus(User user) throws Exception {
         JSONObject scrapedDishes = GetMenuJSON();
 
         // For each dish
@@ -178,7 +173,7 @@ public class Day {
             String description = (String) dishInfo.get("description");
             // Get the restrictions (this is more complicated than above. See below)
             // If the restrictions are an empty list, no restrictions exist
-            ArrayList<String> restrictions = new ArrayList<String>();
+            ArrayList<String> restrictions = new ArrayList<>();
             // If the restrictions are not empty,
             // they will instead be a JSONObject.
             // In this case, add all the values to a list
@@ -190,7 +185,7 @@ public class Day {
                 }
             }
             // Add the dish to the Menus map if the user can eat it
-            Dish dish = new Dish(id, name, description, restrictions);
+            Dish dish = new Dish(name, description, restrictions);
             if (user.canEat(dish)) {
                 addDish(menuName, dish);
             }

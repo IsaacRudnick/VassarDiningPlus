@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class DayLibrary {
     private Map<String, Day> days;
-    private User user;
+    private final User user;
 
-    private static int MAX_DAYS = 20;
+    private static final int MAX_DAYS = 20;
 
     public DayLibrary() {
         this.user = new User();
-        this.days = new HashMap<String, Day>();
+        this.days = new HashMap<>();
     }
 
 
@@ -37,7 +37,7 @@ public class DayLibrary {
         }
         else {
             this.user.setRestrictions(newUser.getRestrictions());
-            this.days = new HashMap<String, Day>();
+            this.days = new HashMap<>();
             return true;
         }
     }
@@ -54,10 +54,10 @@ public class DayLibrary {
      * 
      * @return The day object
      */
-    public Day getDay(String date) throws Exception {
+    public Day getDay(String date) {
         // If the day library is too big, clear it
         if (days.size() > MAX_DAYS) {
-            days = new HashMap<String, Day>();
+            days = new HashMap<>();
         }
 
         // If the day doesn't exist, create it and add it to the map

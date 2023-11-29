@@ -8,7 +8,4 @@ public interface IPersistenceFacade {
 
     User loadUser();
 
-//    void saveDay(String date, String day);
-//
-//    String loadDay(String date);
 }

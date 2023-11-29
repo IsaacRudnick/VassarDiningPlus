@@ -1,28 +1,21 @@
 package edu.vassar.cmpu203.app;
 
-import android.content.Context;
 import android.os.SystemClock;
-import android.util.Log;
 
 import androidx.test.espresso.*;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
 import java.time.LocalDate;
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
 
 public class ViewDayTest {
     //wait time to fetch menu
-    int waitTime = 15000;
+    final int waitTime = 15000;
     @org.junit.Rule
     public ActivityScenarioRule<ControllerActivity> activityRule = new ActivityScenarioRule<>(ControllerActivity.class);
 

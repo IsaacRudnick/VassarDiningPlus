@@ -25,7 +25,7 @@ class DayLibraryTest {
 
         // However, overwriting an empty user with a non-empty user should return true
         // (cached days are cleared)
-        List<String> restrictionsA = new ArrayList<String>(Arrays.asList("Vegetarian", "Vegan"));
+        List<String> restrictionsA = new ArrayList<>(Arrays.asList("Vegetarian", "Vegan"));
         User user2 = new User(restrictionsA);
         assertTrue(dayLibrary.setUser(user2));
     }
@@ -34,7 +34,6 @@ class DayLibraryTest {
      * Tests that the day library can get a day and does partial testing to ensure that
      * the day is partially correct (has certain station names), though the *entire* day
      * is not checked to avoid a several-hundred-line string comparison test.
-     * @throws Exception
      */
     @Test
     void testGetDay() throws Exception {

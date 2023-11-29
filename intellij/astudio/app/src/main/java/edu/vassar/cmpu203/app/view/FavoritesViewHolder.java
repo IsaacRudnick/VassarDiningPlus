@@ -18,11 +18,9 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
 
     private final IManageProfile.Listener listener;
 
-    DishViewBinding binding;
-    public TextView dishText;
-    public ImageView dishHeartImage;
-
-    public Dish dish;
+    final DishViewBinding binding;
+    public final TextView dishText;
+    public final ImageView dishHeartImage;
 
     public FavoritesViewHolder(View view, IManageProfile.Listener listener) {
         super(view);
@@ -38,7 +36,6 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Dish dish, boolean favorited) {
-        this.dish = dish;
 
         String dishName = dish.getName();
 
@@ -49,12 +46,9 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
             this.dishHeartImage.setImageResource(R.drawable.gray_heart);
         }
 
-        this.dishHeartImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FavoritesViewHolder.this.bind(dish, !favorited);
-                listener.onDishToggle(dish);
-            }
+        this.dishHeartImage.setOnClickListener(v -> {
+            FavoritesViewHolder.this.bind(dish, !favorited);
+            listener.onDishToggle(dish);
         });
     }
 }

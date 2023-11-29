@@ -1,19 +1,17 @@
 package edu.vassar.cmpu203.app.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Dish implements Serializable {
-    // Whether or not to show the description and restrictions when representing the dish to a string
-    private boolean SHOW_DESCRIPTION = false;
-    private boolean SHOW_RESTRICTIONS = false;
-    private String id;
-    private String name;
-    private String description;
-    private List<String> restrictions;
+    private final String name;
+    private final String description;
+    private final List<String> restrictions;
 
 
-    public Dish(String id, String name, String description, List<String> restrictions) {
+    public Dish(String name, String description, List<String> restrictions) {
         // Currently, ID is untested as consistent across days
         // this.id = id;
         this.name = name;
@@ -24,14 +22,18 @@ public class Dish implements Serializable {
     /**
      * @return A string representation of the dish
      */
+    @NonNull
     @Override
     public String toString() {
         String output = "";
         output += name + "\n";
         // Only add the description if it exists (not empty)
+        // Whether or not to show the description and restrictions when representing the dish to a string
+        boolean SHOW_DESCRIPTION = false;
         if (description.length() > 0 && SHOW_DESCRIPTION) {
             output += "\t-Description: " + description + "\n";
         }
+        boolean SHOW_RESTRICTIONS = false;
         if (SHOW_RESTRICTIONS) {
             output += "\t-Restrictions: " + restrictions + "\n";
         }
@@ -51,19 +53,8 @@ public class Dish implements Serializable {
 
     // Below are getter methods for the private variables that may be useful
 
-//    public String getId() {
-//        return id;
-//    }
-
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public List<String> getRestrictions() {
-        return restrictions;
-    }
 }

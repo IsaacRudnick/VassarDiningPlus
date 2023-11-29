@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.vassar.cmpu203.app.databinding.MenuNameViewBinding;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder {
-    MenuNameViewBinding binding;
-    public TextView menuName;
+    final MenuNameViewBinding binding;
+    public final TextView menuName;
 
     public MenuViewHolder(View view) {
         super(view);
 
-        this.binding = MenuNameViewBinding.bind(view);;
+        this.binding = MenuNameViewBinding.bind(view);
 
         menuName = binding.menuNameTextView;
     }

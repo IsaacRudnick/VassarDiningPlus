@@ -9,6 +9,6 @@ public interface IMainView {
         void onBrowseClick();
         void onProfileClick();
     }
-    public View getRootView();
-    public void displayFragment(Fragment fragment, boolean addToStack, String name);
+    View getRootView();
+    void displayFragment(Fragment fragment, boolean addToStack, String name);
 }

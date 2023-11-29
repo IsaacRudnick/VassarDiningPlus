@@ -2,6 +2,7 @@ package edu.vassar.cmpu203.app.view;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,14 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.vassar.cmpu203.app.R;
 import edu.vassar.cmpu203.app.databinding.FragmentManageProfileBinding;
-import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
-import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.Menu;
 import edu.vassar.cmpu203.app.model.User;
 
@@ -47,14 +44,14 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentManageProfileBinding.inflate(inflater, container, false);
 
         return this.binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
 
         // Load the saved user and check the restrictions that were previously checked
@@ -64,12 +61,23 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
 
         // Let the controller know that the view has been created
         this.listener.onFavoritesRequested(this);
+
+        View.OnClickListener userUpdateListener = view1 -> {
+            List<String> restrictions = getCheckedRestrictions();
+            ManageProfileFragment.this.listener.onUserUpdate(restrictions);
+        };
+        this.binding.vegetarianButton.setOnClickListener(userUpdateListener);
+        this.binding.veganButton.setOnClickListener(userUpdateListener);
+        this.binding.halalButton.setOnClickListener(userUpdateListener);
+        this.binding.inBalanceButton.setOnClickListener(userUpdateListener);
+        this.binding.kosherButton.setOnClickListener(userUpdateListener);
+        this.binding.lowGlutenButton.setOnClickListener(userUpdateListener);
     }
 
     @Override
     public void updateFavoritesDisplay() {
         RecyclerView favoritesRecyclerView = this.binding.favoritesRecyclerView;
-        favoritesRecyclerView.setAdapter(new FavoritesAdapter(this.getContext(), this.favoritesAsMenu, this.savedUser, this.listener));
+        favoritesRecyclerView.setAdapter(new FavoritesAdapter(this.favoritesAsMenu, this.savedUser, this.listener));
         // Set the favorites recycler view
         this.binding.favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
@@ -103,6 +111,35 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
                     break;
             }
         }
+    }
+    public List<String> getCheckedRestrictions() {
+        boolean vegetarianChecked = this.binding.vegetarianButton.isChecked();
+        boolean veganChecked = this.binding.veganButton.isChecked();
+        boolean halalChecked = this.binding.halalButton.isChecked();
+        boolean inBalanceChecked = this.binding.inBalanceButton.isChecked();
+        boolean kosherChecked = this.binding.kosherButton.isChecked();
+        boolean lowGlutenChecked = this.binding.lowGlutenButton.isChecked();
+
+        List<String> restrictions = new ArrayList<>();
+        if (vegetarianChecked) {
+            restrictions.add("Vegetarian");
+        }
+        if (veganChecked) {
+            restrictions.add("Vegan");
+        }
+        if (halalChecked) {
+            restrictions.add("Halal");
+        }
+        if (inBalanceChecked) {
+            restrictions.add("In Balance");
+        }
+        if (kosherChecked) {
+            restrictions.add("Kosher");
+        }
+        if (lowGlutenChecked) {
+            restrictions.add("Made without Gluten-Containing Ingredients");
+        }
+        return restrictions;
     }
 
 }
