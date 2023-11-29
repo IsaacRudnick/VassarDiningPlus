@@ -18,6 +18,7 @@ import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.User;
 import edu.vassar.cmpu203.app.persistence.IPersistenceFacade;
 import edu.vassar.cmpu203.app.persistence.LocalStorageFacade;
+import edu.vassar.cmpu203.app.view.DishViewHolder;
 import edu.vassar.cmpu203.app.view.IBrowseDayView;
 import edu.vassar.cmpu203.app.view.IMainView;
 import edu.vassar.cmpu203.app.view.IManageProfile;
@@ -25,7 +26,7 @@ import edu.vassar.cmpu203.app.view.MainView;
 import edu.vassar.cmpu203.app.view.ManageProfileFragment;
 import edu.vassar.cmpu203.app.view.ViewDayFragment;
 
-public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener, IManageProfile.Listener {
+public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener, IManageProfile.Listener, DishViewHolder.Listener {
     private DayLibrary days;
     private IMainView mainview;
     /* keep track of the screen we are on so we don't reload if user clicks button to navigate to
@@ -96,7 +97,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         if(validDate(date)) {
             try {
                 Day day = this.days.getDay(date);
-                browseDayView.updateDayDisplay(day);
+                browseDayView.updateDayDisplay(day, this);
             //    Log.e("Vassar",String.valueOf(day.toString().contains("Vegan White Bean And Chickpea Soup")));
             } catch (Exception e) {
                 Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);
@@ -144,4 +145,13 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         return true;
     }
 
+    @Override
+    public void onDishToggle(Dish dish) {
+        if (this.saveduser.isFavorite(dish)) {
+            this.saveduser.removeFavorite(dish);
+        } else {
+            this.saveduser.addFavorite(dish);
+        }
+        this.persistenceFacade.saveUser(this.saveduser);
+    }
 }

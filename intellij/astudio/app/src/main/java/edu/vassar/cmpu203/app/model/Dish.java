@@ -13,7 +13,8 @@ public class Dish {
 
 
     public Dish(String id, String name, String description, List<String> restrictions) {
-        this.id = id;
+        // Currently, ID is untested as consistent across days
+        // this.id = id;
         this.name = name;
         this.description = description;
         this.restrictions = restrictions;
@@ -49,12 +50,9 @@ public class Dish {
 
     // Below are getter methods for the private variables that may be useful
 
-    /**
-     * @return The id of the dish
-     */
-    public String getId() {
-        return id;
-    }
+//    public String getId() {
+//        return id;
+//    }
 
     public String getName() {
         return name;

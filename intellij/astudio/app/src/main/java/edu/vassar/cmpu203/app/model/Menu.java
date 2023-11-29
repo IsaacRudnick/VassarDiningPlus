@@ -37,7 +37,7 @@ public class Menu implements Iterable<Dish>{
      * @param dish The dish to add
      */
     public void addDish(Dish dish) {
-        dishes.put(dish.getId(), dish);
+        dishes.put(dish.getName(), dish);
     }
 
     public String getName() {

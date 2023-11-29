@@ -18,6 +18,7 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
+import edu.vassar.cmpu203.app.model.Dish;
 import edu.vassar.cmpu203.app.model.User;
 
 /**
@@ -75,10 +76,10 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         this.listener.onDayRequested(today, this);
 
     }
-    public void updateDayDisplay(Day day){
+    public void updateDayDisplay(Day day, DishViewHolder.Listener listener) {
         RecyclerView recyclerView = this.binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new MyAdapter(this.getContext(), day, this.savedUser));
+        recyclerView.setAdapter(new MyAdapter(this.getContext(), day, this.savedUser, listener));
     }
 
     public List<String> getCheckedRestrictions() {

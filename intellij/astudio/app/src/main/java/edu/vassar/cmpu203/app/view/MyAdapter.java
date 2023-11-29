@@ -25,13 +25,15 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int DISH_VIEW_TYPE = 0;
     private static final int MENU_VIEW_TYPE = 1;
 
+    private DishViewHolder.Listener listener;
+
     Context context;
     List<Object> menusAndDishes;
     User user;
 
-    public MyAdapter(Context context, Day day, User user) {
+    public MyAdapter(Context context, Day day, User user, DishViewHolder.Listener listener) {
         this.context = context;
-
+        this.listener = listener;
         this.menusAndDishes = new ArrayList<>();
 
         // Create list of menus
@@ -77,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new MenuViewHolder(view);
         } else if (viewType == DISH_VIEW_TYPE) {
             view = inflater.inflate(R.layout.dish_view, parent, false);
-            return new DishViewHolder(view);
+            return new DishViewHolder(view, this.listener);
         }
         // We should never get here
         return null;
@@ -95,7 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (type == DISH_VIEW_TYPE) {
             DishViewHolder dishViewHolder = (DishViewHolder) holder;
             Dish dish = (Dish) menusAndDishes.get(position);
-            dishViewHolder.bind(dish.getName(), this.user.isFavorite(dish));
+            dishViewHolder.bind(dish, this.user.isFavorite(dish));
         }
 
     }

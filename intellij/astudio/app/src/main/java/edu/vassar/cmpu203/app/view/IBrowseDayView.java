@@ -5,7 +5,7 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 
 public interface IBrowseDayView {
-    void updateDayDisplay(Day day);
+    void updateDayDisplay(Day day, DishViewHolder.Listener listener);
 
     List<String> getCheckedRestrictions();
 

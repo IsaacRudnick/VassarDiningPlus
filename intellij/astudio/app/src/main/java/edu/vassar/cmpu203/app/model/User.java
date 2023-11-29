@@ -18,15 +18,15 @@ public class User implements Serializable {
     }
 
     public void addFavorite(Dish dish) {
-        favorites.add(dish.getId());
+        favorites.add(dish.getName());
     }
 
     public void removeFavorite(Dish dish) {
-        favorites.remove(dish.getId());
+        favorites.remove(dish.getName());
     }
 
     public boolean isFavorite(Dish dish) {
-        return favorites.contains(dish.getId());
+        return favorites.contains(dish.getName());
     }
 
     public User() {
