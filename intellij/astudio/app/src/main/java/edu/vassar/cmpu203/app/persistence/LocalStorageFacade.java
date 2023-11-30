@@ -1,5 +1,7 @@
 package edu.vassar.cmpu203.app.persistence;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,6 +25,7 @@ public class LocalStorageFacade implements IPersistenceFacade{
      */
     @Override
     public void saveUser(User user) {
+        Log.d("LocalStorageFacade", "Saving user");
         File outputFile = new File(this.directory, this.USER_FILENAME);
         try {
             FileOutputStream fos = new FileOutputStream(outputFile);
@@ -39,6 +42,7 @@ public class LocalStorageFacade implements IPersistenceFacade{
      */
     @Override
     public User loadUser() {
+        Log.d("LocalStorageFacade", "Loading user");
         User user = null;
 
         File inputFile = new File(this.directory, this.USER_FILENAME);
