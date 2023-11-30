@@ -8,10 +8,10 @@ import java.util.List;
 public class Dish implements Serializable {
     private final String name;
     private final String description;
-    private final List<String> restrictions;
+    private final List<Restriction> restrictions;
 
 
-    public Dish(String name, String description, List<String> restrictions) {
+    public Dish(String name, String description, List<Restriction> restrictions) {
         this.name = name;
         this.description = description;
         this.restrictions = restrictions;
@@ -47,7 +47,7 @@ public class Dish implements Serializable {
      * 
      * @return Whether or not the dish has the given restriction
      */
-    public boolean hasRestriction(String restriction) {
+    public boolean hasRestriction(Restriction restriction) {
         return restrictions.contains(restriction);
     }
 

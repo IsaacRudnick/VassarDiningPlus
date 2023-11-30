@@ -15,18 +15,19 @@ import java.util.List;
 import edu.vassar.cmpu203.app.model.Day;
 import edu.vassar.cmpu203.app.model.DayLibrary;
 import edu.vassar.cmpu203.app.model.Dish;
+import edu.vassar.cmpu203.app.model.Restriction;
 import edu.vassar.cmpu203.app.model.User;
 import edu.vassar.cmpu203.app.persistence.IPersistenceFacade;
 import edu.vassar.cmpu203.app.persistence.LocalStorageFacade;
 import edu.vassar.cmpu203.app.view.DishViewHolder;
-import edu.vassar.cmpu203.app.view.IBrowseDayView;
+import edu.vassar.cmpu203.app.view.IViewDay;
 import edu.vassar.cmpu203.app.view.IMainView;
 import edu.vassar.cmpu203.app.view.IManageProfile;
 import edu.vassar.cmpu203.app.view.MainView;
 import edu.vassar.cmpu203.app.view.ManageProfileFragment;
 import edu.vassar.cmpu203.app.view.ViewDayFragment;
 
-public class ControllerActivity extends AppCompatActivity implements IBrowseDayView.Listener, IMainView.Listener, IManageProfile.Listener, DishViewHolder.Listener {
+public class ControllerActivity extends AppCompatActivity implements IViewDay.Listener, IMainView.Listener, IManageProfile.Listener, DishViewHolder.Listener {
     private DayLibrary days;
     private IMainView mainview;
     /* keep track of the screen we are on so we don't reload if user clicks button to navigate to
@@ -38,22 +39,24 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     private IPersistenceFacade persistenceFacade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set up the view
         super.onCreate(savedInstanceState);
 
         this.persistenceFacade = new LocalStorageFacade(this.getFilesDir());
+        // Load the saved user
         this.saveduser = this.persistenceFacade.loadUser();
         if(this.saveduser == null){
             this.saveduser = new User();
         }
-
+        // Load the saved day library
         this.days = this.persistenceFacade.loadDayLibrary();
         if (this.days == null) {
             this.days = new DayLibrary();
         }
-
+        // Set up the main view and display the ViewDayFragment as the default fragment
         this.mainview = new MainView(this, this);
         setContentView(this.mainview.getRootView());
-        this.mainview.displayFragment(new ViewDayFragment(this, saveduser), false, "viewDay");
+        this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
 
         this.currScreen = "browse";
     }
@@ -65,7 +68,7 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         if(!(this.currScreen.equals("browse"))) {
             // Set up the view day fragment
             // Pass in the saved user so that the restrictions are set as they were before the app was closed
-            ViewDayFragment viewDayFragment = new ViewDayFragment(this, this.saveduser);
+            ViewDayFragment viewDayFragment = new ViewDayFragment(this);
             this.mainview.displayFragment(viewDayFragment, false, "viewDay");
             this.currScreen = "browse";
         }
@@ -74,13 +77,16 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     @Override
     public void onProfileClick() {
         if(!this.currScreen.equals("profile")) {
-            ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.saveduser);
+            ManageProfileFragment manageProfileFragment = new ManageProfileFragment(this, this.saveduser.getFavoritesAsMenu());
             this.mainview.displayFragment(manageProfileFragment, true, "manageProfile");
             this.currScreen = "profile";
         }
     }
     // ========================================================
     // END FRAGMENT HANDLING METHODS
+
+    // BELOW METHODS ARE FOR HANDLING USER INPUT
+    // ========================================
 
     /**
      * Method to handle when a day is requested by user pressing search button
@@ -89,13 +95,8 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
      * @param browseDayView - the view to update with the day
      */
     @Override
-    public void onDayRequested(String date, IBrowseDayView browseDayView){
-        List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();
-        this.days.setUserRestrictions(checkedRestrictions);
-        this.saveduser.setRestrictions(checkedRestrictions);
-        this.persistenceFacade.saveUser(this.saveduser);
-
-
+    // From IViewDay.Listener
+    public void onDayRequested(String date, IViewDay browseDayView){
         // Handle input processing here
         if(validDate(date)) {
             try {
@@ -107,10 +108,72 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             }
         }
         else{
-            Snackbar.make(this.mainview.getRootView(), "Invalid date! Use the format YYYY-MM-DD", Snackbar.LENGTH_LONG).show();
+            browseDayView.onInvalidDate(this.mainview.getRootView());
         }
     }
 
+    /**
+     * Method to handle when a dish is toggled as a favorite
+     * This is implemented for both the ViewDayFragment and the ManageProfileFragment,
+     * since dishes can be toggled as favorites in both
+     *
+     * @param dish - the dish that was toggled
+     */
+    @Override
+    // From IManageProfile.Listener and DishViewHolder.Listener
+    public void toggleDishFavorited(Dish dish) {
+        if (this.saveduser.isFavorite(dish)) {
+            this.saveduser.removeFavorite(dish);
+        } else {
+            this.saveduser.addFavorite(dish);
+        }
+        this.persistenceFacade.saveUser(this.saveduser);
+    }
+
+    @Override
+    // From IManageProfile.Listener and DishViewHolder.Listener
+    public boolean isDishFavorited(Dish dish) {
+        return this.saveduser.isFavorite(dish);
+    }
+
+    /**
+     * Method to handle when the user updates their restrictions
+     * @param restrictions - the new restrictions to set
+     */
+    @Override
+    // From IManageProfile.Listener
+    public void onUpdateRestrictions(List<Restriction> restrictions) {
+        this.saveduser.setRestrictions(restrictions);
+        this.days.setUserRestrictions(restrictions);
+        this.persistenceFacade.saveUser(this.saveduser);
+    }
+
+
+    @Override
+    // From IManageProfile.Listener
+    public void checkSavedRestrictions(IManageProfile manageProfile) {
+        manageProfile.setUserRestrictions(this.saveduser.getRestrictions());
+    }
+
+
+    /**
+     * Method to handle when the favorites are requested
+     * This is used by the ManageProfileFragment to update the favorites display
+     * and avoids having control architecture inside the fragment by using the listener (this)
+     * @param manageProfile
+     */
+    @Override
+    // From IManageProfile.Listener
+    public void onFavoritesRequested(IManageProfile manageProfile) {
+        manageProfile.updateFavoritesDisplay();
+    }
+
+    // ========================================
+    // END USER INPUT HANDLING METHODS
+
+
+    // UTILITY METHODS
+    // ========================================
     /**
      * check if an inputted date String is valid (format "YYYY-MM-DD")
      *
@@ -148,41 +211,4 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         return true;
     }
 
-    /**
-     * Method to handle when a dish is toggled as a favorite
-     * This is implemented for both the ViewDayFragment and the ManageProfileFragment,
-     * since dishes can be toggled as favorites in both
-     *
-     * @param dish - the dish that was toggled
-     */
-    @Override
-    public void onDishToggle(Dish dish) {
-        if (this.saveduser.isFavorite(dish)) {
-            this.saveduser.removeFavorite(dish);
-        } else {
-            this.saveduser.addFavorite(dish);
-        }
-        this.persistenceFacade.saveUser(this.saveduser);
-    }
-
-    /**
-     * Method to handle when the user updates their restrictions
-     * @param restrictions - the new restrictions to set
-     */
-    @Override
-    public void onUserUpdate(List<String> restrictions) {
-        this.saveduser.setRestrictions(restrictions);
-        this.persistenceFacade.saveUser(this.saveduser);
-    }
-
-    /**
-     * Method to handle when the favorites are requested
-     * This is used by the ManageProfileFragment to update the favorites display
-     * and avoids having control architecture inside the fragment by using the listener (this)
-     * @param manageProfile
-     */
-    @Override
-    public void onFavoritesRequested(IManageProfile manageProfile) {
-        manageProfile.updateFavoritesDisplay();
-    }
 }

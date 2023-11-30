@@ -30,7 +30,7 @@ public class DayLibrary implements Serializable {
      * @param newUserRestrictions - the new restrictions to set.
      * @return - boolean of whether cache was cleared
      */
-    public boolean setUserRestrictions(List<String> newUserRestrictions){
+    public boolean setUserRestrictions(List<Restriction> newUserRestrictions){
         boolean restrictionsChanged = this.user.setRestrictions(newUserRestrictions);
         if(restrictionsChanged){
             this.days = new HashMap<>();

@@ -10,11 +10,11 @@ import java.util.Set;
 // It is used to filter dishes by restrictions
 public class User implements Serializable {
     // These are things that items must meet to be shown to the user
-    private final List<String> restrictions;
+    private final List<Restriction> restrictions;
     private final Set<Dish> favorites = new HashSet<>();
 
     // Constructor for empty user and user with restrictions
-    public User(List<String> restrictions) {
+    public User(List<Restriction> restrictions) {
         this.restrictions = restrictions;
     }
     public User() {this.restrictions = new ArrayList<>();}
@@ -62,7 +62,7 @@ public class User implements Serializable {
      * @return Whether or not the dish can be eaten by the user
      */
     public boolean canEat(Dish dish) {
-        for (String restriction : restrictions) {
+        for (Restriction restriction : restrictions) {
             if (!dish.hasRestriction(restriction)) {
                 return false;
             }
@@ -74,20 +74,20 @@ public class User implements Serializable {
      * Gets the user's restrictions
      * @return The user's restrictions as a list of strings
      */
-    public List<String> getRestrictions() {
+    public List<Restriction> getRestrictions() {
         return restrictions;
     }
 
     /**
      * Checks if two users are equal (have the same restrictions)
-     * @param user The user to compare to each other
+     * @param newUser The user to compare to each other
      * @return Whether or not the users are equal
      * Note that this method does not account for favorites since favorite checking does not require
      * day cache invalidation, but different restrictions do
      */
-    public boolean equals(User user) {
-        List<String> currRestrictions = this.getRestrictions();
-        List<String> newRestrictions = user.getRestrictions();
+    public boolean equals(User newUser) {
+        List<Restriction> currRestrictions = this.getRestrictions();
+        List<Restriction> newRestrictions = newUser.getRestrictions();
         return new HashSet<>(currRestrictions).equals(new HashSet<>(newRestrictions));
     }
 
@@ -97,7 +97,7 @@ public class User implements Serializable {
      * @return Whether or not the restrictions were changed
      * This is used to invalidate the day cache if the user's restrictions change
      */
-    public boolean setRestrictions(List<String> restrictions) {
+    public boolean setRestrictions(List<Restriction> restrictions) {
         if (this.restrictions.equals(restrictions)) {
             return false;
         }

@@ -11,13 +11,6 @@ import edu.vassar.cmpu203.app.databinding.DishViewBinding;
 import edu.vassar.cmpu203.app.model.Dish;
 
 public class FavoritesViewHolder extends RecyclerView.ViewHolder {
-    public interface Listener {
-        // NB: AndroidStudio says that this method is not implemented, but it is implemented in ControllerActivity.
-        // The reason for this is that the FavoritesViewHolder.Listener interface has the same method signature
-        // as the DishViewHolder.Listener interface. The ControllerActivity class uses the same method to implement both.
-        // To avoid relying on IBrowseDayView.Listener, we specify the method here to avoid confusion and ensure best practices.
-        void onDishToggle(Dish dish);
-    }
 
     private final IManageProfile.Listener listener;
 
@@ -56,7 +49,7 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
 
         this.dishHeartImage.setOnClickListener(v -> {
             FavoritesViewHolder.this.bind(dish, !favorited);
-            listener.onDishToggle(dish);
+            listener.toggleDishFavorited(dish);
         });
     }
 }

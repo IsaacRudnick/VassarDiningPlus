@@ -24,9 +24,8 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final DishViewHolder.Listener listener;
 
     final List<Object> menusAndDishes;
-    final User user;
 
-    public DayAdapter(Day day, User user, DishViewHolder.Listener listener) {
+    public DayAdapter(Day day, DishViewHolder.Listener listener) {
         this.listener = listener;
         this.menusAndDishes = new ArrayList<>();
 
@@ -41,9 +40,6 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // Add dish to list
             this.menusAndDishes.addAll(dishes);
         }
-
-        // Set user
-        this.user = user;
 
     }
 
@@ -110,7 +106,8 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (type == DISH_VIEW_TYPE) {
             DishViewHolder dishViewHolder = (DishViewHolder) holder;
             Dish dish = (Dish) menusAndDishes.get(position);
-            dishViewHolder.bind(dish, this.user.isFavorite(dish));
+            boolean favorited = this.listener.isDishFavorited(dish);
+            dishViewHolder.bind(dish, favorited);
         }
 
     }

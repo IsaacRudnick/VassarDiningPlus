@@ -20,16 +20,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final IManageProfile.Listener listener;
 
     final List<Dish> dishes;
-    final User user;
 
-    public FavoritesAdapter(Menu menu, User user, IManageProfile.Listener listener) {
+    public FavoritesAdapter(Menu menu, IManageProfile.Listener listener) {
         this.listener = listener;
 
         // Create list of dishes
         dishes = new ArrayList<>(menu.getDishes().values());
-
-        // Set user
-        this.user = user;
 
     }
 
@@ -62,7 +58,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
         Dish dish = dishes.get(position);
-        favoritesViewHolder.bind(dish, this.user.isFavorite(dish));
+        boolean favorited = this.listener.isDishFavorited(dish);
+        favoritesViewHolder.bind(dish, favorited);
     }
 
 

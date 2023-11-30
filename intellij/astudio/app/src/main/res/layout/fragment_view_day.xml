@@ -14,12 +14,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="448dp"
+            android:layout_width="413dp"
+            android:layout_height="543dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restrictionsLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/dateSearchLayout"
+            app:layout_constraintVertical_bias="1.0" />
 
         <LinearLayout
             android:id="@+id/dateSearchLayout"
@@ -55,69 +57,6 @@
                 app:icon="@android:drawable/ic_menu_search"
                 app:iconTint="@color/Cream" />
         </LinearLayout>
-
-        <TableLayout
-            android:id="@+id/restrictionsLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateSearchLayout">
-
-            <TableRow
-                android:id="@+id/restrictionsRow1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:id="@+id/vegetarianButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vegetarian"
-                    android:textColor="@color/DarkGray" />
-
-                <CheckBox
-                    android:id="@+id/veganButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vegan" />
-
-                <CheckBox
-                    android:id="@+id/halalButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/halal" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/restrictionsRow2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:id="@+id/inBalanceButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/in_balance" />
-
-                <CheckBox
-                    android:id="@+id/kosherButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kosher" />
-
-                <CheckBox
-                    android:id="@+id/lowGlutenButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/low_gluten" />
-
-            </TableRow>
-
-        </TableLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

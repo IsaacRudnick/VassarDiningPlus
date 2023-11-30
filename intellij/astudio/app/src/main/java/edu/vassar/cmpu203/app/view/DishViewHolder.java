@@ -13,10 +13,11 @@ import edu.vassar.cmpu203.app.model.Dish;
 public class DishViewHolder extends RecyclerView.ViewHolder {
 
     public interface Listener {
-        void onDishToggle(Dish dish);
+        boolean isDishFavorited(Dish dish);
+        void toggleDishFavorited(Dish dish);
     }
 
-    private final Listener listener;
+    private final DishViewHolder.Listener listener;
 
     final DishViewBinding binding;
     public final TextView dishText;
@@ -53,7 +54,7 @@ public class DishViewHolder extends RecyclerView.ViewHolder {
 
         this.dishHeartImage.setOnClickListener(v -> {
             DishViewHolder.this.bind(dish, !favorited);
-            listener.onDishToggle(dish);
+            listener.toggleDishFavorited(dish);
         });
     }
 }

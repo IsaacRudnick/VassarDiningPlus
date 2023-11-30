@@ -175,7 +175,7 @@ public class Day {
             String description = (String) dishInfo.get("description");
             // Get the restrictions (this is more complicated than above. See below)
             // If the restrictions are an empty list, no restrictions exist
-            ArrayList<String> restrictions = new ArrayList<>();
+            ArrayList<String> restrictionStrings = new ArrayList<>();
             // If the restrictions are not empty,
             // they will instead be a JSONObject.
             // In this case, add all the values to a list
@@ -183,11 +183,33 @@ public class Day {
                 JSONObject restrictionsJSON = (JSONObject) dishInfo.get("cor_icon");
                 for (Object k : restrictionsJSON.keySet()) {
                     String restriction = (String) restrictionsJSON.get((String) k); // cast to String
-                    restrictions.add(restriction);
+                    restrictionStrings.add(restriction);
                 }
             }
+
+            // Store only the main six restrictions that match the Restriction enum
+            List<Restriction> restrictionsListProper = new ArrayList<>();
+            if (restrictionStrings.contains("Vegetarian")) {
+                restrictionsListProper.add(Restriction.VEGETARIAN);
+            }
+            if (restrictionStrings.contains("Vegan")) {
+                restrictionsListProper.add(Restriction.VEGAN);
+            }
+            if (restrictionStrings.contains("Halal")) {
+                restrictionsListProper.add(Restriction.HALAL);
+            }
+            if (restrictionStrings.contains("In Balance")) {
+                restrictionsListProper.add(Restriction.IN_BALANCE);
+            }
+            if (restrictionStrings.contains("Kosher")) {
+                restrictionsListProper.add(Restriction.KOSHER);
+            }
+            if (restrictionStrings.contains("Made without Gluten-Containing Ingredients")) {
+                restrictionsListProper.add(Restriction.LOW_GLUTEN);
+            }
+
             // Add the dish to the Menus map if the user can eat it
-            Dish dish = new Dish(name, description, restrictions);
+            Dish dish = new Dish(name, description, restrictionsListProper);
             if (user.canEat(dish)) {
                 addDish(menuName, dish);
             }

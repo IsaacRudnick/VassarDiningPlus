@@ -11,31 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.vassar.cmpu203.app.model.Day;
 
 import edu.vassar.cmpu203.app.databinding.FragmentViewDayBinding;
-import edu.vassar.cmpu203.app.model.User;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A     private final User savedUser;
+simple {@link Fragment} subclass.
  * Use the {@link ViewDayFragment()}  method to
  * create an instance of this fragment.
  */
-public class ViewDayFragment extends Fragment implements IBrowseDayView {
+public class ViewDayFragment extends Fragment implements IViewDay {
 
     private FragmentViewDayBinding binding;
     private final Listener listener;
 
-    private final User savedUser;
 
-    public ViewDayFragment(Listener listener, User savedUser){
+    public ViewDayFragment(Listener listener){
         this.listener = listener;
-        this.savedUser = savedUser;
     }
 
 
@@ -60,23 +58,6 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
             ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
         });
 
-        View.OnClickListener userUpdateListener = view12 -> {
-            List<String> restrictions = getCheckedRestrictions();
-            ViewDayFragment.this.listener.onUserUpdate(restrictions);
-        };
-        this.binding.vegetarianButton.setOnClickListener(userUpdateListener);
-        this.binding.veganButton.setOnClickListener(userUpdateListener);
-        this.binding.halalButton.setOnClickListener(userUpdateListener);
-        this.binding.inBalanceButton.setOnClickListener(userUpdateListener);
-        this.binding.kosherButton.setOnClickListener(userUpdateListener);
-        this.binding.lowGlutenButton.setOnClickListener(userUpdateListener);
-
-
-        // Load the saved user and check the restrictions that were previously checked
-        if (savedUser != null) {
-            this.setCheckedRestrictions(savedUser);
-        }
-
         // Let the controller know that the view has been created
         this.listener.onDayRequested(today, this);
 
@@ -90,72 +71,12 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
     public void updateDayDisplay(Day day, DishViewHolder.Listener listener) {
         RecyclerView recyclerView = this.binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new DayAdapter(day, this.savedUser, listener));
+        recyclerView.setAdapter(new DayAdapter(day, listener));
     }
 
-    /**
-     * Gets the checked restrictions from the view
-     * @return a list of the checked restrictions
-     */
-    public List<String> getCheckedRestrictions() {
-        boolean vegetarianChecked = this.binding.vegetarianButton.isChecked();
-        boolean veganChecked = this.binding.veganButton.isChecked();
-        boolean halalChecked = this.binding.halalButton.isChecked();
-        boolean inBalanceChecked = this.binding.inBalanceButton.isChecked();
-        boolean kosherChecked = this.binding.kosherButton.isChecked();
-        boolean lowGlutenChecked = this.binding.lowGlutenButton.isChecked();
-
-        List<String> restrictions = new ArrayList<>();
-        if (vegetarianChecked) {
-            restrictions.add("Vegetarian");
-        }
-        if (veganChecked) {
-            restrictions.add("Vegan");
-        }
-        if (halalChecked) {
-            restrictions.add("Halal");
-        }
-        if (inBalanceChecked) {
-            restrictions.add("In Balance");
-        }
-        if (kosherChecked) {
-            restrictions.add("Kosher");
-        }
-        if (lowGlutenChecked) {
-            restrictions.add("Made without Gluten-Containing Ingredients");
-        }
-        return restrictions;
-    }
-
-    /**
-     * Sets the checked restrictions on the view
-     *
-     * @param user - the user to get the restrictions from
-     */
-    private void setCheckedRestrictions(User user) {
-        List<String> restrictions = user.getRestrictions();
-        for (String restriction : restrictions) {
-            switch (restriction) {
-                case "Vegetarian":
-                    this.binding.vegetarianButton.setChecked(true);
-                    break;
-                case "Vegan":
-                    this.binding.veganButton.setChecked(true);
-                    break;
-                case "Halal":
-                    this.binding.halalButton.setChecked(true);
-                    break;
-                case "In Balance":
-                    this.binding.inBalanceButton.setChecked(true);
-                    break;
-                case "Kosher":
-                    this.binding.kosherButton.setChecked(true);
-                    break;
-                case "Made without Gluten-Containing Ingredients":
-                    this.binding.lowGlutenButton.setChecked(true);
-                    break;
-            }
-        }
+    @Override
+    public void onInvalidDate(View rootView) {
+        Snackbar.make(rootView, "Invalid date! Use the format YYYY-MM-DD", Snackbar.LENGTH_LONG).show();
     }
 
 }
