@@ -28,6 +28,12 @@ public class MainView implements IMainView{
         return this.binding.getRoot();
     }
 
+    /**
+     * Displays the given fragment.
+     * @param fragment The fragment to be displayed.
+     * @param addToStack Whether or not to add the fragment to the back stack.
+     * @param name The name of the fragment.
+     */
     @Override
     public void displayFragment(Fragment fragment, boolean addToStack, String name) {
         FragmentTransaction ft = this.fmanager.beginTransaction()

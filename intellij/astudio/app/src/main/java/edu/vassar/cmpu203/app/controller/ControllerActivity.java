@@ -41,20 +41,25 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         super.onCreate(savedInstanceState);
 
         this.persistenceFacade = new LocalStorageFacade(this.getFilesDir());
-        User saveduser = this.persistenceFacade.loadUser();
-        if(saveduser == null){
-            saveduser = new User();
+        this.saveduser = this.persistenceFacade.loadUser();
+        if(this.saveduser == null){
+            this.saveduser = new User();
         }
-        this.saveduser = saveduser;
 
+        this.days = this.persistenceFacade.loadDayLibrary();
+        if (this.days == null) {
+            this.days = new DayLibrary();
+        }
 
-        this.days = new DayLibrary();
         this.mainview = new MainView(this, this);
         setContentView(this.mainview.getRootView());
         this.mainview.displayFragment(new ViewDayFragment(this, saveduser), false, "viewDay");
+
         this.currScreen = "browse";
     }
 
+    // BELOW METHODS ARE FOR HANDLING SWAPPING BETWEEN FRAGMENTS
+    // ========================================================
     @Override
     public void onBrowseClick() {
         if(!(this.currScreen.equals("browse"))) {
@@ -74,7 +79,15 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
             this.currScreen = "profile";
         }
     }
+    // ========================================================
+    // END FRAGMENT HANDLING METHODS
 
+    /**
+     * Method to handle when a day is requested by user pressing search button
+     *
+     * @param date - the date to get the day for (format "YYYY-MM-DD")
+     * @param browseDayView - the view to update with the day
+     */
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
         List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();
@@ -86,8 +99,8 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         if(validDate(date)) {
             try {
                 Day day = this.days.getDay(date);
+                this.persistenceFacade.saveDayLibrary(this.days);
                 browseDayView.updateDayDisplay(day, this);
-            //    Log.e("Vassar",String.valueOf(day.toString().contains("Vegan White Bean And Chickpea Soup")));
             } catch (Exception e) {
                 Log.e("Error", "Error getting day (MainActivity -> onDayRequested)", e);
             }
@@ -97,6 +110,12 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         }
     }
 
+    /**
+     * check if an inputted date String is valid (format "YYYY-MM-DD")
+     *
+     * @param date - the date to check
+     * @return - true if valid, false otherwise
+     */
     public static boolean validDate(String date) {
         if (date.length() != 10) {
             return false;
@@ -128,6 +147,13 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         return true;
     }
 
+    /**
+     * Method to handle when a dish is toggled as a favorite
+     * This is implemented for both the ViewDayFragment and the ManageProfileFragment,
+     * since dishes can be toggled as favorites in both
+     *
+     * @param dish - the dish that was toggled
+     */
     @Override
     public void onDishToggle(Dish dish) {
         if (this.saveduser.isFavorite(dish)) {
@@ -138,12 +164,22 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
         this.persistenceFacade.saveUser(this.saveduser);
     }
 
+    /**
+     * Method to handle when the user updates their restrictions
+     * @param restrictions - the new restrictions to set
+     */
     @Override
     public void onUserUpdate(List<String> restrictions) {
         this.saveduser.setRestrictions(restrictions);
         this.persistenceFacade.saveUser(this.saveduser);
     }
 
+    /**
+     * Method to handle when the favorites are requested
+     * This is used by the ManageProfileFragment to update the favorites display
+     * and avoids having control architecture inside the fragment by using the listener (this)
+     * @param manageProfile
+     */
     @Override
     public void onFavoritesRequested(IManageProfile manageProfile) {
         manageProfile.updateFavoritesDisplay();

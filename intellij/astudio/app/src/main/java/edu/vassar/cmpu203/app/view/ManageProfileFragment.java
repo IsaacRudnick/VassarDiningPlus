@@ -35,7 +35,7 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
      * Constructor for ManageProfileFragment class that takes in a listener and a saved user
      *
      * @param listener - the listener to set (used to communicate with the controller)
-     * @param savedUser - the user to load (used to set the restrictions on the view)
+     * @param savedUser - the user to load (used to set the restrictions and favorites on the view)
      */
     public ManageProfileFragment(Listener listener, User savedUser) {
         this.listener = listener;
@@ -74,6 +74,9 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
         this.binding.lowGlutenButton.setOnClickListener(userUpdateListener);
     }
 
+    /**
+     * Updates the favorites display to show the user's favorites
+     */
     @Override
     public void updateFavoritesDisplay() {
         RecyclerView favoritesRecyclerView = this.binding.favoritesRecyclerView;
@@ -83,8 +86,7 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
     }
 
     /**
-     * Sets the checked restrictions on the view
-     *
+     * Sets the checked restrictions on the view to match the user's saved restrictions
      */
     @Override
     public void setUserRestrictions() {
@@ -112,6 +114,11 @@ public class ManageProfileFragment extends Fragment implements IManageProfile{
             }
         }
     }
+
+    /**
+     * Gets the restrictions that the user has checked
+     * @return the list of restrictions that the user has checked
+     */
     public List<String> getCheckedRestrictions() {
         boolean vegetarianChecked = this.binding.vegetarianButton.isChecked();
         boolean veganChecked = this.binding.veganButton.isChecked();

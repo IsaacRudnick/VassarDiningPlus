@@ -1,5 +1,6 @@
 package edu.vassar.cmpu203.app.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
  * It is important to note that days / menus / dishes stored in this class
  * Are pre-filtered by user restrictions. The data isn't stored in its entirety.
  */
-public class DayLibrary {
+public class DayLibrary implements Serializable {
     private Map<String, Day> days;
     private final User user;
 
@@ -53,6 +54,14 @@ public class DayLibrary {
      * @param user The user to get the day for (used for restrictions)
      * 
      * @return The day object
+     */
+
+    /**
+     * Gets a day from the library. If the day doesn't exist, it is created.
+     * This allows caching of days.
+     *
+     * @param date - The date of the day to get (format "YYYY-MM-DD")
+     * @return
      */
     public Day getDay(String date) {
         // If the day library is too big, clear it

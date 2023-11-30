@@ -17,7 +17,11 @@ public class MenuViewHolder extends RecyclerView.ViewHolder {
         menuName = binding.menuNameTextView;
     }
 
-    public void bind(String menuName) {
-        this.menuName.setText(menuName);
+    /**
+     * Binds the given menu name to the view.
+     * @param menuString The menu name to be shown.
+     */
+    public void bind(String menuString) {
+        this.menuName.setText(menuString);
     }
 }

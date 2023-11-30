@@ -73,7 +73,7 @@ public class Day {
         this.menus.get(menuName).addDish(dish);
     }
 
-    /*
+    /**
      * Makes a web request to the CBA website and processes the HTML
      * into a JSON object. Returns the JSON object. This is a helper function for
      * createMenus(), which is a helper function for the Day constructor.
@@ -149,10 +149,12 @@ public class Day {
         return titleCase.toString();
     }
 
-    /*
+    /**
      * Scrapes the CBA website and adds all the dishes to the Menus map
      * Takes no arguments and returns nothing. This is a helper function for the Day
      * constructor.
+     * @param user
+     * @throws Exception
      */
     private void createMenus(User user) throws Exception {
         JSONObject scrapedDishes = GetMenuJSON();

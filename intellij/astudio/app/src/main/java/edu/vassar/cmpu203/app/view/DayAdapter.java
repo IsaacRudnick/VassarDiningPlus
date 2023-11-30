@@ -47,6 +47,12 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    /**
+     * Returns the view type of the item at position for the purposes of view recycling.
+     * This allows for us to have different view types for menus and dishes.
+     * @param position position to query
+     * @return integer value identifying the type of the view needed to represent the item at position.
+     */
     @Override
     public int getItemViewType(int position) {
         Object item = menusAndDishes.get(position);
@@ -60,6 +66,14 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param viewType The view type of the new View.
+     *
+     * @return A new ViewHolder that holds a View of the given view type (MENU_VIEW_TYPE or DISH_VIEW_TYPE)
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,6 +92,13 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This is used to set the contents of the relevant ViewHolder.
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
@@ -95,7 +116,11 @@ public class DayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     * This is how the RecyclerView knows how many items are in the list.
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return menusAndDishes.size();

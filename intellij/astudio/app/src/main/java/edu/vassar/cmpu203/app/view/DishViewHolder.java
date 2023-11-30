@@ -35,6 +35,11 @@ public class DishViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+    /**
+     * Binds the dish to the view holder, which will update the text and heart image.
+     * @param dish The dish to represent
+     * @param favorited Whether the dish is favorited
+     */
     public void bind(Dish dish, boolean favorited) {
 
         String dishName = dish.getName();

@@ -33,16 +33,12 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
 
     private final User savedUser;
 
-    /**
-     * Constructor for ViewDayFragment class that takes in a listener and a saved user
-     *
-     * @param listener - the listener to set (used to communicate with the controller)
-     * @param savedUser - the user to load (used to set the restrictions on the view)
-     */
     public ViewDayFragment(Listener listener, User savedUser){
         this.listener = listener;
         this.savedUser = savedUser;
     }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentViewDayBinding.inflate(inflater, container, false);
@@ -85,12 +81,22 @@ public class ViewDayFragment extends Fragment implements IBrowseDayView {
         this.listener.onDayRequested(today, this);
 
     }
+
+    /**
+     * Updates the day display to show the given day
+     * @param day
+     * @param listener
+     */
     public void updateDayDisplay(Day day, DishViewHolder.Listener listener) {
         RecyclerView recyclerView = this.binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(new DayAdapter(day, this.savedUser, listener));
     }
 
+    /**
+     * Gets the checked restrictions from the view
+     * @return a list of the checked restrictions
+     */
     public List<String> getCheckedRestrictions() {
         boolean vegetarianChecked = this.binding.vegetarianButton.isChecked();
         boolean veganChecked = this.binding.veganButton.isChecked();

@@ -12,28 +12,28 @@ public class Dish implements Serializable {
 
 
     public Dish(String name, String description, List<String> restrictions) {
-        // Currently, ID is untested as consistent across days
-        // this.id = id;
         this.name = name;
         this.description = description;
         this.restrictions = restrictions;
     }
 
     /**
+     * Note that this method has boolean flags to show or hide the description and restrictions of the dish.
      * @return A string representation of the dish
+     *
      */
     @NonNull
     @Override
     public String toString() {
         String output = "";
         output += name + "\n";
-        // Only add the description if it exists (not empty)
-        // Whether or not to show the description and restrictions when representing the dish to a string
+
         boolean SHOW_DESCRIPTION = false;
+        boolean SHOW_RESTRICTIONS = false;
+
         if (description.length() > 0 && SHOW_DESCRIPTION) {
             output += "\t-Description: " + description + "\n";
         }
-        boolean SHOW_RESTRICTIONS = false;
         if (SHOW_RESTRICTIONS) {
             output += "\t-Restrictions: " + restrictions + "\n";
         }

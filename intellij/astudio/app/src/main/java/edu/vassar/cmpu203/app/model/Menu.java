@@ -13,7 +13,7 @@ public class Menu implements Iterable<Dish>{
         this.dishes = new HashMap<>();
     }
 
-    /*
+    /**
      * @return A string representation of the menu
      */
     @NonNull
@@ -30,7 +30,7 @@ public class Menu implements Iterable<Dish>{
         return output.toString();
     }
 
-    /*
+    /**
      * Adds a dish to the menu with the key as the dish's ID
      * 
      * @param dish The dish to add
@@ -39,9 +39,19 @@ public class Menu implements Iterable<Dish>{
         dishes.put(dish.getName(), dish);
     }
 
+    /**
+     * Gets the name of the menu
+     * @return The name of the menu
+     */
+
     public String getName() {
         return name;
     }
+
+    /**
+     * Gets the dishes in the menu
+     * @return The dishes in the menu as a map of dish names to dishes
+     */
 
     public Map<String, Dish> getDishes() {
         return dishes;
@@ -57,17 +67,28 @@ public class Menu implements Iterable<Dish>{
         private final List<Dish> dishes;
         private int index;
 
+        /**
+         * Creates a new MenuIterator
+         *
+         * @param menu The menu to iterate over
+         */
         public MenuIterator(Menu menu) {
             this.menu = menu;
             this.dishes = new ArrayList(menu.getDishes().values());
             this.index = 0;
         }
 
+        /**
+         * @return Whether or not there are more dishes to iterate over
+         */
         @Override
         public boolean hasNext() {
             return index < menu.getDishes().size();
         }
 
+        /**
+         * @return The next dish in the menu
+         */
         @Override
         public Dish next() {
             return dishes.get(index++);
