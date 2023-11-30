@@ -2,6 +2,7 @@ package edu.vassar.cmpu203.app.model;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -23,23 +24,20 @@ public class DayLibrary implements Serializable {
 
 
     /**
-     * Update user from restrictions of new user.
-     * Delete cached days if new user is different (diff restrictions)
-     * Returns true if new user had different restrictions from old user
-     * (therefore clearing cached days)
-     * @param newUser - the new user to set.
+     * Update stored user restrictions
+     * and clear the cache if the restrictions have changed
+     *
+     * @param newUserRestrictions - the new restrictions to set.
      * @return - boolean of whether cache was cleared
      */
-    public boolean setUser(User newUser){
-
-        // Check if the old and new users are the same. If they aren't, reset the cached days
-        if (this.user.equals(newUser)) {
-            return false;
-        }
-        else {
-            this.user.setRestrictions(newUser.getRestrictions());
+    public boolean setUserRestrictions(List<String> newUserRestrictions){
+        boolean restrictionsChanged = this.user.setRestrictions(newUserRestrictions);
+        if(restrictionsChanged){
             this.days = new HashMap<>();
             return true;
+        }
+        else {
+            return false;
         }
     }
 

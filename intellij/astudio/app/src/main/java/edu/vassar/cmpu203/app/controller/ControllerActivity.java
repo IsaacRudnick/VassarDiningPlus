@@ -91,8 +91,9 @@ public class ControllerActivity extends AppCompatActivity implements IBrowseDayV
     @Override
     public void onDayRequested(String date, IBrowseDayView browseDayView){
         List<String> checkedRestrictions = browseDayView.getCheckedRestrictions();
-        this.days.setUser(new User(checkedRestrictions));
-        this.persistenceFacade.saveUser(new User(checkedRestrictions));
+        this.days.setUserRestrictions(checkedRestrictions);
+        this.saveduser.setRestrictions(checkedRestrictions);
+        this.persistenceFacade.saveUser(this.saveduser);
 
 
         // Handle input processing here

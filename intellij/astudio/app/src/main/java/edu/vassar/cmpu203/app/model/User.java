@@ -94,10 +94,18 @@ public class User implements Serializable {
     /**
      * Sets the user's restrictions manually
      * @param restrictions The restrictions to set
+     * @return Whether or not the restrictions were changed
+     * This is used to invalidate the day cache if the user's restrictions change
      */
-    public void setRestrictions(List<String> restrictions) {
-        this.restrictions.clear();
-        this.restrictions.addAll(restrictions);
+    public boolean setRestrictions(List<String> restrictions) {
+        if (this.restrictions.equals(restrictions)) {
+            return false;
+        }
+        else {
+            this.restrictions.clear();
+            this.restrictions.addAll(restrictions);
+            return true;
+        }
     }
 
     /**
