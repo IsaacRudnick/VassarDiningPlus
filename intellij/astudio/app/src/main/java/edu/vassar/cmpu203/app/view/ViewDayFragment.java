@@ -74,6 +74,12 @@ public class ViewDayFragment extends Fragment implements IViewDay {
         recyclerView.setAdapter(new DayAdapter(day, listener));
     }
 
+    /**
+     * Displays a message to the user that the date they entered was invalid
+     * Called by the controller when the user enters an invalid date in the date input
+     * and clicks the search button
+     * @param rootView The root view of the fragment to display the message on
+     */
     @Override
     public void onInvalidDate(View rootView) {
         Snackbar.make(rootView, "Invalid date! Use the format YYYY-MM-DD", Snackbar.LENGTH_LONG).show();

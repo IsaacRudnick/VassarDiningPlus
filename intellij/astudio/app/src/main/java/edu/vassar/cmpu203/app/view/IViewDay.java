@@ -17,11 +17,5 @@ public interface IViewDay {
          * @param browseDayView The view that called this method.
          */
          void onDayRequested(String date, IViewDay browseDayView);
-
-        /**
-         * Gets the user's restrictions
-         *
-         * @return the user's restrictions
-         */
     }
 }

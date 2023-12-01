@@ -13,7 +13,17 @@ import edu.vassar.cmpu203.app.model.Dish;
 public class DishViewHolder extends RecyclerView.ViewHolder {
 
     public interface Listener {
+        /**
+         * Returns whether the dish is favorited
+         * @param dish
+         * @return true if the dish is favorited, false otherwise
+         */
         boolean isDishFavorited(Dish dish);
+
+        /**
+         * Toggles whether the dish is favorited
+         * @param dish The dish to toggle
+         */
         void toggleDishFavorited(Dish dish);
     }
 

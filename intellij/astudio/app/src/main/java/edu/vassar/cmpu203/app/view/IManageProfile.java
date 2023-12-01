@@ -33,6 +33,10 @@ public interface IManageProfile {
          */
         void onFavoritesRequested(IManageProfile manageProfile);
 
+        /**
+         * Called when the restrictions of the saved user need to be set properly in the view.
+         * @param manageProfile
+         */
         void checkSavedRestrictions(IManageProfile manageProfile);
     }
 }
