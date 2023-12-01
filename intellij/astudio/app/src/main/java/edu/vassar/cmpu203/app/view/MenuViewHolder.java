@@ -11,9 +11,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder {
 
     public MenuViewHolder(View view) {
         super(view);
-
         this.binding = MenuNameViewBinding.bind(view);
-
         menuName = binding.menuNameTextView;
     }
 
