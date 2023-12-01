@@ -281,6 +281,42 @@ else !ManageProfileClicked
     BrowseMenu
     end ref
 end
+```
 
+### Favorite item
+```plantuml
+@startuml
+skin rose
+hide footbox
+actor "Human user" as human
+participant " : IViewDay" as ui
+participant " : ControllerActivity" as controller
+participant " : User" as user
+human -> ui : Select item
+ui -> controller : info(dish)
+controller -> dish : details()
+dish -->> controller : Name, Dietary restrictions, Description
+controller -> ui : displaySingle(dish)
+human -> ui : Favorite item
+ui -> controller : favorite(dish : Dish)
+controller -> user : addFavorite(dish : Dish)
+user -->> controller : success : bool
+alt success
+    controller -> ui : favoriteAdded()
+    ui -->> human : Display confirmation
+else !success
+    controller -> ui : favoriteFailure()
+    ui -->> human : Display error
+end
+@enduml
+```
 
+### Manage profile
+```plantuml
+@startuml
+skin rose
+hide footbox
+actor "Human user" as human
+participant " : IManageProfile" as ui
+participant " : "
 ```
