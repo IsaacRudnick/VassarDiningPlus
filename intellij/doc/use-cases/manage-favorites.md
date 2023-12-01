@@ -35,13 +35,8 @@ start
 while (Open?) is (\nYes)
 #technology:Display all favorites for user;
 #implementation:Select item;
-If (Delete favorite) then (yes)
-    #implementation: Select delete favorite;
-    #technology:Remove item from favorites list;
-else (Add favorite)
-     #implementation: Select add favorite;
-     #technology:Add item to favorites list;
-endif
+#implementation: Select delete favorite;
+#technology:Remove item from favorites list;
 #technology:Display confirmation of process;
 endwhile (No)
 #technology:Exit to __Manage Profile__;
