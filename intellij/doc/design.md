@@ -18,90 +18,167 @@ skin rose
 
 ' classes
 class User{
-    - restrictions: List<String>
     --
-    + getRestrictions() : List<String>
+    + getRestrictions() : List<Restriction>
     + canEat(dish : Dish) : boolean
+    + addFavorite(dish : Dish) : void
+    + removeFavorite(dish : Dish) : void
+    + isFavorite(dish : Dish) : boolean
 }
 class DayLibrary{
+    - {static} MAX_DAYS : int {final}
     --
-    + getDay(date : String, user : User) : Day
+    + setUserRestrictions(newRestrictions : List<Restriction>) : boolean
+    + getDay(date : String) : Day
 }
 class Day{
-    - date : String
-    - user : User
+    - date : String {final}
     --
-    + getMenus(date : Date) : Map<String, Menu>
+    + getMenus() : Map<String, Menu>
     + toString() : String
     - addDish(menuName : String, dish : Dish) : void
     - GetMenuJSON() : JSONObject
     {static} - toTitleCase(input : String) : String
-    - createMenus(date : String, user : User) : void
+    - createMenus(user : User) : void
 }
 class Menu{
-    - name : String
+    - name : String {final}
     --
     + getDishes() : Map<String, Dish>
     + addDish(dish : Dish) : void
     + getName() : String
     + toString() : String
-    
+    + iterator( ): Iterator<Dish>
+}
+class MenuIterator<Dish>{
+    'TODO add this
 }
 class Dish{
-    - id : String
     - name : String
     - description : String
-    - restrictions : List<String>
     --
-    + hasRestriction(restriction : String) : boolean
-    + getId() : String
+    + hasRestriction(restriction : Restriction) : boolean
     + getName() : String
-    + getDescription : String
-    + getRestrictions : List<String>
     + toString() : String
 }
 class DishLibrary{
     __
     + dishExists?(dish : Dish) : boolean
 }
-class Review{
-    - Rating : int {range=[0,5]}
-}
-class Controller{
+class ControllerActivity{
+    - currScreen : String
     --
-    {static} + areValidRestrictions(restrictionIDs : List<String>) : boolean
-    {static} - restrictionsFromIDs(restrictionIDs : List<String>) : List<String>
-    + createUser(restrictionIDs : List<String>) : void
-    + getUserRestrictions() : List<String>
-    + getDayAsString(date : String) : String
-    {static} + getPossibleRestrictions() : Restrictions
+    # onCreate(savedInstanceState : Bundle) : void
+    + onBrowseClick() : void
+    + onProfileClick() : void
+    + onDayRequested(date : String, browseDayView : IViewDay) : void
+    + toggleDishFavorited(dish : Dish) : void
+    + isDishFavorited(dish : Dish) : boolean
+    + onUpdateRestrictions(restrictions : List<Restriction>) : void
+    + checkSavedRestrictions(manageProfile : IManageProfile) : void
+    + onFavoritesRequested(manageProfile : IManageProfile) : void
+    'TODO move this to ViewDay?
+    + {static} validDate(date : String) : boolean
 }
-class Restrictions{
-    {static} - restrictions : Map<String,String>
+enum Restriction{
+    VEGETARIAN
+    VEGAN
+    HALAL
+    IN_BALANCE
+    KOSHER
+    LOW_GLUTEN
+}
+interface IMainView{
+    'TODO need to add Listener interface inside?
     --
-    + getRestrictionName(id : String) : String
-    {static} + isValid(id : String) : boolean
-    + toString(): String
+    + getRootView() : View
+    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
 }
-class View{
-    {static} + main(args : String[]) : void
+interface IViewDay{
+    --
+    ~ updateDayDisplay(day : Day, listener : DishViewHolder.Listener) : void
+    ~ onInvalidDate(rootView : View) : void
+    'TODO need to add Listener interface inside?
 }
+interface IManageProfile{
+    --
+    ~ updateFavoritesDisplay( ): void
+    ~ setUserRestrictions(List<Restriction> restrictions) : void
+    'TODO need to add Listener interface inside?
+}
+class MainView{
+    - fmanager : FragmentManager {final}
+    - binding : ActivityMainBinding {final}
+    - listener : Listener {final}
+    --
+    + getRootView() : View
+    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
+}
+class ViewDayFragment{
+    - binding : FragmentViewDayBinding
+    - listener : Listener {final}
+    --
+    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
+    + onViewCreated(view : View, savedInstanceState : Bundle) : void
+    + updateDateDisplay(day : Day, listener : DishViewHolder.Listener) : void
+    + onInvalidDate(rootView : View) : void
+}
+class ManageProfileFragment{
+    - binding : FragmentManageProfileBinding
+    - listener : IManageProfile.Listener {final}
+    --
+    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
+    + onViewCreated(view : View, savedInstanceState : Bundle) : void
+    + updateFavoritesDisplay() : void
+    + setUserRestrictions(restrictions : List<Restriction>) : void
+    + getCheckedRestrictions() : List<Restriction>
+}
+interface IPersistenceFacade{
+}
+class LocalStorageFacade{
+    - directory : File {final}
+    - {static} USER_FILENAME : String {final}
+    - {static} DAYLIBRARY_FILENAME : String {final}
+    --
+    + saveUser(user : User) : void
+    + loadUser() : User
+    + saveDayLibrary(DayLibrary days) : void
+    + loadDayLibrary() : DayLibrary
+}
+'TODO need to add holders and adapters?
 
 ' associations
-User -right-> "*\nuserReviews\n{List}" Review : \t\t
-Dish -up-> "*\ndishReviews\n{List}" Review
-User -right-> "*\nfavorites\n{List}" Dish : \t\t
-Day -down-> "*\nMenus\n{Map<String,Menu>}" Menu
-Menu -right-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
-Controller -down-> "1\nuser" User
-Controller -left-> "1\ndays" DayLibrary : \t
-View .down.> Controller
-Day -> "1\nuser" User : \t
-DayLibrary -down-> "*\ndays\n{Map<String,Day}" Day
-DishLibrary -up-> "*\nallDishes\n{Set<Dish>}" Dish
-Controller .> Restrictions
-Controller .down.> Day
-Dish .up.> Restrictions
+ControllerActivity -down-> "1\nsaveduser" User
+ControllerActivity -left-> "1\ndays" DayLibrary : \t
+ControllerActivity -up-> MainView
+ControllerActivity -up-> "1\npersistenceFacade" IPersistenceFacade
+ControllerActivity .up.> LocalStorageFacade
+ControllerActivity .up.> ViewDayFragment
+ControllerActivity .right.> ManageProfileFragment
+ControllerActivity .down.> Restriction
+ControllerActivity .down.> Day
+ControllerActivity .right.> Dish
+
+DayLibrary -right-> "1\nuser\n{final}" User : \t
+DayLibrary -right-> "*\ndays\n{Map<String,Day}" Day
+
+User -right-> "*\nfavorites\n{Set,final}" Dish\n : \t\t
+User -down-> "*\n restrictions\n{List,final}" Restriction
+
+Day -down-> "*\nmenus\n{Map<String,Menu>}" Menu
+
+Menu -left-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+
+
+DishLibrary -down-> "*\nallDishes\n{Set<Dish>}" Dish
+Dish -down-> "*\nrestrictions\n{List,final}" Restriction
+
+IMainView <|.. MainView
+IViewDay <|.. ViewDayFragment
+IManageProfile <|.. ManageProfileFragment
+IPersistenceFacade <|.. LocalStorageFacade
+ManageProfileFragment -left-> "1\nfavoritesAsMenu\n{final}" Menu
+
 
 @enduml
 ```
@@ -116,8 +193,8 @@ hide footbox
 mainframe sd BrowseMenu
 
 actor "Human user" as human
-participant " : UI" as ui
-participant "curController : Controller" as controller
+participant " : IViewDay" as ui
+participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "curRestrictions : Restrictions" as restriction
 participant "days : DayLibrary" as days
@@ -126,9 +203,9 @@ ui -->> human : Display date and restriction input
 human -> ui : Enter desired date and restrictions
 ui -->> controller : restrictionIDs : List<String>
 controller -> user **: new User(restrictionIDs : List<String>)
-ui -> controller : dayRequested(date : String)
-controller -> controller : validDate?(date : String)
+ui -> ui : validDate?(date : String)
 alt validDate
+    ui -> controller : dayRequested(date : String)
     controller -> days : getDay(date : String, user : User)
     alt !dateExists
         ref over days
@@ -182,8 +259,8 @@ skin rose
 hide footbox
 
 actor "Human user" as human
-participant "curController : Controller" as controller
-participant " : UI" as ui
+participant "curController : ControllerActivity" as controller
+participant " : IMainView" as ui
 participant "curUser : User" as user
 
 human -> controller : open app
