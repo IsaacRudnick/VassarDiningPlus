@@ -36,11 +36,17 @@ public class Day {
             createMenus(user);
         }
         catch (Exception e) {
-//            Log.e("Error", "Error creating menus (Day -> constructor)", e);
+        // Log.e("Error", "Error creating menus (Day -> constructor)", e);
         }
 
     }
 
+    /**
+     * Creates a new Day object
+     * private constructor used by withOnlyFavoritesOf method
+     * @param date the same date as this object
+     * @param menus a map of menu names to menus
+     */
     private Day(String date, Map<String, Menu> menus) {
         this.date = date;
         this.menus = menus;
@@ -248,7 +254,7 @@ public class Day {
                 newMenus.put(menuName, newMenu);
             }
         }
-
+        // Use special private constructor to create a new Day object with the new menus
         return new Day(this.date, newMenus);
     }
 }

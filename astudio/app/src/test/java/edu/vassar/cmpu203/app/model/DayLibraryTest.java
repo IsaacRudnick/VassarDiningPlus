@@ -18,16 +18,15 @@ class DayLibraryTest {
     void testSetUser() {
         // By default, the user is set to a new user with no restrictions
         DayLibrary dayLibrary = new DayLibrary();
-        User user = new User();
+        List<Restriction> emptyRestrictions = new ArrayList<>();
         // Overwriting an empty user with another empty user should return false
         // (no change and cache stays intact)
-        assertFalse(dayLibrary.setUser(user));
+        assertFalse(dayLibrary.setUserRestrictions(emptyRestrictions));
 
         // However, overwriting an empty user with a non-empty user should return true
         // (cached days are cleared)
-        List<String> restrictionsA = new ArrayList<>(Arrays.asList("Vegetarian", "Vegan"));
-        User user2 = new User(restrictionsA);
-        assertTrue(dayLibrary.setUser(user2));
+        List<Restriction> restrictionsA = new ArrayList<>(Arrays.asList(Restriction.VEGETARIAN, Restriction.VEGAN));
+        assertTrue(dayLibrary.setUserRestrictions(restrictionsA));
     }
 
     /**

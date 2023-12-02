@@ -19,7 +19,7 @@ class UserTest {
     void testCanEat() {
         // Two users: one with no restrictions, one with vegetarian and vegan restrictions
         User anyFoodUser = new User();
-        List<String> restrictions = new ArrayList<>(Arrays.asList("Vegetarian", "Vegan"));
+        List<Restriction> restrictions = new ArrayList<>(Arrays.asList(Restriction.VEGETARIAN, Restriction.VEGAN));
         User pickyUser = new User(restrictions);
 
         // Safe dish can be eaten by both users
@@ -46,7 +46,7 @@ class UserTest {
         User user1 = new User();
         assertTrue(user1.equals(new User()));
 
-        List<String> restrictions = new ArrayList<>(Arrays.asList("Vegetarian", "Vegan"));
+        List<Restriction> restrictions = new ArrayList<>(Arrays.asList(Restriction.VEGETARIAN, Restriction.VEGAN));
         User user2 = new User(restrictions);
         assertFalse(user1.equals(user2));
     }
