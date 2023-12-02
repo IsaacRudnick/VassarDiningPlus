@@ -27,17 +27,15 @@
 
             <LinearLayout
                 android:id="@+id/dateSearchLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/dateInput"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/date_field"
                     android:inputType="date"
@@ -59,10 +57,9 @@
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/favoritesFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/view_favorites" />
 
             <androidx.recyclerview.widget.RecyclerView
