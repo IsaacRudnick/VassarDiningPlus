@@ -96,11 +96,15 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
      */
     @Override
     // From IViewDay.Listener
-    public void onDayRequested(String date, IViewDay browseDayView){
+    public void onDayRequested(String date, boolean onlyFavorites, IViewDay browseDayView){
         // Handle input processing here
         if(validDate(date)) {
             try {
                 Day day = this.days.getDay(date);
+                // If the user only wants to see their favorites, filter the day to only show favorites
+                if (onlyFavorites) {
+                    day = day.withOnlyFavoritesOf(this.saveduser);
+                }
                 this.persistenceFacade.saveDayLibrary(this.days);
                 browseDayView.updateDayDisplay(day, this);
             } catch (Exception e) {

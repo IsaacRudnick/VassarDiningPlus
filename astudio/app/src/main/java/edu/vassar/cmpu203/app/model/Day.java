@@ -41,6 +41,11 @@ public class Day {
 
     }
 
+    private Day(String date, Map<String, Menu> menus) {
+        this.date = date;
+        this.menus = menus;
+    }
+
     public Map<String, Menu> getMenus() {
         return menus;
     }
@@ -214,5 +219,36 @@ public class Day {
                 addDish(menuName, dish);
             }
         }
+    }
+
+    /**
+     * Returns a new Day object with only the dishes that are favorites
+     *
+     * @param user - the user that will specify which dishes are favorites
+     * @return - a new Day object with only the dishes that are favorites
+     */
+    public Day withOnlyFavoritesOf(User user) {
+        Map<String, Menu> newMenus = new HashMap<>();
+
+        // For each menu, create a new menu with only the favorites
+        for (String menuName : this.menus.keySet()) {
+            Menu originalMenu = this.menus.get(menuName);
+            Menu newMenu = new Menu(originalMenu.getName().concat(" (Favorites)"));
+
+            List<Dish> allDishesFromMenu = new ArrayList<Dish>(originalMenu.getDishes().values());
+
+            // Add only the favorites to the new menu
+            for (Dish dish : allDishesFromMenu) {
+                if (user.isFavorite(dish)) {
+                    newMenu.addDish(dish);
+                }
+            }
+            // Only add the menu if it has dishes. ie don't add a menu with no favorites in it
+            if (newMenu.getDishes().size() > 0) {
+                newMenus.put(menuName, newMenu);
+            }
+        }
+
+        return new Day(this.date, newMenus);
     }
 }

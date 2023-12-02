@@ -57,7 +57,7 @@
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/favoritesFilter"
+                android:id="@+id/favoritesFilterCheckbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/view_favorites" />

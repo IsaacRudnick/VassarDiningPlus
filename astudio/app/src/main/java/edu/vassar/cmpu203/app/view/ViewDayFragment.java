@@ -52,14 +52,21 @@ public class ViewDayFragment extends Fragment implements IViewDay {
         // Set the date input to today's date
         this.binding.dateInput.setText(today);
 
-        // set up add item handler so when the search button is clicked, the controller is notified
-        this.binding.dateInputButton.setOnClickListener(view1 -> {
+
+        View.OnClickListener dayInputsListener = view1 -> {
             String date = binding.dateInput.getText().toString();
-            ViewDayFragment.this.listener.onDayRequested(date, ViewDayFragment.this); // let controller know!
-        });
+            boolean favoritesOnly = binding.favoritesFilterCheckbox.isChecked();
+            ViewDayFragment.this.listener.onDayRequested(date, favoritesOnly, ViewDayFragment.this); // let controller know!
+        };
+        // set up add item handler so when the search button is clicked, the controller is notified
+        this.binding.dateInputButton.setOnClickListener(dayInputsListener);
+        // Do the same for the favorites filter checkbox
+        this.binding.favoritesFilterCheckbox.setOnClickListener(dayInputsListener);
 
         // Let the controller know that the view has been created
-        this.listener.onDayRequested(today, this);
+        // By default, the current day is displayed and the favorites filter is off
+        boolean onlyFavorites = this.binding.favoritesFilterCheckbox.isChecked();
+        this.listener.onDayRequested(today, onlyFavorites,this);
 
     }
 
