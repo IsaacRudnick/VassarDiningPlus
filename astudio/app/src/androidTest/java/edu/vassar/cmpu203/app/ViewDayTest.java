@@ -41,9 +41,10 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
-        ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
-        menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2022-04-27"),ViewMatchers.withId(R.id.menuTitle))));
-        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.menusDisplay));
+        // removed this section of the layout
+        // ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
+        // menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2022-04-27"),ViewMatchers.withId(R.id.menuTitle))));
+        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("@The Farmer")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Pesto Shrimp Pizza")));
@@ -111,9 +112,10 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain items are in the menu
-        ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
-        menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2021-12-12"),ViewMatchers.withId(R.id.menuTitle))));
-        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.menusDisplay));
+        //removed this part of the layout
+        // ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
+        //menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2021-12-12"),ViewMatchers.withId(R.id.menuTitle))));
+        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Cream Of Rice")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Beyond Burger")));
