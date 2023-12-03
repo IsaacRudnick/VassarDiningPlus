@@ -35,7 +35,7 @@ class DayLibraryTest {
      * is not checked to avoid a several-hundred-line string comparison test.
      */
     @Test
-    void testGetDay() throws Exception {
+    void testGetDay() {
         // Test to make sure that the day library can get a day
         DayLibrary dayLibrary = new DayLibrary();
         String date = "2023-10-10";

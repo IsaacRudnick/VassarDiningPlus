@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.*;
 
-public class Menu implements Iterable<Dish>{
+public class Menu {
     private final String name;
     private final Map<String, Dish> dishes;
 
@@ -57,11 +57,6 @@ public class Menu implements Iterable<Dish>{
         return dishes;
     }
 
-    @NonNull
-    @Override
-    public Iterator<Dish> iterator() {
-        return new MenuIterator<>(this);
-    }
     public static class MenuIterator<Dish> implements Iterator<Dish> {
         private final Menu menu;
         private final List<Dish> dishes;
