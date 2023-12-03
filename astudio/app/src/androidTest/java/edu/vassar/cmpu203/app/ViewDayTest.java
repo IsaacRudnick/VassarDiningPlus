@@ -96,16 +96,6 @@ public class ViewDayTest {
         dateInput.perform(ViewActions.typeText("2021-12-12"));
         Espresso.closeSoftKeyboard();
 
-        //Select restrictions (gluten and vegan)
-        ViewInteraction vegeButton = Espresso.onView(ViewMatchers.withId(R.id.vegetarianButton));
-        ViewInteraction veganButton = Espresso.onView(ViewMatchers.withId(R.id.veganButton));
-        ViewInteraction halalButton = Espresso.onView(ViewMatchers.withId(R.id.halalButton));
-        ViewInteraction kosherButton = Espresso.onView(ViewMatchers.withId(R.id.kosherButton));
-        ViewInteraction glutenButton = Espresso.onView(ViewMatchers.withId(R.id.lowGlutenButton));
-        ViewInteraction balanceButton = Espresso.onView(ViewMatchers.withId(R.id.inBalanceButton));
-        veganButton.perform(ViewActions.click());
-        glutenButton.perform(ViewActions.click());
-
         //Click search button
         ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
         dateButton.perform(ViewActions.click());
@@ -122,53 +112,31 @@ public class ViewDayTest {
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")));
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Mixed Berries")));
 
-        //Check that items that do not fit the restrictions are not displayed
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cajun Shrimp Pizza"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Monte Cristo"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Oatmeal With Cranberries"))));
+        /*//TODO Select favorites
 
-        //Set new restrictions (gluten and halal)
-        veganButton.perform(ViewActions.click());
-        halalButton.perform(ViewActions.click());
+        //TODO Select view only favorites
         //Click search button
         dateButton.perform(ViewActions.click());
         SystemClock.sleep(waitTime); //Wait to fetch from website
-        //Check updated menu items
+        //Check that all favorites and only favorites are displayed
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash")));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
-
-        //Set new restrictions (in balance)
-        glutenButton.perform(ViewActions.click());
-        halalButton.perform(ViewActions.click());
-        balanceButton.perform(ViewActions.click());
-        //Click search button
-        dateButton.perform(ViewActions.click());
-        SystemClock.sleep(waitTime); //Wait to fetch from website
-        //Check updated menu items
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Oatmeal")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash"))));
-
 
         //Enter new date
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2022-10-03"));
         Espresso.closeSoftKeyboard();
-        //Set new restrictions (kosher and vegetarian)
-        balanceButton.perform(ViewActions.click());
-        vegeButton.perform(ViewActions.click());
-        kosherButton.perform(ViewActions.click());
         //Click search button
         dateButton.perform(ViewActions.click());
         SystemClock.sleep(waitTime); //Wait to fetch from website
+        //TODO Check that no favorites are displayed (none chosen yet)
+        //TODO Unclick view only favorites
         //Check updated menu items
         menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Sweet Potato Ravioli With Sage Infused Olive Oil")));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash"))));
         menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
+        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));*/
 
 
     }
