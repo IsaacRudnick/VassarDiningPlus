@@ -50,9 +50,6 @@ class Menu{
     + toString() : String
     + iterator( ): Iterator<Dish>
 }
-class MenuIterator<Dish>{
-    'TODO add this
-}
 class Dish{
     - name : String
     - description : String
@@ -193,16 +190,20 @@ hide footbox
 mainframe sd BrowseMenu
 
 actor "Human user" as human
-participant " : IViewDay" as ui
+participant "ViewDayFragment : IViewDay" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
-participant "curRestrictions : Restrictions" as restriction
 participant "days : DayLibrary" as days
 
+controller -> ui **: new ViewDayFragment(listener : Listener)
+controller -> user : getRestrictions()
+user -->> controller : curRestrictions : List<Restriction>
+controller -> ui : displayRestrictions(curRestrictions : List<Restriction>)
+ui -->> human : Show currently selected restrictions
 ui -->> human : Display date and restriction input
 human -> ui : Enter desired date and restrictions
 ui -->> controller : restrictionIDs : List<String>
-controller -> user **: new User(restrictionIDs : List<String>)
+controller -> user : setRestrictions(restrictionIDs : List<String>)
 ui -> ui : validDate?(date : String)
 alt validDate
     ui -> controller : dayRequested(date : String)
@@ -262,13 +263,13 @@ actor "Human user" as human
 participant "curController : ControllerActivity" as controller
 participant " : IMainView" as ui
 participant "curUser : User" as user
+participant "days : DayLibrary" as days
 
 human -> controller : open app
 controller -> days **: new DayLibrary()
 controller -> user **: new User(restrictions : List<String>)
 controller -> ui **: new UI
 controller -> controller : getPossibleRestrictions()
-controller -> restriction **: new Restrictions()
 controller -> ui : displayBrowseMenu
 ui --> human : display browse menu screen
 alt ManageProfileClicked
@@ -276,7 +277,8 @@ alt ManageProfileClicked
     ref over human,controller,ui,user
     ManageProfile
     end ref
-else !ManageProfileClicked
+else BrowseMenuClicked
+    ui -> controller : onClick(BrowseMenu)
     ref over human,controller,ui,user
     BrowseMenu
     end ref
@@ -292,22 +294,23 @@ actor "Human user" as human
 participant " : IViewDay" as ui
 participant " : ControllerActivity" as controller
 participant " : User" as user
-human -> ui : Select item
-ui -> controller : info(dish)
-controller -> dish : details()
-dish -->> controller : Name, Dietary restrictions, Description
-controller -> ui : displaySingle(dish)
-human -> ui : Favorite item
+participant "favorites : Menu" as favorites
+
+human -> ui : Click favorite button
+ui -> ui : reverseFavorite(dish : Dish)
 ui -> controller : favorite(dish : Dish)
-controller -> user : addFavorite(dish : Dish)
-user -->> controller : success : bool
-alt success
+controller -> user : isFavorite(dish : Dish)
+alt isFavorite
+    controller -> user : removeFavorite(dish : Dish)
+    user -> favorites : remove(dish : Dish)
+    controller -> ui : favoriteRemoved()
+else !isFavorite
+    controller -> user : addFavorite(dish : Dish)
+    user -> favorites : add(dish : Dish)
     controller -> ui : favoriteAdded()
-    ui -->> human : Display confirmation
-else !success
-    controller -> ui : favoriteFailure()
-    ui -->> human : Display error
 end
+ui -->> human : Display confirmation
+
 @enduml
 ```
 
@@ -317,6 +320,35 @@ end
 skin rose
 hide footbox
 actor "Human user" as human
-participant " : IManageProfile" as ui
-participant " : "
+participant "ManageProfileFragment : IManageProfile" as ui
+participant "curController : ControllerActivity" as controller
+participant "curUser : User" as user
+participant "favorites : Menu"
+
+controller -> ui **: new ManageProfileFragment(listener : Listener)
+controller -> user : getRestrictions()
+user -->> controller : curRestrictions : List<Restriction>
+controller -> ui : displayRestrictions(curRestrictions : List<Restriction>)
+ui -->> human : Show currently selected restrictions
+controller -> user : getFavorites()
+user -->> controller : favorites : Menu
+controller -> ui : displayFavorites(favorites : Menu)
+ui -->> human : Show current favorites
+human -> ui : Select restriction(s)
+ui -> controller : updateUserRestrictions(restrictions : List<Restriction>)
+controller -> user : setRestrictions(restrictions : List<Restriction>)
+human -> ui : Click favorite button
+ui -> ui : reverseFavorite(dish : Dish)
+ui -> controller : favorite(dish : Dish)
+controller -> user : isFavorite(dish : Dish)
+alt isFavorite
+    controller -> user : removeFavorite(dish : Dish)
+    user -> favorites : remove(dish : Dish)
+    controller -> ui : favoriteRemoved()
+else !isFavorite
+    controller -> user : addFavorite(dish : Dish)
+    user -> favorites : add(dish : Dish)
+    controller -> ui : favoriteAdded()
+end
+ui -->> human : Display confirmation
 ```
