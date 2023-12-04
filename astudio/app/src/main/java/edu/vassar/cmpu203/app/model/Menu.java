@@ -57,38 +57,5 @@ public class Menu {
         return dishes;
     }
 
-    public static class MenuIterator<Dish> implements Iterator<Dish> {
-        private final Menu menu;
-        private final List<Dish> dishes;
-        private int index;
-
-        /**
-         * Creates a new MenuIterator
-         *
-         * @param menu The menu to iterate over
-         */
-        public MenuIterator(Menu menu) {
-            this.menu = menu;
-            this.dishes = new ArrayList(menu.getDishes().values());
-            this.index = 0;
-        }
-
-        /**
-         * @return Whether or not there are more dishes to iterate over
-         */
-        @Override
-        public boolean hasNext() {
-            return index < menu.getDishes().size();
-        }
-
-        /**
-         * @return The next dish in the menu
-         */
-        @Override
-        public Dish next() {
-            return dishes.get(index++);
-        }
-    }
-
 }
 
