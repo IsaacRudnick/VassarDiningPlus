@@ -62,6 +62,8 @@ public class DishViewHolder extends RecyclerView.ViewHolder {
             this.dishHeartImage.setImageResource(R.drawable.gray_heart);
         }
 
+        this.dishHeartImage.setTag(dishName);
+
         this.dishHeartImage.setOnClickListener(v -> {
             DishViewHolder.this.bind(dish, !favorited);
             listener.toggleDishFavorited(dish);

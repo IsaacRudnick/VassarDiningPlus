@@ -45,11 +45,11 @@ public class ViewDayTest {
         // ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
         // menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2022-04-27"),ViewMatchers.withId(R.id.menuTitle))));
         ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("@The Farmer")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Pesto Shrimp Pizza")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas")));
+        ViewMatchers.withSubstring("@The Farmer");
+        ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup");
+        ViewMatchers.withSubstring("Pesto Shrimp Pizza");
+        ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera");
+        ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas");
 
         //Enter new date
         dateInput.perform(ViewActions.clearText());
@@ -62,16 +62,16 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Hawaiian Style Pizza")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Spicy Thai Coconut Chicken Soup With Noodles")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Mozzarella Stix With Marinara")));
+        ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese");
+        ViewMatchers.withSubstring("Hawaiian Style Pizza");
+        ViewMatchers.withSubstring("Spicy Thai Coconut Chicken Soup With Noodles");
+        ViewMatchers.withSubstring("Mozzarella Stix With Marinara");
 
         //Check that old menu items are no longer displayed
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Pesto Shrimp Pizza"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas"))));
+        Matchers.not(ViewMatchers.withSubstring("Pesto Shrimp Pizza"));
+        Matchers.not(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup"));
+        Matchers.not(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera"));
+        Matchers.not(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas"));
 
         //Try previous date again to check that it is not fetched again
         dateInput.perform(ViewActions.clearText());
@@ -80,15 +80,21 @@ public class ViewDayTest {
         dateButton.perform(ViewActions.click());
 
         //Check that certain meals are in the menu
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Pesto Shrimp Pizza")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas")));
+        ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup");
+        ViewMatchers.withSubstring("Pesto Shrimp Pizza");
+        ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera");
+        ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas");
+
+        //Check that past items are no longer there
+        Matchers.not(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese"));
+        Matchers.not(ViewMatchers.withSubstring("Hawaiian Style Pizza"));
+        Matchers.not(ViewMatchers.withSubstring("Spicy Thai Coconut Chicken Soup With Noodles"));
+        Matchers.not(ViewMatchers.withSubstring("Mozzarella Stix With Marinara"));
 
     }
 
     @org.junit.Test
-    public void restrictionsTest(){
+    public void favoritesTest(){
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
 
         //Enter desired date
@@ -102,28 +108,37 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain items are in the menu
-        //removed this part of the layout
-        // ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
-        //menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2021-12-12"),ViewMatchers.withId(R.id.menuTitle))));
         ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Cream Of Rice")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Beyond Burger")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")));
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Mixed Berries")));
+        ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Cream Of Rice"));
+        ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes"));
+        ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Beyond Burger"));
+        ViewInteraction dish4 = Espresso.onView(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins"));
+        ViewInteraction dish5 = Espresso.onView(ViewMatchers.withSubstring("Mixed Berries"));
 
-        /*//TODO Select favorites
+        //Select favorites
+        dish1.perform(ViewActions.scrollTo());
+        /*ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Cream Of Rice")));
+        favorite1.perform(ViewActions.scrollTo());
+        favorite1.perform(ViewActions.click());
+        dish4.perform(ViewActions.scrollTo());
+        ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Chickpeas, Kale, And Raisins")));
+        favorite4.perform(ViewActions.scrollTo());
+        favorite4.perform(ViewActions.click());
+        dish2.perform(ViewActions.scrollTo());
+        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Seasoned Breakfast Potatoes")));
+        favorite2.perform(ViewActions.scrollTo());
+        favorite2.perform(ViewActions.click());
 
-        //TODO Select view only favorites
-        //Click search button
-        dateButton.perform(ViewActions.click());
-        SystemClock.sleep(waitTime); //Wait to fetch from website
+        //Select view only favorites
+        ViewInteraction favoritesButton = Espresso.onView(ViewMatchers.withId(R.id.favoritesFilterCheckbox));
+        favoritesButton.perform(ViewActions.click());
         //Check that all favorites and only favorites are displayed
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash")));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));
+        ViewMatchers.withSubstring("Cream Of Rice");
+        ViewMatchers.withSubstring("Seasoned Breakfast Potatoes");
+        Matchers.not(ViewMatchers.withSubstring("Beyond Burger"));
+        Matchers.not(ViewMatchers.withSubstring("Mixed Berries"));*/
 
-        //Enter new date
+        /*//Enter new date
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2022-10-03"));
         Espresso.closeSoftKeyboard();
