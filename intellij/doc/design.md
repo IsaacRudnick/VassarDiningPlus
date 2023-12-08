@@ -194,31 +194,66 @@ participant "ViewDayFragment : IViewDay" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "days : DayLibrary" as days
+participant " : Day" as day
+participant "favorites : Menu" as faves
+participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 controller -> ui **: new ViewDayFragment(listener : Listener)
-controller -> user : getRestrictions()
-user -->> controller : curRestrictions : List<Restriction>
-controller -> ui : displayRestrictions(curRestrictions : List<Restriction>)
-ui -->> human : Show currently selected restrictions
-ui -->> human : Display date and restriction input
-human -> ui : Enter desired date and restrictions
-ui -->> controller : restrictionIDs : List<String>
-controller -> user : setRestrictions(restrictionIDs : List<String>)
+controller -> persistence **: new LocalStorageFacade(dir : File directory)
+ui -->> human : Display date input and favorites only checkbox
+human -> ui : Enter desired date
 ui -> ui : validDate?(date : String)
-alt validDate
-    ui -> controller : dayRequested(date : String)
-    controller -> days : getDay(date : String, user : User)
-    alt !dateExists
-        ref over days
-        CreateDay
-        end ref
-    end
-    days -->> controller : curDay : Day
-    controller -> ui : displayDay(curDay : Day)
-    ui -->> human : Display date's menus
-else !validDate
-    controller -> ui : invalidDate()
+ui -> controller : dayRequested(date : String)
+controller -> days : getDay(date : String, user : User)
+alt !dateExists
+    ref over days
+    CreateDay
+    end ref
 end
+days -->> controller : curDay : Day
+controller -> ui : displayDay(curDay : Day)
+ui -->> human : Display date's menus
+controller -> persistence : saveDayLibrary(days : DayLibrary)
+human -> ui : Select favorites only checkbox
+ui -> controller : onDayRequested(today : Date, fav : boolean, view : IViewDay)
+ref over human,ui,controller,user,persistence
+    DayFavorites
+end ref
+@enduml
+```
+
+### Get favorites for a day
+```plantuml
+@startuml
+skin rose
+hide footbox
+mainframe sd DayFavorites
+
+actor "Human user" as human
+participant "curController : ControllerActivity" as controller
+participant " : Day" as day
+participant " : Menu" as menu
+participant "favorites : Menu" as faves
+participant "curUser : User" as user
+
+
+controller -> day : onlyFavorites(curUser : User)
+loop for all menus
+    day -> menu : getAllDishes()
+    menu -->> day : allDishes : List<Dishes>
+    day -> faves **: newMenu(nameFavorites : String)
+    loop i in 0..allDishes.size-1
+        day -> user : isFavorite(dish : Dish)
+        alt isFavorite
+            day -> faves : addDish(dish : Dish)
+        end alt
+    end
+    alt menu.length > 0
+        day -> day : addMenu(faves : Menu)
+    end alt
+end
+day -->> controller : Day(today : Date, favesMenus : Map<String,Menu>
+
 @enduml
 ```
 
@@ -260,26 +295,32 @@ skin rose
 hide footbox
 
 actor "Human user" as human
-participant "curController : ControllerActivity" as controller
 participant " : IMainView" as ui
+
+participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "days : DayLibrary" as days
+participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 human -> controller : open app
 controller -> days **: new DayLibrary()
 controller -> user **: new User(restrictions : List<String>)
-controller -> ui **: new UI
-controller -> controller : getPossibleRestrictions()
-controller -> ui : displayBrowseMenu
-ui --> human : display browse menu screen
+controller -> ui **: new MainView(listener : Listener)
+controller -> persistence **: new LocalStorageFacade(dir : File directory)
+controller -> persistence : loadUser()
+controller -> persistence : loadDayLibrary()
+controller -> ui : displayFragment(viewDayFrag : ViewDayFragment)
+ui -->> human : Browse menu screen
 alt ManageProfileClicked
     ui -> controller : onClick(ManageProfile)
-    ref over human,controller,ui,user
+    controller -> ui : displayFragment(manageProfileFrag : ViewDayFragment)
+    ref over human,controller,ui,user,persistence
     ManageProfile
     end ref
 else BrowseMenuClicked
     ui -> controller : onClick(BrowseMenu)
-    ref over human,controller,ui,user
+    controller -> ui : displayFragment(viewDayFrag : ViewDayFragment)
+    ref over human,controller,ui,user,persistence
     BrowseMenu
     end ref
 end
@@ -290,11 +331,13 @@ end
 @startuml
 skin rose
 hide footbox
+mainframe sd favoriteItem
 actor "Human user" as human
 participant " : IViewDay" as ui
 participant " : ControllerActivity" as controller
 participant " : User" as user
 participant "favorites : Menu" as favorites
+participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 human -> ui : Click favorite button
 ui -> ui : reverseFavorite(dish : Dish)
@@ -309,6 +352,7 @@ else !isFavorite
     user -> favorites : add(dish : Dish)
     controller -> ui : favoriteAdded()
 end
+controller -> persistence : saveUser(curUser : User)
 ui -->> human : Display confirmation
 
 @enduml
@@ -324,6 +368,7 @@ participant "ManageProfileFragment : IManageProfile" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "favorites : Menu"
+participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 controller -> ui **: new ManageProfileFragment(listener : Listener)
 controller -> user : getRestrictions()
@@ -337,18 +382,11 @@ ui -->> human : Show current favorites
 human -> ui : Select restriction(s)
 ui -> controller : updateUserRestrictions(restrictions : List<Restriction>)
 controller -> user : setRestrictions(restrictions : List<Restriction>)
+controller -> ui : showUpdatedRestrictions()
+ui -->> human : Check/uncheck restriction boxes
+controller -> persistence : saveUser(curUser : User)
 human -> ui : Click favorite button
-ui -> ui : reverseFavorite(dish : Dish)
-ui -> controller : favorite(dish : Dish)
-controller -> user : isFavorite(dish : Dish)
-alt isFavorite
-    controller -> user : removeFavorite(dish : Dish)
-    user -> favorites : remove(dish : Dish)
-    controller -> ui : favoriteRemoved()
-else !isFavorite
-    controller -> user : addFavorite(dish : Dish)
-    user -> favorites : add(dish : Dish)
-    controller -> ui : favoriteAdded()
-end
-ui -->> human : Display confirmation
+ref over human,ui,user,controller,persistence
+    favoriteItem
+end ref
 ```

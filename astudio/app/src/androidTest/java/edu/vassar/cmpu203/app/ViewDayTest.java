@@ -41,9 +41,6 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
-        // removed this section of the layout
-        // ViewInteraction menuTitle = Espresso.onView(ViewMatchers.withId(R.id.menuTitle));
-        // menuTitle.check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("2022-04-27"),ViewMatchers.withId(R.id.menuTitle))));
         ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         ViewMatchers.withSubstring("@The Farmer");
         ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup");
@@ -68,12 +65,13 @@ public class ViewDayTest {
         ViewMatchers.withSubstring("Mozzarella Stix With Marinara");
 
         //Check that old menu items are no longer displayed
-        Matchers.not(ViewMatchers.withSubstring("Pesto Shrimp Pizza"));
-        Matchers.not(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup"));
-        Matchers.not(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera"));
-        Matchers.not(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas"));
+        Espresso.onView(ViewMatchers.withSubstring("Pesto Shrimp Pizza")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Lemon-garlic Pasta Primavera")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas")).check(ViewAssertions.doesNotExist());
 
-        //Try previous date again to check that it is not fetched again
+
+        //Try previous date again to check that it is not scraped again
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2022-04-27"));
         Espresso.closeSoftKeyboard();
@@ -86,10 +84,10 @@ public class ViewDayTest {
         ViewMatchers.withSubstring("Corn And Black Bean Cheese Quesadillas");
 
         //Check that past items are no longer there
-        Matchers.not(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese"));
-        Matchers.not(ViewMatchers.withSubstring("Hawaiian Style Pizza"));
-        Matchers.not(ViewMatchers.withSubstring("Spicy Thai Coconut Chicken Soup With Noodles"));
-        Matchers.not(ViewMatchers.withSubstring("Mozzarella Stix With Marinara"));
+        Espresso.onView(ViewMatchers.withSubstring("Stuffed French Toast With Berries And Cream Cheese")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Hawaiian Style Pizza")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Spicy Thai Coconut Chicken Soup With Noodles")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Mozzarella Stix With Marinara")).check(ViewAssertions.doesNotExist());
 
     }
 
@@ -116,16 +114,16 @@ public class ViewDayTest {
         ViewInteraction dish5 = Espresso.onView(ViewMatchers.withSubstring("Mixed Berries"));
 
         //Select favorites
-        dish1.perform(ViewActions.scrollTo());
-        /*ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Cream Of Rice")));
+        // dish1.perform(ViewActions.scrollTo());
+        /*ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("cream of rice")));
         favorite1.perform(ViewActions.scrollTo());
         favorite1.perform(ViewActions.click());
         dish4.perform(ViewActions.scrollTo());
-        ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Chickpeas, Kale, And Raisins")));
+        ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("chickpeas, kale, and raisins")));
         favorite4.perform(ViewActions.scrollTo());
         favorite4.perform(ViewActions.click());
         dish2.perform(ViewActions.scrollTo());
-        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("Seasoned Breakfast Potatoes")));
+        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("seasoned breakfast potatoes")));
         favorite2.perform(ViewActions.scrollTo());
         favorite2.perform(ViewActions.click());
 
