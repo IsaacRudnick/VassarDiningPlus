@@ -107,51 +107,60 @@ public class ViewDayTest {
 
         //Check that certain items are in the menu
         ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
-        ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Cream Of Rice"));
-        ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes"));
-        ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Beyond Burger"));
-        ViewInteraction dish4 = Espresso.onView(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins"));
-        ViewInteraction dish5 = Espresso.onView(ViewMatchers.withSubstring("Mixed Berries"));
+        ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Granola"));
+        ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("French Dressing"));
+        ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Parmesan Cheese"));
+        ViewInteraction dish4 = Espresso.onView(ViewMatchers.withSubstring("Bell Peppers"));
+        ViewInteraction dish5 = Espresso.onView(ViewMatchers.withSubstring("Tofu"));
 
         //Select favorites
-        // dish1.perform(ViewActions.scrollTo());
-        /*ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("cream of rice")));
-        favorite1.perform(ViewActions.scrollTo());
+        ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("granola")));
         favorite1.perform(ViewActions.click());
-        dish4.perform(ViewActions.scrollTo());
-        ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("chickpeas, kale, and raisins")));
-        favorite4.perform(ViewActions.scrollTo());
-        favorite4.perform(ViewActions.click());
-        dish2.perform(ViewActions.scrollTo());
-        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("seasoned breakfast potatoes")));
-        favorite2.perform(ViewActions.scrollTo());
+        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("french dressing")));
         favorite2.perform(ViewActions.click());
+        ViewInteraction favorite5 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("tofu")));
+        favorite5.perform(ViewActions.click());
 
         //Select view only favorites
         ViewInteraction favoritesButton = Espresso.onView(ViewMatchers.withId(R.id.favoritesFilterCheckbox));
         favoritesButton.perform(ViewActions.click());
         //Check that all favorites and only favorites are displayed
-        ViewMatchers.withSubstring("Cream Of Rice");
-        ViewMatchers.withSubstring("Seasoned Breakfast Potatoes");
-        Matchers.not(ViewMatchers.withSubstring("Beyond Burger"));
-        Matchers.not(ViewMatchers.withSubstring("Mixed Berries"));*/
+        dish1.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish2.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.doesNotExist());
+        dish3.check(ViewAssertions.doesNotExist());
 
-        /*//Enter new date
+        //Enter new date
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2022-10-03"));
         Espresso.closeSoftKeyboard();
         //Click search button
         dateButton.perform(ViewActions.click());
         SystemClock.sleep(waitTime); //Wait to fetch from website
-        //TODO Check that no favorites are displayed (none chosen yet)
-        //TODO Unclick view only favorites
+        //Check that old favorites are displayed
+        dish1.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish2.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.doesNotExist());
+        dish3.check(ViewAssertions.doesNotExist());
+        //Unclick view only favorites
+        favoritesButton.perform(ViewActions.click());
         //Check updated menu items
-        menuView.check(ViewAssertions.matches(ViewMatchers.withSubstring("Sweet Potato Ravioli With Sage Infused Olive Oil")));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Mac And Cheese"))));
-        menuView.check(ViewAssertions.matches(Matchers.not(ViewMatchers.withSubstring("Cream Of Rice"))));*/
-
-
+        favorite1.perform(ViewActions.click());
+        favorite2.perform(ViewActions.click());
+        ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("bell peppers")));
+        favorite4.perform(ViewActions.click());
+        //Check updated favorites
+        favoritesButton.perform(ViewActions.click());
+        dish1.check(ViewAssertions.doesNotExist());
+        dish2.check(ViewAssertions.doesNotExist());
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish3.check(ViewAssertions.doesNotExist());
+        //Unclick all favorites so future tests with potentially saved info have a clean slate
+        favorite5.perform(ViewActions.click());
+        favorite4.perform(ViewActions.click());
     }
 
 
