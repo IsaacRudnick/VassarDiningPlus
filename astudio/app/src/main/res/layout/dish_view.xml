@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/dishTextView"
         android:layout_width="222dp"
-        android:layout_height="28dp"
+        android:layout_height="36dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
@@ -20,8 +20,8 @@
         android:id="@+id/dishImageView"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toEndOf="@+id/dishTextView"
