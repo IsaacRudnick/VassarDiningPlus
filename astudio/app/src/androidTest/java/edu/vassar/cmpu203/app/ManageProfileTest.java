@@ -8,6 +8,8 @@ import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import org.hamcrest.Matchers;
+
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
 
 //TODO figure out clearing memory before running tests
@@ -155,5 +157,75 @@ public class ManageProfileTest {
         Espresso.onView(ViewMatchers.withSubstring("Marinated Chicken And Vegetables")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Cream Of Wheat")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Baked Ziti With Beef")).check(ViewAssertions.doesNotExist());
+
+        //Unclick all restrictions for future tests
+        profileButton.perform(ViewActions.click());
+        vegeButton.perform(ViewActions.click());
+        kosherButton.perform(ViewActions.click());
+    }
+
+    @org.junit.Test
+    public void profileFavoritesTest() {
+        ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
+        dateInput.perform(ViewActions.clearText());
+        dateInput.perform(ViewActions.typeText("2023-10-09"));
+        Espresso.closeSoftKeyboard();
+
+        //Click search button
+        ViewInteraction dateButton = Espresso.onView(ViewMatchers.withId(R.id.dateInputButton));
+        dateButton.perform(ViewActions.click());
+        SystemClock.sleep(waitTime); //Wait to fetch from website
+
+        //Check that certain items are in the menu
+        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
+        ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Plain Greek Yogurt"));
+        ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("Italian Dressing"));
+        ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Feta Cheese"));
+        ViewInteraction dish4 = Espresso.onView(ViewMatchers.withSubstring("Pumpkin Seeds"));
+        ViewInteraction dish5 = Espresso.onView(ViewMatchers.withSubstring("Thousand Island Dressing"));
+
+        //Select favorites
+        ViewInteraction favorite1 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("plain greek yogurt")));
+        favorite1.perform(ViewActions.click());
+        ViewInteraction favorite2 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("italian dressing")));
+        favorite2.perform(ViewActions.click());
+        ViewInteraction favorite5 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("thousand island dressing")));
+        favorite5.perform(ViewActions.click());
+
+        //Select view only favorites
+        ViewInteraction favoritesButton = Espresso.onView(ViewMatchers.withId(R.id.favoritesFilterCheckbox));
+        favoritesButton.perform(ViewActions.click());
+        //Check that all favorites and only favorites are displayed
+        dish1.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish2.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.doesNotExist());
+        dish3.check(ViewAssertions.doesNotExist());
+
+        //Switch  to profile view
+        ViewInteraction profileButton = Espresso.onView(ViewMatchers.withId(R.id.profileButton));
+        ViewInteraction menuButton = Espresso.onView(ViewMatchers.withId(R.id.browseMenuButton));
+        profileButton.perform(ViewActions.click());
+
+        //Check that all favorites and only favorites are displayed
+        dish1.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish2.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.doesNotExist());
+        dish3.check(ViewAssertions.doesNotExist());
+
+        //Unfavorite one item
+        favorite1.perform(ViewActions.click());
+
+        //Switch to menu view and view only favorites
+        menuButton.perform(ViewActions.click());
+        favoritesButton.perform(ViewActions.click());
+
+        //Check that new favorites are displayed
+        dish1.check(ViewAssertions.doesNotExist());
+        dish2.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish5.check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        dish4.check(ViewAssertions.doesNotExist());
+        dish3.check(ViewAssertions.doesNotExist());
     }
 }

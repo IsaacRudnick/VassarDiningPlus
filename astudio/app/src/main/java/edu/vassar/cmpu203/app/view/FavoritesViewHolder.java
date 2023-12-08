@@ -47,6 +47,8 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder {
             this.dishHeartImage.setImageResource(R.drawable.gray_heart);
         }
 
+        this.dishHeartImage.setTag(dishName.toLowerCase());
+
         this.dishHeartImage.setOnClickListener(v -> {
             FavoritesViewHolder.this.bind(dish, !favorited);
             listener.toggleDishFavorited(dish);
