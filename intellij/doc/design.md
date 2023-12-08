@@ -292,13 +292,23 @@ participant "ViewDayFragment : IViewDay" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "days : DayLibrary" as days
-participant " : Day" as day
-participant "favorites : Menu" as faves
 participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 controller -> ui **: new ViewDayFragment(listener : Listener)
 controller -> persistence **: new LocalStorageFacade(dir : File directory)
-ui -->> human : Display date input and favorites only checkbox
+ui -->> human : Display date input \nand favorites only checkbox
+controller -> controller : todayDate()
+controller -->> ui : todayDate : String
+ui -->> human : Show today's date in input box
+controller -> days : getDay(today : Date, user : User)
+alt !dateExists
+    ref over days
+    CreateDay
+    end ref
+end
+days -->> controller : todayAsDay : Day
+controller -> ui : displayDay(todayAsDay : Day)
+ui -->> human : Display today's menu
 human -> ui : Enter desired date
 ui -> ui : validDate?(date : String)
 ui -> controller : dayRequested(date : String)
