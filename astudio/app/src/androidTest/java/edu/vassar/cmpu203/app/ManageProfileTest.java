@@ -50,11 +50,11 @@ public class ManageProfileTest {
         dateButton.perform(ViewActions.click());
         SystemClock.sleep(waitTime); //Wait to fetch from website
         //Check that certain items are in the menu
-        Espresso.onView(ViewMatchers.withSubstring("Cream Of Rice")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withSubstring("Seasoned Breakfast Potatoes")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withSubstring("Beyond Burger")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withSubstring("Mixed Berries")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withSubstring("Mesclun")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withSubstring("Fanta Orange")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withSubstring("Italian Dressing")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withSubstring("Mushroom")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withSubstring("Black Coffee")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         //Check that items that do not fit the restrictions are not displayed
         Espresso.onView(ViewMatchers.withSubstring("Pesto Shrimp Pizza")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Mac And Cheese")).check(ViewAssertions.doesNotExist());
@@ -81,11 +81,11 @@ public class ManageProfileTest {
         Espresso.onView(ViewMatchers.withSubstring("Oatmeal")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         //Check that items that do not fit the restrictions are not displayed
-        Espresso.onView(ViewMatchers.withSubstring("Pesto Shrimp Pizza")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Black Coffee")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Mac And Cheese")).check(ViewAssertions.doesNotExist());
-        Espresso.onView(ViewMatchers.withSubstring("Fall Vegetable And Chicken Hash")).check(ViewAssertions.doesNotExist());
-        Espresso.onView(ViewMatchers.withSubstring("Cream Of Rice")).check(ViewAssertions.doesNotExist());
-        Espresso.onView(ViewMatchers.withSubstring("Oatmeal With Cranberries")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Mesclun")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Fanta Orange")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Mushroom")).check(ViewAssertions.doesNotExist());
 
         //Switch back to profile view
         profileButton.perform(ViewActions.click());
@@ -110,8 +110,8 @@ public class ManageProfileTest {
         Espresso.onView(ViewMatchers.withSubstring("Pesto Shrimp Pizza")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Mac And Cheese")).check(ViewAssertions.doesNotExist());
         Espresso.onView(ViewMatchers.withSubstring("Chickpeas, Kale, And Raisins")).check(ViewAssertions.doesNotExist());
-        Espresso.onView(ViewMatchers.withSubstring("Cream Of Rice")).check(ViewAssertions.doesNotExist());
-        Espresso.onView(ViewMatchers.withSubstring("Oatmeal With Cranberries")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Mesclun")).check(ViewAssertions.doesNotExist());
+        Espresso.onView(ViewMatchers.withSubstring("Fanta Orange")).check(ViewAssertions.doesNotExist());
 
         //Enter new date
         dateInput.perform(ViewActions.clearText());
@@ -134,9 +134,12 @@ public class ManageProfileTest {
         //Switch back to profile view
         profileButton.perform(ViewActions.click());
         //Set new restrictions (kosher and vegetarian)
-        balanceButton.perform(ViewActions.click());
+        glutenButton.perform(ViewActions.click());
+        halalButton.perform(ViewActions.click());
         vegeButton.perform(ViewActions.click());
         kosherButton.perform(ViewActions.click());
+        //Return to browse menu screen
+        menuButton.perform(ViewActions.click());
         //Enter same date
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2022-10-03"));
