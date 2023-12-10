@@ -61,6 +61,11 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
 
     // METHOD TO RESET MEMORY FOR TESTING PURPOSES
     //=======================================================
+
+    /**
+     * Used for system tests to ensure that all saved information is removed
+     * This undoes any changes to app data from previous testing (manual or automated)
+     */
     public void memoryReset(){
         this.days = new DayLibrary();
         this.saveduser = new User();
@@ -72,6 +77,12 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
 
     // BELOW METHODS ARE FOR HANDLING SWAPPING BETWEEN FRAGMENTS
     // ========================================================
+
+    /**
+     * Called to swap over to the browse tab.
+     * If it is open, do nothing.
+     * If it is not, call appropriate methods to open it
+     */
     @Override
     public void onBrowseClick() {
         if(!(this.currScreen.equals("browse"))) {
@@ -83,6 +94,11 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
         }
     }
 
+    /**
+     * Called to swap over to the profile tab.
+     * If it is open, do nothing.
+     * If it is not, call appropriate methods to open it
+     */
     @Override
     public void onProfileClick() {
         if(!this.currScreen.equals("profile")) {

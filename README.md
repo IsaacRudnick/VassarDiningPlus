@@ -14,7 +14,7 @@ This iteration added:
 
 * automatic fetching of current day on app launch
 
-* new tests + full javadoc (except for some overridden android methods)
+* new tests + javadoc for almost every method (except for some overridden android methods)
 
 ## How to Run
 
