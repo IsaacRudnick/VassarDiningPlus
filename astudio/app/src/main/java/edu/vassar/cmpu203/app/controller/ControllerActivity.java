@@ -5,8 +5,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -59,6 +57,17 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
         this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
 
         this.currScreen = "browse";
+    }
+
+    // METHOD TO RESET MEMORY FOR TESTING PURPOSES
+    //=======================================================
+    public void memoryReset(){
+        this.days = new DayLibrary();
+        this.saveduser = new User();
+        this.mainview.displayFragment(new ViewDayFragment(this), false, "viewDay");
+        this.currScreen = "browse";
+        this.persistenceFacade.saveDayLibrary(this.days);
+        this.persistenceFacade.saveUser(this.saveduser);
     }
 
     // BELOW METHODS ARE FOR HANDLING SWAPPING BETWEEN FRAGMENTS
@@ -164,7 +173,7 @@ public class ControllerActivity extends AppCompatActivity implements IViewDay.Li
      * Method to handle when the favorites are requested
      * This is used by the ManageProfileFragment to update the favorites display
      * and avoids having control architecture inside the fragment by using the listener (this)
-     * @param manageProfile
+     * @param manageProfile - current view fragment
      */
     @Override
     // From IManageProfile.Listener

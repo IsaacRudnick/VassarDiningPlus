@@ -2,6 +2,7 @@ package edu.vassar.cmpu203.app;
 
 import android.os.SystemClock;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.*;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -12,16 +13,33 @@ import org.hamcrest.Matchers;
 
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
 
-//TODO figure out clearing memory before running tests
+/*
+ * This class is instrumented testing for all functionalities in the ManageProfileFragment,
+ * as well as the navigation bar.
+ * Both tests reset the memory of the app for the purposes of testing favorites, and restrictions.
+ * Note that this will entirely reset the memory for the app, so any saved information from
+ * running it on a particular device in the past will no longer be available.
+ */
 
 public class ManageProfileTest {
     final int waitTime = 15000;
     @org.junit.Rule
     public ActivityScenarioRule<ControllerActivity> activityRule = new ActivityScenarioRule<>(ControllerActivity.class);
 
+    /*
+     * Instrumented test, which will execute on an Android device.
+     * Testing for correct dishes for all restrictions, as well as restrictions
+     * remaining over multiple searches.
+     */
     @org.junit.Test
     public void restrictionsTest(){
-        ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
+        //Reset memory to remove any previously set restrictions or favorites
+        this.activityRule.getScenario().onActivity(
+                new ActivityScenario.ActivityAction<ControllerActivity>(){
+                    @Override
+                    public void perform(ControllerActivity activity) {activity.memoryReset();}
+                } );
+        SystemClock.sleep(waitTime); //Wait for memory reset to complete
 
         //Switch to manage profile screen
         ViewInteraction profileButton = Espresso.onView(ViewMatchers.withId(R.id.profileButton));
@@ -44,6 +62,7 @@ public class ManageProfileTest {
         menuButton.perform(ViewActions.click());
 
         //Enter desired date
+        ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2021-12-12"));
         Espresso.closeSoftKeyboard();
@@ -164,8 +183,23 @@ public class ManageProfileTest {
         kosherButton.perform(ViewActions.click());
     }
 
+    /*
+     * Instrumented test, which will execute on an Android device.
+     * Testing for favorites being displayed correctly in the ManageProfileFragment
+     * and removal of favorites from the ManageProfileFragment displaying properly
+     * in the ViewDayFragment.
+     */
     @org.junit.Test
     public void profileFavoritesTest() {
+        //Reset memory to remove any previously set restrictions or favorites
+        this.activityRule.getScenario().onActivity(
+                new ActivityScenario.ActivityAction<ControllerActivity>(){
+                    @Override
+                    public void perform(ControllerActivity activity) {activity.memoryReset();}
+                } );
+        SystemClock.sleep(waitTime); //Wait for memory reset to complete
+
+        //Enter desired date
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
         dateInput.perform(ViewActions.clearText());
         dateInput.perform(ViewActions.typeText("2023-10-09"));
@@ -177,7 +211,6 @@ public class ManageProfileTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain items are in the menu
-        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Plain Greek Yogurt"));
         ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("Italian Dressing"));
         ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Feta Cheese"));

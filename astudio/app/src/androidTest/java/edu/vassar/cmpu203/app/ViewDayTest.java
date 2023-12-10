@@ -2,6 +2,7 @@ package edu.vassar.cmpu203.app;
 
 import android.os.SystemClock;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.*;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -12,6 +13,13 @@ import org.hamcrest.Matchers;
 
 import java.time.LocalDate;
 import edu.vassar.cmpu203.app.controller.ControllerActivity;
+
+/*
+* This class is instrumented testing for all functionalities solely in the ViewDayFragment.
+* Both tests reset the memory of the app for the purposes of testing favorites and caching.
+* Note that this will entirely reset the memory for the app, so any saved information from
+* running it on a particular device in the past will no longer be available.
+*/
 
 public class ViewDayTest {
     //wait time to fetch menu
@@ -26,6 +34,14 @@ public class ViewDayTest {
      */
     @org.junit.Test
     public void searchDatesTest(){
+        //Reset memory to remove any previously set restrictions or favorites
+        this.activityRule.getScenario().onActivity(
+                new ActivityScenario.ActivityAction<ControllerActivity>(){
+                    @Override
+                    public void perform(ControllerActivity activity) {activity.memoryReset();}
+                } );
+        SystemClock.sleep(waitTime); //Wait for memory reset to complete
+
         //Check default input
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
         dateInput.check(ViewAssertions.matches(ViewMatchers.withText(LocalDate.now().toString())));
@@ -41,7 +57,6 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain meals are in the menu
-        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         ViewMatchers.withSubstring("@The Farmer");
         ViewMatchers.withSubstring("Vegan White Bean And Chickpea Soup");
         ViewMatchers.withSubstring("Pesto Shrimp Pizza");
@@ -91,8 +106,21 @@ public class ViewDayTest {
 
     }
 
+    /*
+     * Instrumented test, which will execute on an Android device.
+     * Testing for ability to add favorites, show only favorites and all favorites
+     * when favorites-only button is selected, and remove favorites in the ViewDayFragment.
+     */
     @org.junit.Test
     public void favoritesTest(){
+        //Reset memory to remove any previously set restrictions or favorites
+        this.activityRule.getScenario().onActivity(
+                new ActivityScenario.ActivityAction<ControllerActivity>(){
+                    @Override
+                    public void perform(ControllerActivity activity) {activity.memoryReset();}
+                } );
+        SystemClock.sleep(waitTime); //Wait for memory reset to complete
+
         ViewInteraction dateInput = Espresso.onView(ViewMatchers.withId(R.id.dateInput));
 
         //Enter desired date
@@ -106,7 +134,6 @@ public class ViewDayTest {
         SystemClock.sleep(waitTime); //Wait to fetch from website
 
         //Check that certain items are in the menu
-        ViewInteraction menuView = Espresso.onView(ViewMatchers.withId(R.id.recyclerView));
         ViewInteraction dish1 = Espresso.onView(ViewMatchers.withSubstring("Granola"));
         ViewInteraction dish2 = Espresso.onView(ViewMatchers.withSubstring("French Dressing"));
         ViewInteraction dish3 = Espresso.onView(ViewMatchers.withSubstring("Parmesan Cheese"));
@@ -146,7 +173,7 @@ public class ViewDayTest {
         dish3.check(ViewAssertions.doesNotExist());
         //Unclick view only favorites
         favoritesButton.perform(ViewActions.click());
-        //Check updated menu items
+        //Change favorites: Remove some, add others
         favorite1.perform(ViewActions.click());
         favorite2.perform(ViewActions.click());
         ViewInteraction favorite4 = Espresso.onView(ViewMatchers.withTagValue(Matchers.is("bell peppers")));
