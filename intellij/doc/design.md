@@ -7,10 +7,137 @@ Classes with attributes
 * Day: date, list of Menus
 * Menu: station name (String), list of Dishes
 
-## Class diagram
-DishLibrary class has not been implemented, it is planned to be implemented in the next
-iteration when favorites are implemented. Reviews likely will not be implemented in the 
-future but are included in the diagram for reference.
+
+## Package diagram
+```plantuml
+@startuml
+skin rose
+
+package "User interface" as ui{
+folder TextUI
+folder AndroidUI
+}
+TextUI -[hidden]> AndroidUI
+package "Domain" as domain{
+folder Controller
+folder Model
+folder Persistence
+}
+Controller -[hidden]> Model
+package "Persistence" as persistence{
+folder LocalStorage
+ui .down.> domain
+domain .down.> persistence
+@enduml
+```
+
+## AndroidUI class diagram
+```plantuml
+skin rose
+'classes
+interface IMainView{
+    --
+    + getRootView() : View
+    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
+}
+interface IMainView.Listener{
+    --
+    ~ onBrowseClick() : void
+    ~ onProfileClick() : void
+}
+interface IViewDay{
+    --
+    ~ updateDayDisplay(day : Day, listener : DishViewHolder.Listener) : void
+    ~ onInvalidDate(rootView : View) : void
+}
+interface IViewDay.Listener{
+    --
+    ~ onDayRequested(date : String, favoritesOnly : boolean, browseDayView : IViewDay) : void
+}
+interface IManageProfile{
+    --
+    ~ updateFavoritesDisplay( ): void
+    ~ setUserRestrictions(List<Restriction> restrictions) : void
+}
+interface IManageProfile.Listener{
+    --
+    ~ onUpdateRestrictions(restrictions : List<Restriction>) : void
+    ~ toggleDishFavorited(dish : Dish) : void
+    ~ isDishFavorited(dish : Dish) : boolean
+    ~ onFavoritesRequested(manageProfile : IManageProfile) : void
+    ~ checkSavedrestrictions(manageProfile : IManageProfile) : void
+}
+class MainView{
+    - fmanager : FragmentManager {final}
+    - binding : ActivityMainBinding {final}
+    - listener : Listener {final}
+    --
+    + getRootView() : View
+    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
+}
+class ViewDayFragment{
+    - binding : FragmentViewDayBinding
+    - listener : Listener {final}
+    --
+    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
+    + onViewCreated(view : View, savedInstanceState : Bundle) : void
+    + updateDateDisplay(day : Day, listener : DishViewHolder.Listener) : void
+    + onInvalidDate(rootView : View) : void
+}
+class ManageProfileFragment{
+    - binding : FragmentManageProfileBinding
+    - listener : IManageProfile.Listener {final}
+    --
+    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
+    + onViewCreated(view : View, savedInstanceState : Bundle) : void
+    + updateFavoritesDisplay() : void
+    + setUserRestrictions(restrictions : List<Restriction>) : void
+    + getCheckedRestrictions() : List<Restriction>
+}
+class ControllerActivity{
+    - currScreen : String
+    --
+    # onCreate(savedInstanceState : Bundle) : void
+    + onBrowseClick() : void
+    + onProfileClick() : void
+    + onDayRequested(date : String, browseDayView : IViewDay) : void
+    + toggleDishFavorited(dish : Dish) : void
+    + isDishFavorited(dish : Dish) : boolean
+    + onUpdateRestrictions(restrictions : List<Restriction>) : void
+    + checkSavedRestrictions(manageProfile : IManageProfile) : void
+    + onFavoritesRequested(manageProfile : IManageProfile) : void
+    + {static} validDate(date : String) : boolean
+}
+class Menu{
+    - name : String {final}
+    --
+    + getDishes() : Map<String, Dish>
+    + addDish(dish : Dish) : void
+    + getName() : String
+    + toString() : String
+    + iterator( ): Iterator<Dish>
+}
+
+'associations
+ControllerActivity -up-> MainView
+ControllerActivity .down.> ViewDayFragment
+ControllerActivity .right.> ManageProfileFragment
+
+MainView -> IMainView.Listener
+ViewDayFragment -> IViewDay.Listener
+ManageProfileFragment -> IManageProfile.Listener
+ManageProfileFragment -> "1\nfavoritesAsMenu\n{final}" Menu
+
+IMainView <|.. MainView
+IViewDay <|.. ViewDayFragment
+IManageProfile <|.. ManageProfileFragment
+IMainView.Listener <|.. ControllerActivity
+IViewDay.Listener <|.. ControllerActivity
+IManageProfile.Listener <|.. ControllerActivity
+
+```
+
+## Model class diagram
 ```plantuml
 @startuml
 
@@ -74,7 +201,6 @@ class ControllerActivity{
     + onUpdateRestrictions(restrictions : List<Restriction>) : void
     + checkSavedRestrictions(manageProfile : IManageProfile) : void
     + onFavoritesRequested(manageProfile : IManageProfile) : void
-    'TODO move this to ViewDay?
     + {static} validDate(date : String) : boolean
 }
 enum Restriction{
@@ -85,97 +211,69 @@ enum Restriction{
     KOSHER
     LOW_GLUTEN
 }
-interface IMainView{
-    'TODO need to add Listener interface inside?
-    --
-    + getRootView() : View
-    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
-}
-interface IViewDay{
-    --
-    ~ updateDayDisplay(day : Day, listener : DishViewHolder.Listener) : void
-    ~ onInvalidDate(rootView : View) : void
-    'TODO need to add Listener interface inside?
-}
-interface IManageProfile{
-    --
-    ~ updateFavoritesDisplay( ): void
-    ~ setUserRestrictions(List<Restriction> restrictions) : void
-    'TODO need to add Listener interface inside?
-}
-class MainView{
-    - fmanager : FragmentManager {final}
-    - binding : ActivityMainBinding {final}
-    - listener : Listener {final}
-    --
-    + getRootView() : View
-    + displayFragment(fragment : Fragment, addToStack : boolean, name : String) : void
-}
-class ViewDayFragment{
-    - binding : FragmentViewDayBinding
-    - listener : Listener {final}
-    --
-    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
-    + onViewCreated(view : View, savedInstanceState : Bundle) : void
-    + updateDateDisplay(day : Day, listener : DishViewHolder.Listener) : void
-    + onInvalidDate(rootView : View) : void
-}
-class ManageProfileFragment{
-    - binding : FragmentManageProfileBinding
-    - listener : IManageProfile.Listener {final}
-    --
-    + onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
-    + onViewCreated(view : View, savedInstanceState : Bundle) : void
-    + updateFavoritesDisplay() : void
-    + setUserRestrictions(restrictions : List<Restriction>) : void
-    + getCheckedRestrictions() : List<Restriction>
-}
-interface IPersistenceFacade{
-}
-class LocalStorageFacade{
-    - directory : File {final}
-    - {static} USER_FILENAME : String {final}
-    - {static} DAYLIBRARY_FILENAME : String {final}
-    --
-    + saveUser(user : User) : void
-    + loadUser() : User
-    + saveDayLibrary(DayLibrary days) : void
-    + loadDayLibrary() : DayLibrary
-}
-'TODO need to add holders and adapters?
 
 ' associations
 ControllerActivity -down-> "1\nsaveduser" User
-ControllerActivity -left-> "1\ndays" DayLibrary : \t
-ControllerActivity -up-> MainView
-ControllerActivity -up-> "1\npersistenceFacade" IPersistenceFacade
-ControllerActivity .up.> LocalStorageFacade
-ControllerActivity .up.> ViewDayFragment
-ControllerActivity .right.> ManageProfileFragment
-ControllerActivity .down.> Restriction
-ControllerActivity .down.> Day
-ControllerActivity .right.> Dish
+ControllerActivity -up-> "1\ndays" DayLibrary : \t
+ControllerActivity .right.> Restriction
+ControllerActivity .left.> Day
+ControllerActivity .down.> Dish
 
-DayLibrary -right-> "1\nuser\n{final}" User : \t
-DayLibrary -right-> "*\ndays\n{Map<String,Day}" Day
+DayLibrary -down-> "1\nuser\n{final}" User : \t
+DayLibrary -left-> "*\ndays\n{Map<String,Day}" Day
 
-User -right-> "*\nfavorites\n{Set,final}" Dish\n : \t\t
+User -left-> "*\nfavorites\n{Set,final}" Dish\n : \t\t
 User -down-> "*\n restrictions\n{List,final}" Restriction
 
-Day -down-> "*\nmenus\n{Map<String,Menu>}" Menu
+Day -right-> "*\nmenus\n{Map<String,Menu>}" Menu
 
-Menu -left-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
+Menu -up-> "*\ndishes\n{Map<String,Dish>}" Dish : \t\t
 
 
 DishLibrary -down-> "*\nallDishes\n{Set<Dish>}" Dish
 Dish -down-> "*\nrestrictions\n{List,final}" Restriction
 
-IMainView <|.. MainView
-IViewDay <|.. ViewDayFragment
-IManageProfile <|.. ManageProfileFragment
-IPersistenceFacade <|.. LocalStorageFacade
-ManageProfileFragment -left-> "1\nfavoritesAsMenu\n{final}" Menu
+@enduml
+```
 
+### Persistence class diagram
+```plantuml
+@startuml
+
+skin rose
+
+' classes
+class ControllerActivity{
+    - currScreen : String
+    --
+    # onCreate(savedInstanceState : Bundle) : void
+    + onBrowseClick() : void
+    + onProfileClick() : void
+    + onDayRequested(date : String, browseDayView : IViewDay) : void
+    + toggleDishFavorited(dish : Dish) : void
+    + isDishFavorited(dish : Dish) : boolean
+    + onUpdateRestrictions(restrictions : List<Restriction>) : void
+    + checkSavedRestrictions(manageProfile : IManageProfile) : void
+    + onFavoritesRequested(manageProfile : IManageProfile) : void
+    + {static} validDate(date : String) : boolean
+}
+interface IPersistenceFacade{
+   --
+    + saveUser(user : User) : void
+    + loadUser() : User
+    + saveDayLibrary(DayLibrary days) : void
+    + loadDayLibrary() : DayLibrary
+}
+class LocalStorageFacade{
+    - directory : File {final}
+    - {static} USER_FILENAME : String {final}
+    - {static} DAYLIBRARY_FILENAME : String {final}
+}
+
+'associations
+ControllerActivity -up-> "1\npersistenceFacade" IPersistenceFacade
+ControllerActivity .up.> LocalStorageFacade
+IPersistenceFacade <|.. LocalStorageFacade
 
 @enduml
 ```
@@ -194,13 +292,23 @@ participant "ViewDayFragment : IViewDay" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
 participant "days : DayLibrary" as days
-participant " : Day" as day
-participant "favorites : Menu" as faves
 participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 controller -> ui **: new ViewDayFragment(listener : Listener)
 controller -> persistence **: new LocalStorageFacade(dir : File directory)
-ui -->> human : Display date input and favorites only checkbox
+ui -->> human : Display date input \nand favorites only checkbox
+controller -> controller : todayDate()
+controller -->> ui : todayDate : String
+ui -->> human : Show today's date in input box
+controller -> days : getDay(today : Date, user : User)
+alt !dateExists
+    ref over days
+    CreateDay
+    end ref
+end
+days -->> controller : todayAsDay : Day
+controller -> ui : displayDay(todayAsDay : Day)
+ui -->> human : Display today's menu
 human -> ui : Enter desired date
 ui -> ui : validDate?(date : String)
 ui -> controller : dayRequested(date : String)
@@ -367,7 +475,6 @@ actor "Human user" as human
 participant "ManageProfileFragment : IManageProfile" as ui
 participant "curController : ControllerActivity" as controller
 participant "curUser : User" as user
-participant "favorites : Menu"
 participant "LocalStorageFacade : IPersistenceFacade" as persistence
 
 controller -> ui **: new ManageProfileFragment(listener : Listener)
