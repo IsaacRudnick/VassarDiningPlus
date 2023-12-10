@@ -4,17 +4,17 @@
 
 This iteration added:
 
-* Favoriting of dishes 
+* favoriting of dishes 
 
 * Dedicated profile tab for management of restrictions & favorites
 
 * favorites-only filter option to main tab (to only view the favorites offered on a day)
 
-* Added persistence for user restrictions, user favorites, and cached days
+* persistence for user restrictions, user favorites, and cached days
 
-* Automatic fetching of current day on app launch
+* automatic fetching of current day on app launch
 
-* New tests + full javadoc (except for some overridden android methods)
+* new tests + full javadoc (except for some overridden android methods)
 
 ## How to Run
 
