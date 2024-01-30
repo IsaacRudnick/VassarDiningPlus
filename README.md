@@ -1,29 +1,176 @@
-# Phase 4 Submission
+<p align="center">
+    <h1 align="center">Vassar Dining Plus</h1>
+</p>
+<p align="center">
+    <em>An Android application that builds upon Cafe Bon Appetit's dining services menu. 
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/license/InformationlessUsername/VassarDiningPlus?style=flat&color=0080ff" alt="license">
+	<img src="https://img.shields.io/github/last-commit/InformationlessUsername/VassarDiningPlus?style=flat&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/count/InformationlessUsername/VassarDiningPlus?style=flat&color=0080ff" alt="repo-language-count">
+	<img src="https://img.shields.io/github/languages/top/InformationlessUsername/VassarDiningPlus?style=flat&color=0080ff" alt="repo-top-language">
+<p>
+<p align="center">
+		<em>Developed with:</em>
+<br/>
+	<img src="https://img.shields.io/badge/Android-3DDC84.svg?style=flat&logo=Android&logoColor=white" alt="Android">
+	<img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white" alt="java">
+	<img src="https://img.shields.io/badge/Python-3776AB.svg?style=flat&logo=Python&logoColor=white" alt="Python">
+</p>
+<hr>
 
-## Functionality
+## Quick Links
 
-This iteration added:
+> - [ Overview](#-overview)
+> - [ Features](#-features)
+> - [ Repository Structure](#-repository-structure)
+> - [ Modules](#-modules)
+> - [ Acknowledgments](#-acknowledgments)
 
-* favoriting of dishes 
+---
 
-* Dedicated profile tab for management of restrictions & favorites
+## Overview
 
-* favorites-only filter option to main tab (to only view the favorites offered on a day)
+An Android app meant to improve upon Vassar's existing dining services website. This app has several features that the official website does not, such as the ability to favorite dishes and check which favorites are being served on a day, a more persistent allergen profile, and offline browsing via cached menus. Developed in partnership with Sasha Poor.
 
-* persistence for user restrictions, user favorites, and cached days
+The app features MVC architecture, unit and system/integration testing, Javadoc for all functions, use cases, activity diagrams, functional and nonfunctional specifications, test reports, class diagrams for all major features, and more. Made in Java using Android Studio.
 
-* automatic fetching of current day on app launch
+---
 
-* new tests + javadoc for almost every method (except for some overridden android methods)
+## Features
 
-## How to Run
+|     | Feature           | Description                                                                                                                               |
+| --- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚙️  | **Architecture**  | _This project uses Java with Android-specific components with a Model-View-Controller architecture._                                      |
+| 📄  | **Documentation** | _The code contains in-line comments that explain the code flow, full JavaDoc for every function, and test reports._                       |
+| 🔌  | **Integrations**  | _The main integration is with the Vassar College Dining Service, Cafe Bon Appetit, to gather the dining menu data._                       |
+| 🧩  | **Modularity**    | _Since an MVC architecture is used, any module may be swapped out with another._                                                          |
+| 🧪  | **Testing**       | _This project uses Jupiter's JUnit for unit testing and Android's espresso for automated system testing. Tests have full model coverage._ |
 
-Android Studio abstracts running, but the controller is in `astudio/app/src/main/java/.../controller/ControllerActivity.java`
+---
 
-Launch may take a few seconds. \
-On launch, you will see an input box for a date and a list of menus and dishes. \
-You can click the heart icon next to a dish to toggle whether or not it is a favorite. \
-You can click the favorites-only checkbox to only show your favorites for that day, \
-or go to the profile management tab to manage all of your favorites. \
-That tab will also allow you to set your dietary restrictions, which will filter what the main search tab shows you. 
-All of your restrictions and favorites will be stored between uses of the app. Further, relaunching the app will be faster than the first time, since fetched days are cached!
+## Repository Structure
+
+```sh
+└── VassarDiningPlus/
+    ├── astudio
+    │   ├── app
+    │   │   ├── build.gradle.kts
+    │   │   ├── proguard-rules.pro
+    │   │   └── src
+    │   ├── build.gradle.kts
+    │   ├── gradle
+    │   ├── gradlew.bat
+    │   └── settings.gradle.kts
+    ├── intellij
+    │   ├── doc
+    │   └── src
+    │       ├── Constants.java
+    │       ├── Controller.java
+    │       ├── Day.java
+    │       ├── DayLibrary.java
+    │       ├── Dish.java
+    │       ├── Menu.java
+    │       ├── Restrictions.java
+    │       ├── TextView.java
+    │       └── User.java
+    └── scrape_menu_data.py
+```
+
+---
+
+## Modules
+
+<details closed><summary>intellij.src</summary>
+
+| File                                                                                                                        | Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [User.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/User.java)                 | The `User.java` file within the `intellij/src` directory serves a vital role in the VassarDiningPlus application. It represents a user profile that contains dietary restrictions. The code's function is to filter, analyze, and determine which dishes from the menu the user can consume based on their dietary restrictions.                                                                                                                                                                       |
+| [Constants.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Constants.java)       | The Constants.java file within the intellij/src directory of the VassarDiningPlus repository serves primarily to hold globally accessible, unalterable data. In this case, it stores the URL of the cafe menu webpage as a static final variable, facilitating its usage across different components of the project without redundancy or potential for error.                                                                                                                                         |
+| [Controller.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Controller.java)     | The Controller.java file in the intellij/src directory of the VassarDiningPlus repository manages the business logic of the application. It primarily handles user creation with dietary restrictions and validates these restrictions. It also provides functionalities to convert restriction IDs to restriction names and fetches menu data for a particular day based on the user's restrictions.                                                                                                  |
+| [Dish.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Dish.java)                 | The Dish.java file, within the intellij/src directory, serves as a blueprint for creating Dish objects in the VassarDiningPlus application. It manages dish information including its id, name, description, and restrictions. Through its methods, it provides functionalities like checking dish restrictions and fetching the dish's details. This file contributes to the overall data structure of the VassarDiningPlus application.                                                              |
+| [TextView.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/TextView.java)         | The TextView.java file in the intellij/src directory provides a text-based interface for VassarDiningPlus application. This code accepts user inputs for dietary restrictions and a date, then retrieves and displays the corresponding meals for the given date, adhering to any user-inputted restrictions. If the user enters quit, the application will exit. The interface interacts with the Controller class to validate restrictions and create a user profile with the provided restrictions. |
+| [DayLibrary.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/DayLibrary.java)     | The DayLibrary.java file is critical to the VassarDiningPlus repository, as it houses the functionality for managing the dining days. Specifically, it centralizes the creation and storage of unique Day objects, which represent specific dining days, pre-filtered by user restrictions. The design aims to avoid duplications and facilitate efficient retrieval of previously created Day objects, thus enhancing the application's performance by promoting data reusability through caching.    |
+| [Restrictions.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Restrictions.java) | The Restrictions.java code exists in the intellij/src directory of the VassarDiningPlus repository. It's primary function is to manage a map of dietary restriction IDs to their names. This includes providing features to check if a restriction ID is valid, and to retrieve corresponding names for given IDs in the context of meal planning. This contributes to overall data integrity and user customization within the application.                                                           |
+| [Day.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Day.java)                   | This java file, Day.java, in the Intellij directory of the VassarDiningPlus repository, is primarily responsible for representing a single day within the application. It maintains a map relating menu names to their corresponding menus and has fields for a user and a date. It's mainly used to construct Day instances, with provisions for caching in future updates.                                                                                                                           |
+| [Menu.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/intellij/src/Menu.java)                 | The Menu.java file forms a crucial part of the VassarDiningPlus repository, residing within the intellij/src subdirectory. This code establishes a Menu class, which encapsulates details about a food menu, storing the menu's name and its constituent dishes. The class enables operations such as adding a dish and retrieving the menu's name or list of dishes. It also offers a formatted string representation of the menu for presenting the data in a readable layout.                       |
+
+</details>
+<b> Testing </b>
+<details closed><summary>astudio.app.src.test.java.edu.vassar.cmpu203.app.model</summary>
+
+| File                                                                                                                                                                      | Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [UserTest.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/test/java/edu/vassar/cmpu203/app/model/UserTest.java)             | This code sits within the test suite of the VassarDiningPlus application, specifically validating the User model's functionality, such as dietary restrictions and the ability to eat certain dishes. It verifies the correct functioning of these features by creating different User instances and Dish objects, then executing and checking the results of method calls, including equality checks. These tests ensure the robustness of the User class and its methods within the application's larger structure. |
+| [DayTest.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/test/java/edu/vassar/cmpu203/app/model/DayTest.java)               | The DayTest.java file tests the functionality of the Day class in the VassarDiningPlus app. Specifically, it verifies the correct string representation of a day's menu (testToString method) and ensures that the method to filter and display only a user's favorite dishes works properly (withOnlyFavoritesOf method).                                                                                                                                                                                            |
+| [DayLibraryTest.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/test/java/edu/vassar/cmpu203/app/model/DayLibraryTest.java) | The DayLibraryTest.java file is responsible for ensuring the correctness of two key functionalities within the VassarDiningPlus application: managing user dietary restrictions and retrieving specific day data. The file contains unit tests that confirm the data integrity when user restrictions are set and ensure the day data fetched, including station names, is as expected.                                                                                                                               |
+
+</details>
+
+<details closed><summary>astudio.app.src.androidTest.java.edu.vassar.cmpu203.app</summary>
+
+| File                                                                                                                                                                             | Summary                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ManageProfileTest.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/androidTest/java/edu/vassar/cmpu203/app/ManageProfileTest.java) | The code snippet from `ManageProfileTest.java` is responsible for conducting instrumented tests on the functionalities within the ManageProfileFragment and the navigation bar in VassarDiningPlus app. It also tests the app's favorites and restrictions memory reset feature.                                                                                             |
+| [ViewDayTest.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/androidTest/java/edu/vassar/cmpu203/app/ViewDayTest.java)             | This code snippet belongs to the ViewDayTest.java file within the Android application part of the VassarDiningPlus repository. It provides testing functionalities for the ViewDayFragment to assess its performance and ensure it behaves as expected. It also resets the application's memory after each test to maintain a controlled environment and consistent results. |
+
+</details>
+<b>Model, View, and Controller (with persistence module) </b>
+<details closed><summary>astudio.app.src.main.java.edu.vassar.cmpu203.app.view</summary>
+
+| File                                                                                                                                                                                   | Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [MainView.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/MainView.java)                           | The MainView.java file in the VassarDiningPlus repository forms the heart of the application's user interface. As part of the Android Studio's app module, it handles the presentation of different fragments within the main activity. By implementing the IMainView interface, it defines how user interactions, like clicks on the menu and profile buttons, are handled, and how they result in the display of corresponding fragments. It also manages the addition and replacement of these fragments within the application's view hierarchy. |
+| [FavoritesAdapter.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/FavoritesAdapter.java)           | This code defines the `FavoritesAdapter` class for the VassarDiningPlus Android application. It manages the display of the user's favorite dishes in a RecyclerView. The adapter receives a list of dishes from the menu, passes them to individual ViewHolder instances, and updates these views based on the dishes' current favorited status.                                                                                                                                                                                                     |
+| [DayAdapter.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/DayAdapter.java)                       | The DayAdapter.java snippet in the astudio module of the VassarDiningPlus repository is a key component of the app's user interface. It's responsible for rendering daily dining options within the app's RecyclerView object, using the Dish and Menu classes to populate each day's meal choices.                                                                                                                                                                                                                                                  |
+| [ViewDayFragment.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/ViewDayFragment.java)             | The code is a part of the VassarDiningPlus repository and establishes the ViewDayFragment in the Android app. This fragment provides users with the daily menu view using user-defined parameters such as date and dietary restrictions. It also interacts with the controller when the user modifies their inputs, facilitating navigation and data input checking. Additionally, it updates the app's UI to show changes and communicates with the user with snackbar messages about invalid inputs.                                               |
+| [IViewDay.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/IViewDay.java)                           | The code represents the IViewDay interface of the VassarDiningPlus Android application. This acts as a contract for selected views to display daily dining information and handle invalid date scenarios. Furthermore, it enables users to request specific day's details, with options to filter by favorites only. It significantly contributes to the overall functionality and user interaction of the app.                                                                                                                                      |
+| [ManageProfileFragment.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/ManageProfileFragment.java) | This code represents a ManageProfileFragment in the VassarDiningPlus repository. It's part of the app's interface, allowing users to manage profiles within an Android platform. The fragment handles layout inflation and utilizes RecyclerView for efficient display of large datasets, playing a crucial role in improving user profile management and personal dietary restrictions navigation.                                                                                                                                                  |
+| [DishViewHolder.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/DishViewHolder.java)               | The `DishViewHolder.java` file is part of the Android application in the VassarDiningPlus repository. It serves as a View Holder object for the list of food dishes. It links data from the Dish model to GUI elements, like the dish name text and the favorite dish icon. It also provides a listener to handle the favoriting/unfavoriting of dishes.                                                                                                                                                                                             |
+| [IManageProfile.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/IManageProfile.java)               | The IManageProfile.java file is the interface for managing user profiles in the VassarDiningPlus app. It outlines methods for updating the favorites display, setting user dietary restrictions, and interacting with favorite dishes. It also defines listener actions for updating restrictions, toggling favorite dishes, and handling user requests related to favorites and saved restrictions. This is crucial for user preferences and personalized dining options.                                                                           |
+| [IMainView.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/IMainView.java)                         | The IMainView.java file in the VassarDiningPlus repository forms a critical component of the app's interface. This file defines an interface with methods that respond to user interactions such as clicking on the browse or profile tabs, and manages the dynamic display of different fragments on the main view. It supports navigation through the app, contributing to a seamless user experience.                                                                                                                                             |
+| [FavoritesViewHolder.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/FavoritesViewHolder.java)     | The FavoritesViewHolder.java in the VassarDiningPlus repository is a critical component of the Android app's UI. It serves as the view holder for the favorites feature and manages the display of individual dishes within the Favorites section of the application. The code primarily updates the name and favorite status of a dish, changing the icon's appearance based on whether it's marked as a favorite or not. It also provides an interactive function to toggle a dish's favorite status.                                              |
+| [MenuViewHolder.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/view/MenuViewHolder.java)               | The code is a part of the VassarDiningPlus Android application interface, specifically a ViewHolder for the restaurant menu. It primarily manages the menu display by binding the menu name from the data to the corresponding view. This component contributes to the efficiency of the RecyclerView in the application by recycling the menu item views.                                                                                                                                                                                           |
+
+</details>
+
+<details closed><summary>astudio.app.src.main.java.edu.vassar.cmpu203.app.controller</summary>
+
+| File                                                                                                                                                                                   | Summary                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [ControllerActivity.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/controller/ControllerActivity.java) | The ControllerActivity.java file orchestrates the main application functionalities within VassarDiningPlus. Part of the Android application structure in the repository, this code contributes to managing daily dishes, data processing, and user interaction, emphasizing on the handling of dining related data and its presentation, with dependencies on Day, DayLibrary, and Dish classes. |
+
+</details>
+
+<details closed><summary>astudio.app.src.main.java.edu.vassar.cmpu203.app.model</summary>
+
+| File                                                                                                                                                                | Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [User.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/User.java)               | This code snippet defines a User class in the VassarDiningPlus project's Android application. Focal to data modeling, it portrays a user with a list of dietary restrictions, primarily used in filtering dishes shown to the user in accordance with these restrictions.                                                                                                                                                                                                         |
+| [Constants.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/Constants.java)     | The highlighted code is part of the VassarDiningPlus application, specifically residing in the astudio Android project. The Constants.java file serves as a centralized location for storing unchanging values, aiding in code maintainability and readability. In this case, it holds the URL for the Gordon cafe menu from the Cafe Bon Appetit website.                                                                                                                        |
+| [Dish.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/Dish.java)               | The `Dish.java` class models a dish, serving as a key component in the Vassar Dining Plus application. It holds essential dish-related information such as its name, description, and dietary restrictions. Additionally, it defines methods to generate a string representation of the dish and check if a specific dietary restriction applies to the dish. This class interfaces with other related objects in the application to manage the meal data.                        |
+| [Restriction.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/Restriction.java) | This code snippet is a part of the VassarDiningPlus application, specifically located in the `astudio/app/src/main/java` directory. It defines an enumeration, `Restriction`, representing different dietary restrictions for the users, such as vegetarian, vegan, halal, in balance, kosher, and low gluten. This enumeration likely forms a core part of the application's functionality related to filtering or displaying meal options based on user-specific dietary needs. |
+| [DayLibrary.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/DayLibrary.java)   | The DayLibrary.java file in the VassarDiningPlus repository is responsible for managing the dining data of different days. It maintains a collection of Day objects, ensuring there are no duplicates and allowing for caching. This is important as the data is pre-filtered to adhere to user dietary restrictions. The class also allows for updating user restrictions, which if modified, results in the clearing of the existing cache.                                     |
+| [Day.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/Day.java)                 | This code is part of the VassarDiningPlus Android app within the application source folder. It defines the Day class responsible for storing dining menus for each day, represented by a map linking menu names to corresponding menus and a date string. This class is crucial for the application's functionality, enabling the organization and retrieval of daily menu information.                                                                                           |
+| [Menu.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/model/Menu.java)               | The Menu.java file in the astudio/app/src directory is a key component of the VassarDiningPlus application. It manages the list of dishes in a menu, allowing dishes to be added to it. The file also provides methods to retrieve the menu name and its dishes, contributing significantly to the functionality of the dining hall's menu operations.                                                                                                                            |
+
+</details>
+
+<details closed><summary>astudio.app.src.main.java.edu.vassar.cmpu203.app.persistence</summary>
+
+| File                                                                                                                                                                                    | Summary                                                                                                                                                                                                                                                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [LocalStorageFacade.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/persistence/LocalStorageFacade.java) | The LocalStorageFacade.java forms a critical part of the VassarDiningPlus application's data persistence layer. Its primary role is handling the saving and loading of User and DayLibrary objects to and from the device's local storage. It enables the app to preserve user data and daily menu information between sessions, significantly enhancing the application's usability and performance. |
+| [IPersistenceFacade.java](https://github.com/InformationlessUsername/VassarDiningPlus/blob/master/astudio/app/src/main/java/edu/vassar/cmpu203/app/persistence/IPersistenceFacade.java) | This code snippet is an interface for persistence operations in the VassarDiningPlus repository. It defines methods for storing and retrieving user & day library data, which serve as a bridge between the application and its data storage system. The methods are integral to managing user preferences and menu data across sessions.                                                             |
+
+</details>
+
+---
+
+## Acknowledgments
+
+This work was done in collaboration with Sasha Poor, who spearheaded design and documentation while I focused on implementation. The project was completed as part of a course at Vassar College, CMPU-203: Software Development, taught by Professor Rui Meireles.
+
+[**Return**](#-quick-links)
+
+---
