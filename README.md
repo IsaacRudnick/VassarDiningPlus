@@ -171,6 +171,4 @@ The app features MVC architecture, unit and system/integration testing, Javadoc 
 
 This work was done in collaboration with Sasha Poor, who spearheaded design and documentation while I focused on implementation. The project was completed as part of a course at Vassar College, CMPU-203: Software Development, taught by Professor Rui Meireles.
 
-[**Return**](#-quick-links)
-
 ---
